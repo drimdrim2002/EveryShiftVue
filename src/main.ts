@@ -11,4 +11,9 @@ const app = createApp(App)
 app.use(createPinia())
 app.use(router)
 
+app.config.errorHandler = (error) => {
+  // TODO > improve the custom handler
+  console.error(error)
+}
+
 app.mount('#app')
