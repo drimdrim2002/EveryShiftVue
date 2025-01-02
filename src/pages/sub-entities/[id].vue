@@ -1,9 +1,11 @@
 <template>
-    <h1>Demo page - Index</h1>
+    <div>
+
+    </div>
 </template>
 
 <script setup lang="ts">
-
+const {}
 </script>
 
 <style scoped>

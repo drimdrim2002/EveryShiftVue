@@ -19,7 +19,12 @@ declare module 'vue-router/auto-routes' {
    */
   export interface RouteNamedMap {
     '/': RouteRecordInfo<'/', '/', Record<never, never>, Record<never, never>>,
-    '/demo/': RouteRecordInfo<'/demo/', '/demo', Record<never, never>, Record<never, never>>,
-    '/demo/[slug]': RouteRecordInfo<'/demo/[slug]', '/demo/:slug', { slug: ParamValue<true> }, { slug: ParamValue<false> }>,
+    '/entities/': RouteRecordInfo<'/entities/', '/entities', Record<never, never>, Record<never, never>>,
+    '/entities/[slug]': RouteRecordInfo<'/entities/[slug]', '/entities/:slug', { slug: ParamValue<true> }, { slug: ParamValue<false> }>,
+    '/login': RouteRecordInfo<'/login', '/login', Record<never, never>, Record<never, never>>,
+    '/profiles/[username]': RouteRecordInfo<'/profiles/[username]', '/profiles/:username', { username: ParamValue<true> }, { username: ParamValue<false> }>,
+    '/register': RouteRecordInfo<'/register', '/register', Record<never, never>, Record<never, never>>,
+    '/settings/': RouteRecordInfo<'/settings/', '/settings', Record<never, never>, Record<never, never>>,
+    '/sub-entities/[id]': RouteRecordInfo<'/sub-entities/[id]', '/sub-entities/:id', { id: ParamValue<true> }, { id: ParamValue<false> }>,
   }
 }

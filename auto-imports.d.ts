@@ -7,6 +7,9 @@
 export {}
 declare global {
   const EffectScope: typeof import('vue')['EffectScope']
+  const RouterPathEnum: typeof import('./src/types/RouterPathEnum')['RouterPathEnum']
+  const SideBarActionsEnum: typeof import('./src/types/SideBarActionsEnum')['SideBarActionsEnum']
+  const StoreCacheKey: typeof import('./src/types/StoreCacheKeys')['StoreCacheKey']
   const acceptHMRUpdate: typeof import('pinia')['acceptHMRUpdate']
   const computed: typeof import('vue')['computed']
   const createApp: typeof import('vue')['createApp']
@@ -57,10 +60,16 @@ declare global {
   const triggerRef: typeof import('vue')['triggerRef']
   const unref: typeof import('vue')['unref']
   const useAttrs: typeof import('vue')['useAttrs']
+  const useAuthStore: typeof import('./src/stores/auth')['useAuthStore']
   const useCssModule: typeof import('vue')['useCssModule']
   const useCssVars: typeof import('vue')['useCssVars']
+  const useErrorStore: typeof import('./src/stores/error')['useErrorStore']
+  const useFormError: typeof import('./src/composables/formError')['useFormError']
   const useId: typeof import('vue')['useId']
+  const useMenu: typeof import('./src/composables/menu')['useMenu']
   const useModel: typeof import('vue')['useModel']
+  const usePageStore: typeof import('./src/stores/page')['usePageStore']
+  const useProfileStore: typeof import('./src/stores/profile')['useProfileStore']
   const useRoute: typeof import('vue-router')['useRoute']
   const useRouter: typeof import('vue-router')['useRouter']
   const useSlots: typeof import('vue')['useSlots']
@@ -75,4 +84,13 @@ declare global {
   // @ts-ignore
   export type { Component, ComponentPublicInstance, ComputedRef, DirectiveBinding, ExtractDefaultPropTypes, ExtractPropTypes, ExtractPublicPropTypes, InjectionKey, PropType, Ref, MaybeRef, MaybeRefOrGetter, VNode, WritableComputedRef } from 'vue'
   import('vue')
+  // @ts-ignore
+  export type { RouterPathEnum } from './src/types/RouterPathEnum'
+  import('./src/types/RouterPathEnum')
+  // @ts-ignore
+  export type { SideBarActionsEnum } from './src/types/SideBarActionsEnum'
+  import('./src/types/SideBarActionsEnum')
+  // @ts-ignore
+  export type { StoreCacheKey } from './src/types/StoreCacheKeys'
+  import('./src/types/StoreCacheKeys')
 }

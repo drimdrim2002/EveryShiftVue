@@ -1,82 +1,57 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
+const errorStore = useErrorStore()
+const { activeError } = storeToRefs(errorStore)
+const authStore = useAuthStore()
+const { user } = storeToRefs(authStore)
+onMounted(async () => {
+  authStore.trackAuthChanges()
+})
+onErrorCaptured((error) => {
+  errorStore.setError({ error })
+})
+
+const AuthLayout = defineAsyncComponent(() => import('@/components/layout/AuthLayout.vue'))
+// const GuestLayout = defineAsyncComponent(() => import('@/components/layout/GuestLayout.vue'))
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <nav>
-        <RouterLink to="/">Home</RouterLink> | <RouterLink to="/demo">Demo - Index</RouterLink> |
-        <RouterLink to="/demo/a-slug">Demo - with Param</RouterLink>
-      </nav>
-    </div>
-  </header>
-
-  <RouterView />
+  <Transition name="fade" mode="out-in">
+    <Suspense>
+      <Component :is="AuthLayout" :key="user?.id">
+        <AppError v-if="activeError" />
+        <RouterView v-else v-slot="{ Component, route }">
+          <Transition name="fade" mode="out-in">
+            <div class="w-full" :key="route.path">
+              <Suspense v-if="Component" :timeout="0">
+                <!-- With Suspence, the current component remains loaded until
+                  the next is loaded.
+                  
+                  If it is not what you want, the "timeout" prop on Suspense tell to load 
+                  the fallback until the next component is ready
+                  -->
+                <Component :is="Component" />
+                <template #fallback>
+                  <AppLoader />
+                </template>
+              </Suspense>
+            </div>
+          </Transition>
+        </RouterView>
+      </Component>
+      <template #fallback>
+        <AppLoader />
+      </template>
+    </Suspense>
+  </Transition>
 </template>
-
-<style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
+<style lang="css" scoped>
+.v-enter-active,
+v-leave-active {
+  transition: transform 0.2s;
 }
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
-}
-
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
+.v-enter-from,
+v-leave-to {
+  transform: scale(0.3);
 }
 </style>
