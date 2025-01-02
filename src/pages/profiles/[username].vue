@@ -14,9 +14,6 @@
 </template>
 
 <script setup lang="ts">
-import type { Tables } from '@/types/database.types'
-import { userProfileQuery } from '@/utils/supabase-queries'
-
 usePageStore().pageData = { title: '' }
 
 const { username } = useRoute('/profiles/[username]').params

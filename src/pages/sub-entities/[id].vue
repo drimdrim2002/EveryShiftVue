@@ -1,13 +1,9 @@
 <template>
-    <div>
-
-    </div>
+  <div></div>
 </template>
 
 <script setup lang="ts">
-const {}
+// const {}
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

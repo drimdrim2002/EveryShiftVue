@@ -1,7 +1,7 @@
 import { type Session, type User } from '@supabase/supabase-js'
 // TODO > enable after types are ready
 // import type { Tables } from '@/types/database.types'
-import { type UserProfile } from '@/services/supabase-queries'
+import { type UserProfile } from '@/services/supabase-profile-queries'
 import { logoutFromSupabase, retrieveCurrentSession } from '@/services/supabase-auth'
 import { RouterPathEnum } from '@/types/RouterPathEnum'
 import { supabase } from '@/lib/supabaseClient'

@@ -1,4 +1,4 @@
-import pluginVue from 'eslint-plugin-vue'
+import pluginVue, { rules } from 'eslint-plugin-vue'
 import vueTsEslintConfig from '@vue/eslint-config-typescript'
 import skipFormatting from '@vue/eslint-config-prettier/skip-formatting'
 
@@ -16,4 +16,7 @@ export default [
   ...pluginVue.configs['flat/essential'],
   ...vueTsEslintConfig(),
   skipFormatting,
+  rules: {
+    'vue/multi-word-component-names': 0
+  }
 ]
