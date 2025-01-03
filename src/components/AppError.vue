@@ -5,7 +5,6 @@ const { activeError, isCustomError } = useErrorStore()
 
 const error = ref(activeError)
 console.log('AppError', { ...activeError })
-
 const message = ref('')
 const customCode = ref(0)
 const details = ref('')
@@ -18,7 +17,6 @@ if (error.value && !('code' in error.value)) {
   message.value = error.value.message
   customCode.value = error.value.customCode ?? 0
 }
-
 if (error.value && 'code' in error.value) {
   message.value = error.value.message
   code.value = error.value.code

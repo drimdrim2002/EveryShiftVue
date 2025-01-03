@@ -11,13 +11,13 @@ onErrorCaptured((error) => {
 })
 
 const AuthLayout = defineAsyncComponent(() => import('@/components/layout/AuthLayout.vue'))
-// const GuestLayout = defineAsyncComponent(() => import('@/components/layout/GuestLayout.vue'))
+const GuestLayout = defineAsyncComponent(() => import('@/components/layout/GuestLayout.vue'))
 </script>
 
 <template>
   <Transition name="fade" mode="out-in">
     <Suspense>
-      <Component :is="AuthLayout" :key="user?.id">
+      <Component :is="user ? AuthLayout : GuestLayout" :key="user?.id">
         <AppError v-if="activeError" />
         <RouterView v-else v-slot="{ Component, route }">
           <Transition name="fade" mode="out-in">

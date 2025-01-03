@@ -4,7 +4,12 @@ import type {
   SupabaseAuthApiErrorExtended,
   SupabaseAuthErrorExtended,
 } from '@/types/SupabaseAuthErrorExtended'
-import { AuthApiError, AuthError, type PostgrestError } from '@supabase/supabase-js'
+import {
+  AuthApiError,
+  AuthError,
+  AuthRetryableFetchError,
+  type PostgrestError,
+} from '@supabase/supabase-js'
 
 export const useErrorStore = defineStore('error-store', () => {
   const activeError = ref<
@@ -54,6 +59,12 @@ export const useErrorStore = defineStore('error-store', () => {
     }
     if (authError instanceof AuthApiError) {
       console.error('Got an AuthApiError')
+    }
+    if (authError instanceof AuthRetryableFetchError) {
+      console.error('Got an AuthRetryableFetchError')
+      authError.status = 401
+      authError.message = 'Check Supabase project. It might be sleeping after a week of inactivity'
+      authError.code = 'ERR_AUTH_UNAVAILABLE'
     }
     console.log('Received a auth error')
     console.log(authError)

@@ -52,19 +52,22 @@ const PrimaryTestUserExists = async () => {
 
 const createPrimaryTestUser = async () => {
   logStep('Creating primary test user...')
-  const firstName = 'Test'
-  const lastName = 'Account'
-  const userName = 'testaccount1'
-  const email = testingUserEmail
+  const dummyData = {
+    firstName: 'Test',
+    lastName: 'Account',
+    userName: 'testaccount1',
+    email: testingUserEmail,
+    userId: null,
+  }
   const { data, error } = await supabase.auth.signUp({
-    email: email,
-    password: email,
+    email: dummyData.email,
+    password: dummyData.email,
     options: {
       data: {
-        first_name: firstName,
-        last_name: lastName,
-        full_name: firstName + ' ' + lastName,
-        username: userName,
+        first_name: dummyData.firstName,
+        last_name: dummyData.lastName,
+        full_name: dummyData.firstName + ' ' + dummyData.lastName,
+        username: dummyData.userName,
       },
     },
   })
@@ -74,70 +77,22 @@ const createPrimaryTestUser = async () => {
   }
 
   if (data) {
-    const userId = data.user.id
-    await supabase.from('profiles').insert({
-      id: userId,
-      full_name: firstName + ' ' + lastName,
-      username: userName,
-      bio: 'The main testing account',
-      avatar_url: `https://i.pravatar.cc/150?u=${data.user.id}`,
-    })
-
-    logStep(`Primary test user <${userId}> created successfully.`)
+    dummyData.userId = data.user.id
+    await seedProfiles(dummyData)
     return userId
   }
 }
+const seedProfiles = async ({ userId, firstName, lastName, userName }) => {
+  await supabase.from('profiles').insert({
+    id: userId,
+    full_name: firstName + ' ' + lastName,
+    username: userName,
+    bio: 'The main testing account',
+    avatar_url: `https://i.pravatar.cc/150?u=${userId}`,
+  })
 
-const seedProjects = async (numEntries, userId) => {
-  logStep('Seeding projects...')
-  const projects = []
-
-  for (let i = 0; i < numEntries; i++) {
-    const name = faker.lorem.words(3)
-
-    projects.push({
-      name: name,
-      slug: name.toLocaleLowerCase().replace(/ /g, '-'),
-      description: faker.lorem.paragraphs(2),
-      status: faker.helpers.arrayElement(['todo', 'in-progress', 'completed']),
-      collaborators: faker.helpers.arrayElements([userId]),
-    })
-  }
-
-  const { data, error } = await supabase.from('projects').insert(projects).select('id')
-
-  if (error) return logErrorAndExit('Projects', error)
-
-  logStep('Projects seeded successfully.')
-
-  return data
+  logStep(`Primary test user <${userId}> created successfully.`)
 }
-
-const seedTasks = async (numEntries, projectsIds, userId) => {
-  logStep('Seeding tasks...')
-  const tasks = []
-
-  for (let i = 0; i < numEntries; i++) {
-    tasks.push({
-      name: faker.lorem.words(3),
-      status: faker.helpers.arrayElement(['todo', 'in-progress', 'completed']),
-      description: faker.lorem.paragraph(),
-      due_date: faker.date.future(),
-      profile_id: userId,
-      project_id: faker.helpers.arrayElement(projectsIds),
-      collaborators: faker.helpers.arrayElements([userId]),
-    })
-  }
-
-  const { data, error } = await supabase.from('tasks').insert(tasks).select('id')
-
-  if (error) return logErrorAndExit('Tasks', error)
-
-  logStep('Tasks seeded successfully.')
-
-  return data
-}
-
 const seedDatabase = async (numEntriesPerTable) => {
   let userId
 
@@ -149,9 +104,6 @@ const seedDatabase = async (numEntriesPerTable) => {
   } else {
     userId = testUserId
   }
-
-  const projectsIds = (await seedProjects(numEntriesPerTable, userId)).map((project) => project.id)
-  await seedTasks(numEntriesPerTable, projectsIds, userId)
 }
 
 const numEntriesPerTable = 10

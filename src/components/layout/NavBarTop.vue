@@ -25,9 +25,9 @@ const { profile } = storeToRefs(authStore)
         </Transition>
       </Button> -->
       <div class="w-8">
-        <DropdownMenu>
+        <AppAvatar :profile="profile" />
+        <!-- <DropdownMenu>
           <DropdownMenuTrigger>
-            <AppAvatar :profile="profile" />
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             <DropdownMenuLabel>My Account</DropdownMenuLabel>
@@ -42,7 +42,7 @@ const { profile } = storeToRefs(authStore)
             <DropdownMenuItem>Team</DropdownMenuItem>
             <DropdownMenuItem>Subscription</DropdownMenuItem>
           </DropdownMenuContent>
-        </DropdownMenu>
+        </DropdownMenu> -->
       </div>
     </div>
   </nav>

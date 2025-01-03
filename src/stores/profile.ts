@@ -55,19 +55,21 @@ export const useProfileStore = defineStore('profile-store', () => {
   }
   const getProfileKey = (request: RequestProfile) => `profile-${request.column}-${request.value}`
   const loadProfiles = useMemoize(async () => {
-    // TODO > enable "await allProfilesQuery"
-    const { data, error, status } = {
-      data: [
-        {
-          id: '',
-          created_at: toISOStringWithTimezone(new Date(Date.now())),
-          username: 'johndoe',
-          full_name: 'John Doe',
-        },
-      ],
-      error: null,
-      status: 200,
-    }
+    // TODO > reenable this if querying supabase
+    const { data, error, status } = await allProfilesQuery
+    // TODO > remove this if querying supabase
+    // const { data, error, status } = {
+    //   data: [
+    //     {
+    //       id: '',
+    //       created_at: toISOStringWithTimezone(new Date(Date.now())),
+    //       username: 'johndoe',
+    //       full_name: 'John Doe',
+    //     },
+    //   ],
+    //   error: null,
+    //   status: 200,
+    // }
 
     if (error) {
       useErrorStore().setError({ error, customCode: status })
@@ -85,19 +87,19 @@ export const useProfileStore = defineStore('profile-store', () => {
   }
   const loadProfile = useMemoize(
     async (request: RequestProfile) => {
-      // TODO > reenable this "await userProfileQuery(request)"
-      const { data, error, status } = {
-        data: [
-          {
-            id: '',
-            created_at: toISOStringWithTimezone(new Date(Date.now())),
-            username: 'johndoe',
-            full_name: 'John Doe',
-          },
-        ],
-        error: null,
-        status: 200,
-      }
+      // TODO > reenable this if querying supabase
+      const { data, error, status } = await userProfileQuery(request)
+      // TODO > remove this if querying supabase
+      // const { data, error, status } = {
+      //   data: {
+      //     id: '',
+      //     created_at: toISOStringWithTimezone(new Date(Date.now())),
+      //     username: 'johndoe',
+      //     full_name: 'John Doe',
+      //   },
+      //   error: null,
+      //   status: 200,
+      // }
 
       if (error) {
         useErrorStore().setError({ error, customCode: status })

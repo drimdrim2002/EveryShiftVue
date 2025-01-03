@@ -12,22 +12,26 @@ const router = createRouter({
   routes,
 })
 
-// const routesSkippingGetSession = [RouterPathEnum.Login as string, RouterPathEnum.Register as string]
-// router.beforeEach(async (to, _from) => {
-//   const authStore = useAuthStore()
-//   // TODO > Must wait for the session to be available before processing the routing...
-//   await authStore.getSession()
+const routesSkippingGetSession = [RouterPathEnum.Login as string, RouterPathEnum.Register as string]
+router.beforeEach(async (to, _from) => {
+  // TODO > disable code below if not using dummy auth
+  //const { user, setAuth } = useAuthStore()
+  // setAuth({ session: { user } })
+  // TODO > Enable code below handle Guest vs Authenticated users
+  // Must wait for the session to be available before processing the routing...
+  const authStore = useAuthStore()
+  await authStore.getSession()
 
-//   const { user: authenticatedUser } = storeToRefs(authStore)
-//   const isAuthPage = routesSkippingGetSession.includes(to.path)
+  const { user: authenticatedUser } = storeToRefs(authStore)
+  const isAuthPage = routesSkippingGetSession.includes(to.path)
 
-//   if (!authenticatedUser.value && !isAuthPage) {
-//     router.push(RouterPathEnum.Login as string)
-//   }
+  if (!authenticatedUser.value && !isAuthPage) {
+    router.push(RouterPathEnum.Login as string)
+  }
 
-//   if (authenticatedUser.value && isAuthPage) {
-//     router.push('/')
-//   }
-// })
+  if (authenticatedUser.value && isAuthPage) {
+    router.push('/')
+  }
+})
 
 export default router

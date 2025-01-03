@@ -70,7 +70,10 @@ defineEmits<{ (event: '@createTask'): void; (event: '@createProject'): void }>()
 
 const { useAuthStore } = await import('@/stores/auth')
 const authStore = useAuthStore()
-await authStore.getSession()
+// TODO > enable this if querying supabase
+// await authStore.getSession()
+// TODO > remove this if querying supabase
+await authStore.setAuth({ session: { user: authStore.user } })
 const { profile } = storeToRefs(authStore)
 const topLinks: LinkProp[] = [
   {
@@ -78,7 +81,7 @@ const topLinks: LinkProp[] = [
     icon: '🏠',
     label: 'Dashboard',
   },
-  { to: RouterPathEnum.Entities, icon: '📚', label: 'Projects' },
+  { to: RouterPathEnum.Entities, icon: '📚', label: 'Entities' },
 ]
 const settingsLinks: LinkProp[] = [
   {

@@ -8,13 +8,16 @@ import { supabase } from '@/lib/supabaseClient'
 import { toISOStringWithTimezone } from '@/utils/date-format'
 
 export const useAuthStore = defineStore('auth-store', () => {
-  const user = ref<null | User>({
-    id: '29d6afde-e2eb-4899-919c-1f9c47a7f746',
-    aud: '',
-    app_metadata: {},
-    user_metadata: {},
-    created_at: toISOStringWithTimezone(new Date(Date.now())),
-  })
+  // TODO > reenable this if querying supabase
+  const user = ref<null | User>(null)
+  // TODO > remove this if querying supabase
+  // const user = ref<null | User>({
+  //   id: '29d6afde-e2eb-4899-919c-1f9c47a7f746',
+  //   aud: '',
+  //   app_metadata: {},
+  //   user_metadata: {},
+  //   created_at: toISOStringWithTimezone(new Date(Date.now())),
+  // })
   const profile = ref<null | UserProfile>(null)
   const isTrackingAuthChanges = ref(false)
 
