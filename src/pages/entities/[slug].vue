@@ -36,7 +36,7 @@ const deleteEntity = async () => {
   console.log('deleteEntity>deleting...')
   await store.deleteEntity()
   console.log('deleteEntity>deleted!')
-  router.push('/entitys')
+  router.push('/entities')
 }
 
 // Add new sub entity logic
