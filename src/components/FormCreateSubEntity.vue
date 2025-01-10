@@ -51,7 +51,7 @@ const submitNewSubEntity = async (formData: FormDataCreateSubEntity) => {
   <Sheet v-model:open="sheetOpen">
     <SheetContent>
       <SheetHeader>
-        <SheetTitle>Let's create a new task</SheetTitle>
+        <SheetTitle>Let's create a new Sub Entity</SheetTitle>
       </SheetHeader>
       <FormKit
         type="form"

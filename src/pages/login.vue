@@ -4,8 +4,8 @@ import { loginWithSupabase } from '@/services/supabase-auth'
 import { watchDebounced } from '@vueuse/core'
 
 const formData = ref<LoginData>({
-  email: '',
-  password: '',
+  email: 'bovoiquazetreu-7814@yopmail.com',
+  password: 'bovoiquazetreu-7814@yopmail.com',
 })
 
 const router = useRouter()
@@ -41,16 +41,15 @@ const sigin = async () => {
           <Button variant="outline" class="w-full"> Register with Google </Button>
           <Separator label="Or" />
         </div>
-
+        p
         <form class="grid gap-4" @submit.prevent="sigin">
           <div class="grid gap-2">
             <Label id="email" class="text-left">Email</Label>
-            <Input
-              v-model="formData.email"
-              type="email"
-              placeholder="johndoe19@example.com"
-              required
-            />
+            <Input v-model="formData.email" type="email" required />
+            <p class="text-slate-800 text-xs text-left">
+              Note: the credentials are fake one. The app runs a Free Supabase database. It is reset
+              once a day. <br /><br /><strong>Click login to view the authenticated pages</strong>
+            </p>
             <ul class="text-sm text-left text-red-500" v-if="realtimeErrors?.email.length">
               <li v-for="error in realtimeErrors.email" :key="error">{{ error }}</li>
             </ul>

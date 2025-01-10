@@ -1,5 +1,7 @@
 <template>
-  <div>
+  <div class="flex flex-col">
+    <Button @click="openModal = !openModal" class="mb-4 self-end">+ Add</Button>
+    <FormCreateEntity v-model="openModal" />
     <DataTable v-if="entities" :columns :data="entities" />
   </div>
 </template>
@@ -15,6 +17,9 @@ const { entities } = storeToRefs(entityStore)
 // as soon as the `getEntities` is called and done,
 // the entities are loaded
 await entityStore.getEntities()
+
+// Add new sub entity logic
+const openModal = ref(false)
 </script>
 
 <style scoped></style>
