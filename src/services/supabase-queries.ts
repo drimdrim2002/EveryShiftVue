@@ -1,5 +1,4 @@
 import { supabase } from '@/lib/supabaseClient'
-import type { Tables } from '@/types/DatabaseTypes'
 import type { FormDataCreateEntity } from '@/types/FormDataCreateEntity'
 import type { FormDataCreateSubEntity } from '@/types/FormDataCreateSubEntity'
 import type { QueryData } from '@supabase/supabase-js'
@@ -67,3 +66,6 @@ export const subEntityWithParentQuery = (id: string) =>
     .eq('id', id)
     .single()
 export type SubEntityWithParentType = QueryData<ReturnType<typeof subEntityWithParentQuery>>
+
+export const readKeepAliveQuery = async () =>
+  await supabase.from('keep_alive').select('is_set').limit(1)

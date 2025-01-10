@@ -42,6 +42,18 @@ export type Database = {
         }
         Relationships: []
       }
+      keep_alive: {
+        Row: {
+          is_set: boolean
+        }
+        Insert: {
+          is_set: boolean
+        }
+        Update: {
+          is_set?: boolean
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null

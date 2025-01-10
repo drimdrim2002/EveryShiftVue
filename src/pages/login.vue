@@ -27,20 +27,6 @@ const sigin = async () => {
   const { error } = await loginWithSupabase({ formData: formData.value })
   if (!error) return router.push('/')
 }
-
-// Automatically login
-const route = useRoute()
-console.log('route.query', route.query)
-
-if (route.query.auto === import.meta.env.VITE_SUPABASE_PROJECT_SERVICE_ROLE) {
-  console.log('auto present in query string...')
-
-  const { error } = await loginWithSupabase({ formData: formData.value })
-  if (!error) router.push('/')
-}
-if (!import.meta.env.VITE_SUPABASE_PROJECT_SERVICE_ROLE) {
-  console.warn('VITE_SUPABASE_PROJECT_SERVICE_ROLE is not set in your environment variables.')
-}
 </script>
 
 <template>

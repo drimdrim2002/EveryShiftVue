@@ -108,8 +108,20 @@ const seedDatabase = async (numEntriesPerTable) => {
   }
   const entitiesIds = (await seedEntities(numEntriesPerTable, userId)).map((entity) => entity.id)
   await seedSubEntities(numEntriesPerTable, entitiesIds, userId)
+  await seedKeepAlive()
 }
 
+const seedKeepAlive = async () => {
+  const { data, error } = await supabase
+    .from('keep_alive')
+    .insert({ is_set: true })
+    .select('is_set')
+
+  if (error) return logErrorAndExit('keep_alive has an error', error)
+  if (!data) return logErrorAndExit('keep_alive has no data', data)
+
+  logStep('Seeded keep_alive!')
+}
 const seedEntities = async (numEntries, userId) => {
   logStep('Seeding entities...')
   const entities = []

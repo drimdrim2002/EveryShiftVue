@@ -4,6 +4,7 @@
 // otherwise, there will be an TS error.
 //
 // <reference types="unplugin-vue-router/client" />
+import { RouterPathEnum } from '@/types/RouterPathEnum'
 import { createRouter, createWebHistory } from 'vue-router/auto'
 import { routes } from 'vue-router/auto-routes'
 
@@ -12,7 +13,11 @@ const router = createRouter({
   routes,
 })
 
-const routesSkippingGetSession = [RouterPathEnum.Login as string, RouterPathEnum.Register as string]
+const routesSkippingGetSession = [
+  RouterPathEnum.Login as string,
+  RouterPathEnum.Register as string,
+  RouterPathEnum.KeepSupabaseAlive as string,
+]
 router.beforeEach(async (to, _from) => {
   // TODO > disable code below if not using dummy auth
   //const { user, setAuth } = useAuthStore()
