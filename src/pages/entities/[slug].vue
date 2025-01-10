@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { RouterPathEnum } from '@/types/RouterPathEnum'
-import { formatDateStr } from '@/utils/date-format'
+import { formatDateStrToUserFriendly } from '@/utils/date-format'
 
 /**
  * TODO: Passing the route path to useRoute solve the TypeScript error on accessing `slug` param
@@ -127,7 +127,7 @@ const openModal = ref(false)
                   :readonly="true"
                   :show-tool-tip="false"
               /></TableCell>
-              <TableCell> {{ formatDateStr(subEntity.due_date, 'ddd D MMM YYYY') }} </TableCell>
+              <TableCell> {{ formatDateStrToUserFriendly(subEntity.due_date) }} </TableCell>
             </TableRow>
           </TableBody>
         </Table>

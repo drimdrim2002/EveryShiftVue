@@ -3,7 +3,7 @@ import type { ColumnDef } from '@tanstack/vue-table'
 import type { AllEntitiesType } from '@/services/supabase-queries'
 import AppInputLiveEditStatus from '@/components/AppInputLiveEditStatus.vue'
 import { RouterPathEnum } from '@/types/RouterPathEnum'
-import { formatDateStr } from './date-format'
+import { formatDateStrToUserFriendly } from './date-format'
 
 export const columns: ColumnDef<AllEntitiesType[0]>[] = [
   {
@@ -34,7 +34,7 @@ export const columns: ColumnDef<AllEntitiesType[0]>[] = [
     accessorKey: 'due_date',
     header: () => h('div', { class: 'text-left' }, 'Due Date'),
     cell: ({ row }) => {
-      return h('p', formatDateStr(row.original.due_date, 'ddd D MMM YYYY', 'Not set').value)
+      return h('p', formatDateStrToUserFriendly(row.original.due_date).value)
     },
   },
   {

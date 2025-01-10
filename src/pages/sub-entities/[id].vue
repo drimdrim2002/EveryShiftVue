@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { formatDateStr } from '@/utils/date-format'
+import { formatDateStrToUserFriendly } from '@/utils/date-format'
 
 const router = useRouter()
 const { id } = useRoute('/sub-entities/[id]').params
@@ -18,7 +18,7 @@ watch(
 )
 
 await store.getSubEntity(id)
-const formattedDueDate = computed(() => formatDateStr(subEntity.value?.due_date, 'ddd D MMM YYYY'))
+const formattedDueDate = computed(() => formatDateStrToUserFriendly(subEntity.value?.due_date))
 // Update logic
 const updateSubEntity = () => {
   console.log('updateSubEntity triggered', subEntity.value)
@@ -76,7 +76,6 @@ const deleteSubEntity = async () => {
               v-model="subEntity.due_date"
               @@commit="updateSubEntity"
             />
-            <!-- {{ formatDateStr(subEntity.due_date, 'ddd D MMM YYYY') }} -->
           </TableCell>
         </TableRow>
         <TableRow>
@@ -93,7 +92,6 @@ const deleteSubEntity = async () => {
               :to="`/entities/${subEntity.entities?.slug}`"
               >{{ subEntity.entities?.name }}</RouterLink
             >
-            <!-- {{ formatDateStr(subEntity.due_date, 'ddd D MMM YYYY') }} -->
           </TableCell>
         </TableRow>
       </Table>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { formatDateStr } from '@/utils/date-format'
+import { formatDateStrToUserFriendly } from '@/utils/date-format'
 
 // TODO > Be careful about the source value.
 // You can't use dual-binding (v-model) with optional chaining (object?.property)
@@ -106,7 +106,7 @@ const stopEditing = () => {
         @focus="startEditing"
         tabindex="0"
       >
-        {{ formatDateStr(userInput, 'ddd D MMM YYYY') }}
+        {{ formatDateStrToUserFriendly(userInput) }}
       </p>
       <input
         v-model="userInput"
