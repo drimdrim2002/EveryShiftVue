@@ -79,7 +79,7 @@ const createPrimaryTestUser = async () => {
   if (data) {
     dummyData.userId = data.user.id
     await seedProfiles(dummyData)
-    return userId
+    return data.user.id
   }
 }
 const seedProfiles = async ({ userId, firstName, lastName, userName }) => {
@@ -104,6 +104,57 @@ const seedDatabase = async (numEntriesPerTable) => {
   } else {
     userId = testUserId
   }
+  const entitiesIds = (await seedEntities(numEntriesPerTable, userId)).map((entity) => entity.id)
+  await seedSubEntities(numEntriesPerTable, entitiesIds, userId)
+}
+
+const seedEntities = async (numEntries, userId) => {
+  logStep('Seeding entities...')
+  const entities = []
+
+  for (let i = 0; i < numEntries; i++) {
+    const name = faker.lorem.words(3)
+
+    entities.push({
+      name: name,
+      slug: name.toLocaleLowerCase().replace(/ /g, '-'),
+      description: faker.lorem.paragraphs(2),
+      due_date: faker.date.anytime(),
+      status: faker.helpers.arrayElement(['todo', 'in-progress', 'completed']),
+    })
+  }
+
+  const { data, error } = await supabase.from('entities').insert(entities).select('id')
+
+  if (error) return logErrorAndExit('Entities', error)
+
+  logStep('Entities seeded successfully.')
+
+  return data
+}
+
+const seedSubEntities = async (numEntries, entitiesIds, userId) => {
+  logStep('Seeding sub entities...')
+  const subEntities = []
+
+  for (let i = 0; i < numEntries; i++) {
+    subEntities.push({
+      name: faker.lorem.words(3),
+      status: faker.helpers.arrayElement(['todo', 'in-progress', 'completed']),
+      description: faker.lorem.paragraph(),
+      due_date: faker.date.future(),
+      profile_id: userId,
+      entity_id: faker.helpers.arrayElement(entitiesIds),
+    })
+  }
+
+  const { data, error } = await supabase.from('sub_entities').insert(subEntities).select('id')
+
+  if (error) return logErrorAndExit('Sub Entities', error)
+
+  logStep('Sub Entities seeded successfully.')
+
+  return data
 }
 
 const numEntriesPerTable = 10

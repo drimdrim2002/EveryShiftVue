@@ -8,19 +8,19 @@
       :class="{ 'justify-normal': menuOpen, 'justify-center': !menuOpen }"
       :title="link.label"
     >
-      {{ link.icon }}
+      <component :is="link.icon"></component>
       <span class="text-nowrap" :class="{ block: menuOpen, hidden: !menuOpen }">{{
         link.label
       }}</span>
     </RouterLink>
     <button
       v-else
-      class="side-bar-link cursor-pointer w-full mx-0"
+      class="side-bar-link cursor-pointer w-full mx-0 lg:mx-2"
       :class="{ 'justify-normal': menuOpen, 'justify-center': !menuOpen }"
       @click="actionClicked(link.action)"
       :title="link.label"
     >
-      {{ link.icon }}
+      <component :is="link.icon"></component>
       <span class="text-nowrap" :class="{ block: menuOpen, hidden: !menuOpen }">{{
         link.label
       }}</span>

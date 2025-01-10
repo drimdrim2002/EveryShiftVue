@@ -5,7 +5,7 @@
   >
     <div class="flex h-16 items-center border-b px-2 lg:px-4 shrink-0 gap-1 justify-between">
       <Button tabindex="0" variant="outline" size="icon" class="w-8 h-8" @click="toggleMenu">
-        🟰
+        <Menu />
       </Button>
 
       <!-- <DropdownMenu>
@@ -51,6 +51,11 @@ import { SideBarActionsEnum } from '@/types/SideBarActionsEnum'
 import type { SideBarLinkAction } from '@/types/SideBarLinkAction'
 import router from '@/router'
 import { useWindowSize } from '@vueuse/core'
+import Home from '../ui/icon/Home.vue'
+import Files from '../ui/icon/Files.vue'
+import UserRoundCog from '../ui/icon/UserRoundCog.vue'
+import LogOut from '../ui/icon/LogOut.vue'
+import Settings2 from '../ui/icon/Settings2.vue'
 
 console.log('SideBar>script:setup...')
 
@@ -71,28 +76,37 @@ defineEmits<{ (event: '@createTask'): void; (event: '@createProject'): void }>()
 const { useAuthStore } = await import('@/stores/auth')
 const authStore = useAuthStore()
 // TODO > enable this if querying supabase
-// await authStore.getSession()
+await authStore.getSession()
 // TODO > remove this if querying supabase
-await authStore.setAuth({ session: { user: authStore.user } })
+// await authStore.setAuth({
+//   session: {
+//     user: authStore.user!,
+//     // all the following is required to avoid a typescript error
+//     access_token: '',
+//     expires_in: 0,
+//     refresh_token: '',
+//     token_type: '',
+//   },
 const { profile } = storeToRefs(authStore)
+// })
 const topLinks: LinkProp[] = [
   {
     to: RouterPathEnum.Home,
-    icon: '🏠',
+    icon: Home,
     label: 'Dashboard',
   },
-  { to: RouterPathEnum.Entities, icon: '📚', label: 'Entities' },
+  { to: RouterPathEnum.Entities, icon: Files, label: 'Entities' },
 ]
 const settingsLinks: LinkProp[] = [
   {
     //TODO > username is undefined
     to: `${RouterPathEnum.Profile}s/${profile?.value?.username}`,
-    icon: '💁',
+    icon: UserRoundCog,
     label: 'Profile',
   },
-  { to: RouterPathEnum.Settings, icon: '🎛️', label: 'Settings' },
+  { to: RouterPathEnum.Settings, icon: Settings2, label: 'Settings' },
   {
-    icon: '↩️',
+    icon: LogOut,
     action: SideBarActionsEnum.Logout,
     label: 'Sign out',
   },

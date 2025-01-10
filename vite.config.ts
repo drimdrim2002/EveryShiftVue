@@ -46,7 +46,7 @@ export default defineConfig({
       // Include auto-imported packages in Vite's `optimizeDeps` options
       // Recommend to enable
       viteOptimizeDeps: true,
-      dirs: ['src/stores/**', 'src/composables/**', 'src/types/**'],
+      dirs: ['src/stores/**', 'src/components/**', 'src/composables/**', 'src/types/**'],
     }),
     Components({}),
     vueDevTools(),

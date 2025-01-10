@@ -1,7 +1,10 @@
 import { supabase } from '@/lib/supabaseClient'
+import type { Tables } from '@/types/DatabaseTypes'
+import type { FormDataCreateEntity } from '@/types/FormDataCreateEntity'
+import type { FormDataCreateSubEntity } from '@/types/FormDataCreateSubEntity'
 import type { QueryData } from '@supabase/supabase-js'
 
-export const createEntityQuery = async (entity: {}) => {
+export const createEntityQuery = async (entity: FormDataCreateEntity) => {
   return await supabase.from('entities').insert(entity)
 }
 export const updateEntityQuery = async (entity = {}, id: number) => {
@@ -38,7 +41,7 @@ export type EntityWithSubEntitiesBySlugType = QueryData<
   ReturnType<typeof entityWithSubEntitiesBySlugQuery>
 >
 
-export const createSubEntityQuery = async (entity: {}) => {
+export const createSubEntityQuery = async (entity: FormDataCreateSubEntity) => {
   return await supabase.from('sub_entities').insert(entity)
 }
 export const updateSubEntityQuery = async (entity = {}, id: number) => {

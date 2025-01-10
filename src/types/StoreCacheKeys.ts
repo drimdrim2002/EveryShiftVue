@@ -1,5 +1,5 @@
 export enum StoreCacheKey {
-  AllProjects = 'allProjects',
-  AllTasksWithProjects = 'allTasks',
+  AllEntities = 'allEntities',
+  AllSubEntitiesWithEntity = 'allSubEntities',
   AllProfiles = 'allProfiles',
 }

@@ -13,7 +13,9 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "@formkit/vue": "^1.6.9",
     "@supabase/supabase-js": "^2.46.1",
+    "@tanstack/vue-table": "^8.20.5",
     "@vueuse/core": "^11.3.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",

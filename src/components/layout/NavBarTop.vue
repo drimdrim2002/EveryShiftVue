@@ -9,13 +9,13 @@ const { profile } = storeToRefs(authStore)
 // const toggleDark = useToggle(isDark)
 </script>
 <template>
-  <nav class="h-16 border-b bg-muted/40 flex gap-2 justify-between px-6 items-center">
+  <nav class="h-16 border-b bg-muted/40 flex gap-2.5 justify-between px-6 items-center">
     <form class="relative h-fit w-full max-w-96">
-      <iconify-icon
+      <Search
         class="absolute top-[50%] translate-y-[-50%] left-2.5 text-muted-foreground"
         icon="lucide:search"
-      ></iconify-icon>
-      <Input class="w-full pl-8 bg-background" type="text" placeholder="Search ..." />
+      ></Search>
+      <Input class="w-full pl-10 bg-background" type="text" placeholder="Search ..." />
     </form>
     <div class="flex justify-center items-center gap-1">
       <!-- <Button @click="toggleDark()" class="w-8 h-8">

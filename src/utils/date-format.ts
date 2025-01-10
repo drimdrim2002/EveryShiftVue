@@ -1,8 +1,23 @@
 import { useDateFormat } from '@vueuse/core'
 
-export const dateToSupabaseDateString = (datetime: Date) => {
-  const formattedDateString = useDateFormat(datetime, 'YYYY-MM-DDTHH:mm:ss.SSS+ZZ:ZZ')
+export const formatDateStr = (
+  dtStr?: string | null | undefined,
+  format?: string,
+  defaultText: string = 'No date set',
+) => {
+  if (!dtStr) {
+    return ref(defaultText)
+  }
+  return useDateFormat(dtStr, format, { locales: 'fr-FR' })
+}
 
+export const formatDateToStr = (datetime: Date, format: string) => {
+  return useDateFormat(datetime, format)
+}
+
+export const dateToSupabaseDateString = (datetime: Date) => {
+  const format: string = 'YYYY-MM-DDTHH:mm:ss.SSS+ZZ:ZZ'
+  const formattedDateString = formatDateToStr(datetime, format)
   return formattedDateString
 }
 

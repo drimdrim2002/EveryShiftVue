@@ -8,6 +8,8 @@
     "database/sedding.js",
     "auto-imports.d.ts",
     "components.d.ts",
+    "formkit.config.ts",
+    "formkit.theme.ts"
   ],
   "exclude": ["src/**/__tests__/*"],
   "compilerOptions": {
