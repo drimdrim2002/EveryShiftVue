@@ -71,7 +71,7 @@ const submitNewEntity = async () => {
           name="entity_description"
           v-model="form.description"
           label="Description"
-          :rules="{ regex: /^[\s\S]{3,500}$/ }"
+          :rules="{ regex: /^[\s\S]{0,500}$/ }"
         />
         <button type="submit" class="btn btn-primary">Create</button>
       </vee-form>

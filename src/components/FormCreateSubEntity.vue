@@ -4,6 +4,7 @@ import { Form as VeeForm } from 'vee-validate'
 import type { FormDataCreateSubEntity } from '@/types/FormDataCreateSubEntity'
 import type { FormSelectOption } from '@/types/FormSelectOption'
 
+const { slug } = useRoute('/entities/[slug]').params
 const sheetOpen = defineModel<boolean>()
 const form = ref<FormDataCreateSubEntity>({
   name: '',
@@ -20,17 +21,23 @@ const selectOptions = ref({
 const authStore = useAuthStore()
 const { profile: currentUser } = storeToRefs(authStore)
 const entityStore = useEntityStore()
-const { entities } = storeToRefs(entityStore)
+const { entities, entity } = storeToRefs(entityStore)
 const profileStore = useProfileStore()
 const { profiles } = storeToRefs(profileStore)
 const { createSubEntity } = useSubEntityStore()
 const setEntitiesOptions = async () => {
   await entityStore.getEntities()
+  await entityStore.getEntity(slug)
+  form.value.entity_id = entity.value?.id.toString() || ''
 
   if (!entities.value) return
 
-  entities.value.forEach((entity) => {
-    selectOptions.value.entities.push({ label: entity.name, value: entity.id })
+  entities.value.forEach((entityEl) => {
+    selectOptions.value.entities.push({
+      label: entityEl.name,
+      value: entityEl.id,
+      selected: entityEl.id == entity.value?.id,
+    })
   })
 }
 
@@ -97,11 +104,12 @@ const submitNewSubEntity = async () => {
         >
           <option value="" disabled>Select an entity</option>
           <option
-            v-for="entity in selectOptions.entities"
-            :key="entity.value.toString()"
-            :value="entity.value.toString()"
+            v-for="entityEl in selectOptions.entities"
+            :key="entityEl.value.toString()"
+            :value="entityEl.value.toString()"
+            :selected="entityEl.selected"
           >
-            {{ entity.label }}
+            {{ entityEl.label }}
           </option>
         </app-form-field>
         <app-form-field
@@ -109,7 +117,7 @@ const submitNewSubEntity = async () => {
           name="description"
           v-model="form.description"
           label="Description"
-          validation="0,500"
+          :rules="{ regex: /^[\s\S]{0,500}$/ }"
         />
         <button type="submit" class="btn btn-primary">Create</button>
       </vee-form>

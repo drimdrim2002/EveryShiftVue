@@ -21,17 +21,17 @@ export const en = {
       required: 'The last name is required',
     },
     entity_name: {
-      regex: 'The name should be 3 to 60 characters long.',
+      regex: 'The entity name should be 3 to 60 characters long.',
     },
     entity_slug: {
       regex:
         'The name should be 3 to 60 lowercased characters long, with no accentuated characters. Dashes are allowed.',
     },
     entity_description: {
-      regex: 'The {field} should be 1 to 500 characters long. Newlines are allowed.',
+      regex: 'The entity description should not exceed 500 characters long. Newlines are allowed.',
     },
     sub_entity_name: {
-      required: 'The name is required.',
+      required: 'The subentity name is required.',
       regex: 'The name should be 3 to 255 characters long.',
     },
     sub_entity_profile_id: {
@@ -41,7 +41,8 @@ export const en = {
       required: 'An entity from the list must be selected.',
     },
     sub_entity_description: {
-      regex: 'The {field} should be 1 to 500 characters long. Newlines are allowed.',
+      regex:
+        'The subentity description should not exceed 500 characters long. Newlines are allowed.',
     },
   },
 }
