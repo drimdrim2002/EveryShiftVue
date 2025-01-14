@@ -1,32 +1,44 @@
 <script setup lang="ts">
-import type { FormDataCreateEntity } from '@/types/FormDataCreateEntity'
 import { slugify } from '@/utils/slugify'
+import { Form as VeeForm } from 'vee-validate'
+
+import type { FormDataCreateEntity } from '@/types/FormDataCreateEntity'
 
 const sheetOpen = defineModel<boolean>()
+const form = ref<FormDataCreateEntity>({ name: '', slug: '', description: '' })
 
 const authStore = useAuthStore()
 const { profile: currentUser } = storeToRefs(authStore)
 const { createEntity } = useEntityStore()
 
 // Fill in the slug as the name is typed
-const slugValue = ref('')
 let userEditedSlug = ref(false)
-
-const updateSlug = (value: string | undefined) => {
-  console.log('updateSlug called with', value, userEditedSlug.value, slugValue.value)
-
-  if (!value) return
+const updateSlug = () => {
+  if (!form.value?.name) return
   if (!userEditedSlug.value) {
-    slugValue.value = slugify(value)
+    form.value.slug = slugify(form.value.name)
   }
 }
 const enterSlugEditing = () => (userEditedSlug.value = true)
-const exitSlugEditing = () =>
-  slugValue.value === '' ? (userEditedSlug.value = false) : (userEditedSlug.value = true)
+const exitSlugEditing = () => {
+  const computedSlug = slugify(form.value.name)
+  if (form.value.slug === '') {
+    userEditedSlug.value = false
+  } else if (form.value.slug !== computedSlug) {
+    // since the slug is different from the computed slug from name
+    // the auto computation of the slug is disabled
+    userEditedSlug.value = true
+    return
+  } else {
+    // since the slug is the same from the computed slug from name
+    // the auto computation of the slug is enabled
+    userEditedSlug.value = false
+    return
+  }
+}
 // Handle new Entity creation
-const submitNewEntity = async (formData: FormDataCreateEntity) => {
-  const entity = { ...formData }
-  await createEntity(entity)
+const submitNewEntity = async () => {
+  await createEntity(form.value)
   sheetOpen.value = false
 }
 </script>
@@ -36,38 +48,33 @@ const submitNewEntity = async (formData: FormDataCreateEntity) => {
       <SheetHeader>
         <SheetTitle>Let's create a new Entity</SheetTitle>
       </SheetHeader>
-      <FormKit
-        type="form"
-        @submit="submitNewEntity"
-        submit-label="Create"
-        :config="{ validationVisibility: 'submit' }"
-      >
-        <FormKit
+      <vee-form @submit="submitNewEntity">
+        <app-form-field
           type="text"
-          name="name"
-          id="name"
+          name="entity_name"
+          v-model="form.name"
           label="Name"
-          validation="required|lenght:3,255"
+          :rules="{ required: true, regex: /^(.){3,60}$/ }"
           @input="updateSlug"
         />
-        <FormKit
+        <app-form-field
           type="text"
-          name="slug"
-          id="slug"
+          name="entity_slug"
+          v-model="form.slug"
           label="Slug"
-          validation="required|length:3,60|matches:/^[a-z0-9-]+$/"
-          v-model="slugValue"
+          :rules="{ required: true, regex: /^([a-z0-9-]){3,60}$/ }"
           @focusin="enterSlugEditing"
           @blur="exitSlugEditing"
         />
-        <FormKit
-          type="textarea"
-          name="description"
-          id="description"
+        <app-form-field
+          as="textarea"
+          name="entity_description"
+          v-model="form.description"
           label="Description"
-          validation="0,500"
+          :rules="{ regex: /^[\s\S]{0,500}$/ }"
         />
-      </FormKit>
+        <button type="submit" class="btn btn-primary">Create</button>
+      </vee-form>
     </SheetContent>
   </Sheet>
 </template>

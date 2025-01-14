@@ -45,6 +45,7 @@ export const columns: ColumnDef<AllEntitiesType[0]>[] = [
         modelValue: row.original.status,
         readonly: true,
         showToolTip: false,
+        pointer: false,
       })
     },
   },

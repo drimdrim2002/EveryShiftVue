@@ -41,7 +41,10 @@ export type EntityWithSubEntitiesBySlugType = QueryData<
 >
 
 export const createSubEntityQuery = async (entity: FormDataCreateSubEntity) => {
-  return await supabase.from('sub_entities').insert(entity)
+  const { entity_id, ...entity_props } = entity
+  return await supabase
+    .from('sub_entities')
+    .insert({ ...entity_props, entity_id: parseInt(entity_id) })
 }
 export const updateSubEntityQuery = async (entity = {}, id: number) => {
   const result = await supabase.from('sub_entities').update(entity).eq('id', id)
