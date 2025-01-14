@@ -1,6 +1,5 @@
 <template>
-  <vee-form @submit="login" class="card card-form">
-    <h1 class="text-center">Login</h1>
+  <vee-form @submit="login">
     <app-form-field
       name="email"
       label="Email"
@@ -16,29 +15,28 @@
       type="password"
     />
     <app-captcha
+      class="mt-4 overflow-hidden"
       ref="captchaRef"
       v-if="enableHcaptcha"
       @@hcaptcha-notification="notifyUserWithCaptchaResponse"
     />
-    <div class="push-top">
-      <!-- 
+    <!-- 
           The button below calls the runCaptcha of the app-captcha.
           In test mode, it verifies the captcha.
           See comment of BenW301 to this reply: https://stackoverflow.com/a/55317353/3910066
          -->
-      <button
-        @click="captchaRef.runCaptcha(enableHcaptcha)"
-        type="submit"
-        class="btn-blue btn-block"
-      >
-        Log in
-      </button>
-      <!-- <button type="submit" class="btn-blue btn-block">Log in</button> -->
+    <button
+      @click="captchaRef.runCaptcha(enableHcaptcha)"
+      type="submit"
+      class="btn bg-blue-700 text-white my-4"
+    >
+      Log in
+    </button>
+    <!-- <button type="submit" class="btn-blue btn-block">Log in</button> -->
+    <div v-if="errorMessage != ''" class="text-xs text-red-500">
+      {{ errorMessage }}
     </div>
-    <div v-if="props.errorMessage != ''" class="error-message">
-      {{ props.errorMessage }}
-    </div>
-    <div v-if="enableRegister" class="form-actions text-right">
+    <div v-if="enableRegister" class="btn bg-gray-300">
       <router-link to="/register"> Create an account? </router-link>
     </div>
   </vee-form>
@@ -46,9 +44,6 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useRoute } from 'vue-router'
-import { getQueryStringValue } from '@/utils/query-string-helper'
-import { AppQueryStringParam } from '@/enums/AppQueryStringParam'
 import type UserLoginRequest from '@/types/UserLoginRequest'
 import type PropsAppLoginForm from '@/types/PropsAppLoginForm'
 import useNotification from '@/composables/useNotification'
@@ -56,18 +51,18 @@ import { NotificationType } from '@/enums/NotificationType'
 import AppCaptcha from '@/components/AppCaptcha.vue'
 import type CaptchaEmitNotification from '@/types/CaptchaEmitNotification'
 
-const route = useRoute()
-
-const props = withDefaults(defineProps<PropsAppLoginForm>(), {
-  enableRegister: true,
-  enableHcaptcha: true,
-})
+const {
+  enableHcaptcha = true,
+  enableRegister = true,
+  errorMessage,
+} = defineProps<PropsAppLoginForm>()
 
 const emits = defineEmits<{
   (event: '@login', request: UserLoginRequest): void
 }>()
 
-const form = ref<UserLoginRequest>({ email: '', password: '' })
+const testEmail = import.meta.env.VITE_TESTING_USER_EMAIL
+const form = ref<UserLoginRequest>({ email: testEmail, password: testEmail })
 const captchaPassed = ref(false)
 const captchaRef = ref(AppCaptcha)
 const captchaErrorMessage = ref('')
@@ -82,7 +77,7 @@ const notifyUserWithCaptchaResponse = (response: CaptchaEmitNotification) => {
 }
 
 const login = async () => {
-  if (!props.enableHcaptcha) {
+  if (!enableHcaptcha) {
     captchaPassed.value = true
   }
   if (!captchaPassed.value) {

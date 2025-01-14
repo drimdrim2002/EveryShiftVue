@@ -1,31 +1,26 @@
 <template>
-  <div class="form-group">
-    <label :for="name">{{ label }}</label>
+  <div class="flex flex-col mt-4">
+    <label class="self-start pb-2" :for="name">{{ label }}</label>
     <vee-field
       :name="name"
       :modelValue="modelValue"
       @input="$emit('modelUpdate', $event)"
       :id="name"
       v-bind="$attrs"
-      class="form-input"
+      class="field"
     />
-    <vee-error-message :name="name" class="error-message" />
+    <vee-error-message :name="name" class="self-start text-xs text-red-500" />
   </div>
 </template>
 
 <script setup lang="ts">
 interface AppFormFieldProps {
-  name: string;
-  label: string;
-  modelValue?: string;
+  name: string
+  label: string
+  modelValue?: string
 }
 
-const { name, label, modelValue } = withDefaults(
-  defineProps<AppFormFieldProps>(),
-  {
-    modelValue: '',
-  }
-);
+const { name, label, modelValue = '' } = defineProps<AppFormFieldProps>()
 </script>
 
 <style scoped></style>

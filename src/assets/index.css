@@ -96,3 +96,18 @@
 .fade-leave-to {
   opacity: 0;
 }
+
+.theme-bg-color {
+  @apply bg-blue-600;
+}
+.theme-text-color {
+  @apply text-blue-600;
+}
+
+.btn {
+  @apply w-full p-3 rounded-md text-sm font-medium;
+}
+
+.field {
+  @apply border p-2 rounded-md;
+}
