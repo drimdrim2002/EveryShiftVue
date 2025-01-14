@@ -2,6 +2,18 @@
   <div class="flex flex-col mt-4">
     <label class="self-start pb-2" :for="name">{{ label }}</label>
     <vee-field
+      v-if="as"
+      :as
+      :name="name"
+      :modelValue="modelValue"
+      @input="$emit('modelUpdate', $event)"
+      :id="name"
+      v-bind="$attrs"
+      class="field"
+      ><slot
+    /></vee-field>
+    <vee-field
+      v-else
       :name="name"
       :modelValue="modelValue"
       @input="$emit('modelUpdate', $event)"
@@ -15,6 +27,7 @@
 
 <script setup lang="ts">
 interface AppFormFieldProps {
+  as?: string
   name: string
   label: string
   modelValue?: string

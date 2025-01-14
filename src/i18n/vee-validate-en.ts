@@ -30,5 +30,18 @@ export const en = {
     entity_description: {
       regex: 'The {field} should be 1 to 500 characters long. Newlines are allowed.',
     },
+    sub_entity_name: {
+      required: 'The name is required.',
+      regex: 'The name should be 3 to 255 characters long.',
+    },
+    sub_entity_profile_id: {
+      required: 'A profile from the list must be selected.',
+    },
+    sub_entity_entity_id: {
+      required: 'An entity from the list must be selected.',
+    },
+    sub_entity_description: {
+      regex: 'The {field} should be 1 to 500 characters long. Newlines are allowed.',
+    },
   },
 }
