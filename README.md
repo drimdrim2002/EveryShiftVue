@@ -6,7 +6,7 @@ Current branch deployed: `templates/with-manual-form-and-vee-validate`
 
 This template should help get you started developing with Vue 3 in Vite.
 
-It is an optionated template that uses:
+It is an opinionated template that uses:
 
 - Vue 3
 - Vue Router with Unplugin Vue Router
