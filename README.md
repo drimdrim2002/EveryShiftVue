@@ -1,6 +1,19 @@
 # vue-boilerplate-jli
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/f4982a72-e155-4fb3-86b1-0881d3fb170c/deploy-status)](https://app.netlify.com/sites/vue-and-supabase-boilerplate-demo/deploys)
+
+Current branch deployed: `templates/with-manual-form-and-vee-validate`
+
 This template should help get you started developing with Vue 3 in Vite.
+
+It is an optionated template that uses:
+
+- Vue 3
+- Vue Router with Unplugin Vue Router
+- Pinia
+- VeeValidate for the forms
+- VueUse
+- and the awesome Supabase for the backend
 
 ## Recommended IDE Setup
 
