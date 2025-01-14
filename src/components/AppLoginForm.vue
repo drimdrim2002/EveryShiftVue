@@ -42,13 +42,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
 import type UserLoginRequest from '@/types/UserLoginRequest'
 import type PropsAppLoginForm from '@/types/PropsAppLoginForm'
 import type CaptchaEmitNotification from '@/types/CaptchaEmitNotification'
 
 import { Form as VeeForm } from 'vee-validate'
-import useNotification from '@/composables/useNotification'
 import { NotificationType } from '@/enums/NotificationType'
 import AppCaptcha from '@/components/AppCaptcha.vue'
 

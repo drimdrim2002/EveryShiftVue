@@ -1,4 +1,4 @@
-import type { required } from '@vee-validate/rules'
+import { regex, type required } from '@vee-validate/rules'
 
 export const en = {
   messages: {
@@ -6,6 +6,8 @@ export const en = {
     email: 'The {field} must be a valid email',
     url: 'The {field} must be a valid URL.',
     min: 'The {field} must be 0:{min} characters long',
+    max: 'The {field} must be 0:{min} characters long',
+    regex: 'The {field} doesn´t match the expected format',
     unique: 'The {field} is already taken.',
   },
   fields: {
@@ -17,6 +19,16 @@ export const en = {
     },
     lastName: {
       required: 'The last name is required',
+    },
+    entity_name: {
+      regex: 'The name should be 3 to 60 characters long.',
+    },
+    entity_slug: {
+      regex:
+        'The name should be 3 to 60 lowercased characters long, with no accentuated characters. Dashes are allowed.',
+    },
+    entity_description: {
+      regex: 'The {field} should be 1 to 500 characters long. Newlines are allowed.',
     },
   },
 }

@@ -13,7 +13,6 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
-    "@formkit/vue": "^1.6.9",
     "@hcaptcha/types": "^1.0.4",
     "@hcaptcha/vue3-hcaptcha": "^1.3.0",
     "@supabase/supabase-js": "^2.46.1",
