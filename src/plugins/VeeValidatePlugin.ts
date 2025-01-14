@@ -2,9 +2,10 @@ import { type App } from 'vue'
 import { Form, Field, ErrorMessage, defineRule, configure } from 'vee-validate'
 import { required, email, url, min } from '@vee-validate/rules'
 import { localize } from '@vee-validate/i18n'
+import { en } from '@/i18n/vee-validate-en'
+import { fr } from '@/i18n/vee-validate-fr'
 
 interface UniqueRuleArgs {
-  collectionName: string
   prop: string
   excluding: string
 }
@@ -16,18 +17,15 @@ const veeValidatePlugin = {
     defineRule('url', url)
     defineRule('min', min)
     defineRule('unique', async <T, A>(value: T, args: A) => {
-      return false
+      throw new Error('Not implemented')
     })
 
     configure({
-      generateMessage: localize('en', {
-        messages: {
-          required: 'The {field} is required',
-          email: 'The {field} must be a valid email',
-          url: 'The {field} must be a valid URL.',
-          min: 'The {field} must be 0:{min} characters long',
-          unique: 'The {field} is already taken.',
-        },
+      generateMessage: localize({
+        // use `setLocale('fr');` to change the validation messages
+        // see https://vee-validate.logaretm.com/v4/guide/i18n/
+        en,
+        fr,
       }),
     })
 

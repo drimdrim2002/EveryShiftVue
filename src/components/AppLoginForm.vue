@@ -25,19 +25,18 @@
           In test mode, it verifies the captcha.
           See comment of BenW301 to this reply: https://stackoverflow.com/a/55317353/3910066
          -->
-    <button
-      @click="captchaRef.runCaptcha(enableHcaptcha)"
-      type="submit"
-      class="btn bg-blue-700 text-white my-4"
-    >
+    <button @click="captchaRef.runCaptcha(enableHcaptcha)" type="submit" class="btn btn-primary">
       Log in
     </button>
     <!-- <button type="submit" class="btn-blue btn-block">Log in</button> -->
     <div v-if="errorMessage != ''" class="text-xs text-red-500">
       {{ errorMessage }}
     </div>
-    <div v-if="enableRegister" class="btn bg-gray-300">
-      <router-link to="/register"> Create an account? </router-link>
+    <div v-if="enableRegister" class="flex flex-row items-center">
+      <span class="flex-auto mr-2">Create an account?</span>
+      <router-link to="/register" class="btn btn-secondary underline flex-1">
+        Register
+      </router-link>
     </div>
   </vee-form>
 </template>
@@ -46,10 +45,12 @@
 import { ref } from 'vue'
 import type UserLoginRequest from '@/types/UserLoginRequest'
 import type PropsAppLoginForm from '@/types/PropsAppLoginForm'
+import type CaptchaEmitNotification from '@/types/CaptchaEmitNotification'
+
+import { Form as VeeForm } from 'vee-validate'
 import useNotification from '@/composables/useNotification'
 import { NotificationType } from '@/enums/NotificationType'
 import AppCaptcha from '@/components/AppCaptcha.vue'
-import type CaptchaEmitNotification from '@/types/CaptchaEmitNotification'
 
 const {
   enableHcaptcha = true,
