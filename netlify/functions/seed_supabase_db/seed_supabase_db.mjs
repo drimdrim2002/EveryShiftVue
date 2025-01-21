@@ -4,8 +4,7 @@
  */
 import { schedule } from "@netlify/functions";
 import { log } from "console";
-import { seedDatabase } from "../../database/sedding.module";
-
+import { seedDatabase } from "../../../database/sedding.module";
 log("RECCURING_SUPABASE_SEEDING>Starting registering recurring-publish function...");
 /**
  *
