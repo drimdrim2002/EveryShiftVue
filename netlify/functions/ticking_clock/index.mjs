@@ -1,5 +1,5 @@
 import { schedule } from '@netlify/functions'
 
-export const handler = schedule('56 15 * * *', async () => {
-  console.log("It's 14:55!")
+export const handler = schedule('*/1 * * * *', async () => {
+  console.log(new Date(Date.now()))
 })
