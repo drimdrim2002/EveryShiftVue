@@ -1,0 +1,13 @@
+[build]
+ignore = "exit 1"
+publish = "public"
+functions = "functions"
+
+[functions."seed_supabase_db"]
+  schedule = "@hourly"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+  force = true
