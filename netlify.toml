@@ -1,0 +1,4 @@
+[build]
+ignore = "exit 1"
+publish = "public"
+functions = "functions"
