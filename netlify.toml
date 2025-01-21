@@ -2,3 +2,9 @@
 ignore = "exit 1"
 publish = "public"
 functions = "functions"
+
+[[redirects]]
+  from = "https://vue-and-supabase-boilerplate-demo.netlify.app"
+  to = "https://vue-and-supabase-boilerplate-demo.netlify.app/index.html"
+  status = 200
+  force = true
