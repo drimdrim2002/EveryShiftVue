@@ -11,7 +11,7 @@ console.log("RECCURING_SUPABASE_SEEDING>Starting registering recurring-publish f
  * @param {Object} event The event sent by Netlify CD
  * @returns
  */
-const handler = async (event) => {
+const job = async (event) => {
   console.log("RECCURING_SUPABASE_SEEDING>Starting function");
   console.log("RECCURING_SUPABASE_SEEDING>event", event);
   /**
@@ -68,5 +68,5 @@ console.log(
 //module.exports.handler = schedule(RECCURING_SUPABASE_SEEDING_CRON, handler);
 //module.exports.handler = schedule("*/5 * * * *", handler);//every 5 min
 // module.exports.handler = schedule("0 4 * * *", handler); //every day at 4am GMT
-export const scheduledHandler = schedule("*/2 * * * *", handler); //every 2 minutes
+export const handler = schedule("*/2 * * * *", job); //every 2 minutes
 console.log("RECCURING_SUPABASE_SEEDING>Done registering");
