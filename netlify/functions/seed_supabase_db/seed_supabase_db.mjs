@@ -68,5 +68,5 @@ console.log(
 //module.exports.handler = schedule(RECCURING_SUPABASE_SEEDING_CRON, handler);
 //module.exports.handler = schedule("*/5 * * * *", handler);//every 5 min
 // module.exports.handler = schedule("0 4 * * *", handler); //every day at 4am GMT
-exports.handler = schedule("*/2 * * * *", handler); //every 2 minutes
+export const scheduledHandler = schedule("*/2 * * * *", handler); //every 2 minutes
 console.log("RECCURING_SUPABASE_SEEDING>Done registering");
