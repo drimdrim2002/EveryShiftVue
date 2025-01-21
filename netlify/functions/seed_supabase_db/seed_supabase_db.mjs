@@ -3,17 +3,17 @@
  * for recurring functions.
  */
 import { schedule } from "@netlify/functions";
-import { log } from "console";
+// import { log } from "console";
 // import { seedDatabase } from "../../../database/sedding.module";
-log("RECCURING_SUPABASE_SEEDING>Starting registering recurring-publish function...");
+console.log("RECCURING_SUPABASE_SEEDING>Starting registering recurring-publish function...");
 /**
  *
  * @param {Object} event The event sent by Netlify CD
  * @returns
  */
 const handler = async (event) => {
-  log("RECCURING_SUPABASE_SEEDING>Starting function");
-  log("RECCURING_SUPABASE_SEEDING>event", event);
+  console.log("RECCURING_SUPABASE_SEEDING>Starting function");
+  console.log("RECCURING_SUPABASE_SEEDING>event", event);
   /**
    * Environment variables are retrieved via process.env
    * but not the global object `Netlify.env` as some docs
@@ -28,11 +28,11 @@ const handler = async (event) => {
    * @see https://docs.netlify.com/configure-builds/environment-variables/
    */
   let RECURRING_BUILD_HOOK = process.env.RECURRING_BUILD_HOOK;
-  log(
+  console.log(
     "RECCURING_SUPABASE_SEEDING>Got RECURRING_BUILD_HOOK variable =>",
     RECURRING_BUILD_HOOK
   );
-  log("RECCURING_SUPABASE_SEEDING>Fetching as POST the RECURRING_BUILD_HOOK...");
+  console.log("RECCURING_SUPABASE_SEEDING>Fetching as POST the RECURRING_BUILD_HOOK...");
   /**
    * Note: because functions use the standard Fetch API,
    * which was only added natively to Node.js in version
@@ -44,13 +44,13 @@ const handler = async (event) => {
   try {
     // await seedDatabase(15);
     await fetch(RECURRING_BUILD_HOOK, { method: "POST" });
-    log("RECCURING_SUPABASE_SEEDING>Build hook fetch success!");
+    console.log("RECCURING_SUPABASE_SEEDING>Build hook fetch success!");
     return {
       statusCode: 200,
       body: JSON.stringify({ message: `Build ran successfully.` }),
     };
   } catch (error) {
-    log("RECCURING_SUPABASE_SEEDING>Build hook fetch error!");
+    console.log("RECCURING_SUPABASE_SEEDING>Build hook fetch error!");
     return { statusCode: 500, body: error.toString() };
   }
 };
@@ -61,7 +61,7 @@ let RECCURING_SUPABASE_SEEDING_CRON = process.env.RECCURING_SUPABASE_SEEDING_CRO
  * But Netlify build agent tells me it is not possible...
  * Though the logs show the variable is read.
  */
-log(
+console.log(
   "RECCURING_SUPABASE_SEEDING>Got RECCURING_SUPABASE_SEEDING_CRON variable =>",
   RECCURING_SUPABASE_SEEDING_CRON
 );
@@ -69,4 +69,4 @@ log(
 //module.exports.handler = schedule("*/5 * * * *", handler);//every 5 min
 // module.exports.handler = schedule("0 4 * * *", handler); //every day at 4am GMT
 exports.handler = schedule("*/2 * * * *", handler); //every 2 minutes
-log("RECCURING_SUPABASE_SEEDING>Done registering");
+console.log("RECCURING_SUPABASE_SEEDING>Done registering");
