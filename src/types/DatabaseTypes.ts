@@ -143,7 +143,15 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      coalesce_updated_at_or_created_at_sort: {
+        Args: {
+          target_table: string
+          selected_columns?: string
+          sort_direction?: string
+          nulls_position?: string
+        }
+        Returns: Json[]
+      }
     }
     Enums: {
       current_status: "todo" | "in-progress" | "completed"
