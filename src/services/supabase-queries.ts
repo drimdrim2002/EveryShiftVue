@@ -13,12 +13,12 @@ export const updateEntityQuery = async (entity = {}, id: number) => {
 export const deleteEntityQuery = async (id: number) => {
   return await supabase.from('entities').delete().eq('id', id)
 }
-export const allEntitiesQuery = supabase
-  .from('entities')
-  .select()
-  // TODO > about ordering with Supabase !
-  .order('created_at', { ascending: false, nullsFirst: false })
-  .order('updated_at', { ascending: false, nullsFirst: false })
+export const allEntitiesQuery = supabase.rpc('coalesce_updated_at_or_created_at_sort', {
+  target_table: 'entities',
+  selected_columns: '*',
+  sort_direction: 'DESC',
+  nulls_position: 'LAST',
+})
 export type AllEntitiesType = QueryData<typeof allEntitiesQuery>
 export const entityWithSubEntitiesBySlugQuery = (slug: string) =>
   supabase
