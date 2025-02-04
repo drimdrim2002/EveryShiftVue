@@ -1,9 +1,11 @@
-CREATE OR REPLACE FUNCTION coalesce_updated_at_or_created_at_sort(
+CREATE OR REPLACE FUNCTION public.coalesce_updated_at_or_created_at_sort(
     target_table text,
     selected_columns text DEFAULT '*',
     sort_direction text DEFAULT 'DESC',
     nulls_position text DEFAULT 'FIRST'
-) RETURNS SETOF json AS $$
+) 
+RETURNS SETOF json AS $$
+
 BEGIN
     IF sort_direction NOT IN ('ASC', 'DESC') THEN
         RAISE EXCEPTION 'sort_direction must be either ASC or DESC';
@@ -13,7 +15,7 @@ BEGIN
     END IF;
 
     RETURN QUERY EXECUTE format(
-        'SELECT row_to_json(t) FROM (SELECT %s FROM %I ORDER BY COALESCE(updated_at, created_at) %s NULLS %s) t',
+        'SELECT row_to_json(t) FROM (SELECT %s FROM public.%I ORDER BY COALESCE(updated_at, created_at) %s NULLS %s) t',
         selected_columns,
         target_table,
         sort_direction,
@@ -21,4 +23,4 @@ BEGIN
     );
 END;
 $$
- LANGUAGE plpgsql SECURITY DEFINER;
+ LANGUAGE plpgsql SECURITY DEFINER SET search_path = '';
