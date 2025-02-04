@@ -4,22 +4,26 @@
 import { faker } from '@faker-js/faker'
 import { createClient } from '@supabase/supabase-js'
 
-console.log('import.meta.env', import.meta.env)
-console.log('process.env', process.env)
-const supabaseUrl = process.env.VITE_SUPABASE_URL
-const supabaseKey = process.env.VITE_SUPABASE_PROJECT_SERVICE_ROLE
+const initSupabase = () => {
+  console.log('import.meta.env', import.meta.env)
+  console.log('process.env', process.env)
+  const supabaseUrl = process.env.VITE_SUPABASE_URL
+  const supabaseKey = process.env.VITE_SUPABASE_PROJECT_SERVICE_ROLE
+  console.log('supabaseUrl', supabaseUrl)
+  console.log('supabaseKey', supabaseKey)
+  const supabase = createClient(
+    supabaseUrl,
+    supabaseKey,
+  )
+  return supabase;
+}
 
-// console.log('supabaseUrl', supabaseUrl)
-// console.log('supabaseKey', supabaseKey)
-const supabase = createClient(
-  process.env.VITE_SUPABASE_URL,
-  process.env.VITE_SUPABASE_PROJECT_SERVICE_ROLE,
-)
-
-const testingUserEmail = process.env.VITE_TESTING_USER_EMAIL
-if (!testingUserEmail) {
-  console.error('Have you forgot to add VITE_TESTING_USER_EMAIL to your .env file?')
-  process.exit()
+const getTestEmail = () => {
+  const testingUserEmail = process.env.VITE_TESTING_USER_EMAIL
+  if (!testingUserEmail) {
+    console.error('Have you forgot to add VITE_TESTING_USER_EMAIL to your .env file?')
+    process.exit()
+  }
 }
 
 const logErrorAndExit = (tableName, error) => {
@@ -33,7 +37,7 @@ const logStep = (stepMessage) => {
   console.log(stepMessage)
 }
 
-const PrimaryTestUserExists = async () => {
+const PrimaryTestUserExists = async (supabase) => {
   logStep('Checking if primary test user exists...')
   const { data, error } = await supabase
     .from('profiles')
@@ -50,7 +54,8 @@ const PrimaryTestUserExists = async () => {
   return data?.id
 }
 
-const createPrimaryTestUser = async () => {
+const createPrimaryTestUser = async (supabase) => {
+  const testingUserEmail = getTestEmail()
   logStep('Creating primary test user...')
   const dummyData = {
     firstName: 'Test',
@@ -80,11 +85,11 @@ const createPrimaryTestUser = async () => {
 
   if (data) {
     dummyData.userId = data.user.id
-    await seedProfiles(dummyData)
+    await seedProfiles(supabase, dummyData)
     return data.user.id
   }
 }
-const seedProfiles = async ({ userId, firstName, lastName, userName }) => {
+const seedProfiles = async (supabase, { userId, firstName, lastName, userName }) => {
   await supabase.from('profiles').insert({
     id: userId,
     full_name: firstName + ' ' + lastName,
@@ -95,23 +100,24 @@ const seedProfiles = async ({ userId, firstName, lastName, userName }) => {
 
   logStep(`Primary test user <${userId}> created successfully.`)
 }
-const seedDatabase = async (numEntriesPerTable) => {
+export const seedDatabase = async (numEntriesPerTable) => {
   let userId
 
-  const testUserId = await PrimaryTestUserExists()
+  const supabase = initSupabase();
+  const testUserId = await PrimaryTestUserExists(supabase)
 
   if (!testUserId) {
-    const primaryTestUserId = await createPrimaryTestUser()
+    const primaryTestUserId = await createPrimaryTestUser(supabase)
     userId = primaryTestUserId
   } else {
     userId = testUserId
   }
-  const entitiesIds = (await seedEntities(numEntriesPerTable, userId)).map((entity) => entity.id)
-  await seedSubEntities(numEntriesPerTable, entitiesIds, userId)
-  await seedKeepAlive()
+  const entitiesIds = (await seedEntities(supabase,numEntriesPerTable, userId)).map((entity) => entity.id)
+  await seedSubEntities(supabase,numEntriesPerTable, entitiesIds, userId)
+  await seedKeepAlive(supabase)
 }
 
-const seedKeepAlive = async () => {
+const seedKeepAlive = async (supabase) => {
   const { data, error } = await supabase
     .from('keep_alive')
     .insert({ is_set: true })
@@ -122,7 +128,7 @@ const seedKeepAlive = async () => {
 
   logStep('Seeded keep_alive!')
 }
-const seedEntities = async (numEntries, userId) => {
+const seedEntities = async (supabase, numEntries, userId) => {
   logStep('Seeding entities...')
   const entities = []
 
@@ -147,7 +153,7 @@ const seedEntities = async (numEntries, userId) => {
   return data
 }
 
-const seedSubEntities = async (numEntries, entitiesIds, userId) => {
+const seedSubEntities = async (supabase, numEntries, entitiesIds, userId) => {
   logStep('Seeding sub entities...')
   const subEntities = []
 
@@ -170,7 +176,3 @@ const seedSubEntities = async (numEntries, entitiesIds, userId) => {
 
   return data
 }
-
-const numEntriesPerTable = 10
-
-seedDatabase(numEntriesPerTable)
