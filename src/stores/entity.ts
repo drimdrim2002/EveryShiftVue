@@ -1,10 +1,7 @@
-import type { CacheValidation } from '@/types/CacheValidation'
 import type { CacheValidationKeyInfo } from '@/types/CacheValidationInfo'
 import type { CacheValidationRefreshRequest } from '@/types/CacheValidationRefreshRequest'
-import type { Tables } from '@/types/DatabaseTypes'
 import type { FormDataCreateEntity } from '@/types/FormDataCreateEntity'
 import { StoreCacheKey } from '@/types/StoreCacheKeys'
-import type { UpdateSupabaseEntityRequest } from '@/types/UpdateSupabaseEntityRequest'
 import { timeStampExpired, validateCache } from '@/utils/cache-validation'
 import { toISOStringWithTimezone } from '@/utils/date-format'
 import {
@@ -14,14 +11,15 @@ import {
   entityWithSubEntitiesBySlugQuery,
   updateEntityQuery,
 } from '@/services/supabase-queries'
-import type { AllEntitiesType, EntityWithSubEntitiesBySlugType } from '@/services/supabase-queries'
+import type { EntityWithSubEntitiesBySlugType } from '@/services/supabase-queries'
 import { type PostgrestError } from '@supabase/supabase-js'
 import { useMemoize } from '@vueuse/core'
+import type { EntityRecordWithRpc } from '@/types/EntityRecordWithRpc'
 
 export const useEntityStore = defineStore('entity-store', () => {
   const GET_METHODS_EXPIRATION = 900 // 15 min
 
-  const entities = ref<AllEntitiesType | null>()
+  const entities = ref<EntityRecordWithRpc[] | null>()
   const entity = ref<EntityWithSubEntitiesBySlugType | null>(null)
   const _entityLastFetchTime = ref<CacheValidationKeyInfo>({})
 

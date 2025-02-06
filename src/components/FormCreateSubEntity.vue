@@ -55,9 +55,9 @@ await Promise.all([setEntitiesOptions(), setProfilesOptions()])
 
 const submitNewSubEntity = async () => {
   await createSubEntity(form.value)
-  const parentSelected = entities.value!.find(
-    (element) => element.id.toString() === form.value.entity_id,
-  )
+  const parentSelected =
+    entities.value &&
+    entities.value.find((element) => element.id.toString() === form.value.entity_id)
   await entityStore.refreshEntity(parentSelected?.slug!)
   sheetOpen.value = false
 }
