@@ -1,7 +1,9 @@
 import { supabase } from '@/lib/supabaseClient'
+import type { Database } from '@/types/DatabaseTypes'
+import type { EntityRecordWithRpc } from '@/types/EntityRecordWithRpc'
 import type { FormDataCreateEntity } from '@/types/FormDataCreateEntity'
 import type { FormDataCreateSubEntity } from '@/types/FormDataCreateSubEntity'
-import type { QueryData } from '@supabase/supabase-js'
+import type { PostgrestSingleResponse, QueryData } from '@supabase/supabase-js'
 
 export const createEntityQuery = async (entity: FormDataCreateEntity) => {
   return await supabase.from('entities').insert(entity)
@@ -13,12 +15,13 @@ export const updateEntityQuery = async (entity = {}, id: number) => {
 export const deleteEntityQuery = async (id: number) => {
   return await supabase.from('entities').delete().eq('id', id)
 }
+
 export const allEntitiesQuery = supabase.rpc('coalesce_updated_at_or_created_at_sort', {
   target_table: 'entities',
   selected_columns: '*',
   sort_direction: 'DESC',
   nulls_position: 'LAST',
-})
+}) as unknown as PostgrestSingleResponse<EntityRecordWithRpc[]>
 export type AllEntitiesType = QueryData<typeof allEntitiesQuery>
 export const entityWithSubEntitiesBySlugQuery = (slug: string) =>
   supabase
@@ -66,7 +69,7 @@ export const subEntityWithParentQuery = (id: string) =>
     )
   `,
     )
-    .eq('id', id)
+    .eq('id', parseInt(id))
     .single()
 export type SubEntityWithParentType = QueryData<ReturnType<typeof subEntityWithParentQuery>>
 
