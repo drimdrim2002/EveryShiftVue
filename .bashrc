@@ -25,3 +25,8 @@ alias git-rb='git c main && git branch -D '
 alias nd='npm run dev'
 alias nb='npm run build'
 alias np='npm run preview'
+alias nbo='npm run build-only'
+alias nl='npm run lint'
+alias nf='npm run format'
+
+
