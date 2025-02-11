@@ -137,11 +137,11 @@ const stopEditing = () => {
   @reference text-slate-500 cursor-pointer;
 }
 .live-input {
-  @reference w-full resize-none p-1 bg-transparent focus:outline-double focus:border-separate focus:bg-slate-100 focus:text-black focus:rounded-sm;
+  @reference w-full resize-none p-1 bg-transparent focus:outline-double focus:border-separate focus:bg-slate-100 focus:text-black focus:rounded-xs;
 }
 
 .live-textarea {
-  @reference w-full text-slate-600 bg-slate-100 border border-transparent hover:border-slate-200 appearance-none rounded px-3.5 py-2.5 outline-hidden focus:bg-white;
+  @reference w-full text-slate-600 bg-slate-100 border border-transparent hover:border-slate-200 appearance-none rounded-sm px-3.5 py-2.5 outline-hidden focus:bg-white;
 }
 .live-textarea:focus {
   border: 1px solid black;
