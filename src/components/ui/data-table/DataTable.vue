@@ -59,10 +59,10 @@ const table = useVueTable({
 </template>
 <style scoped lang="css">
 td {
-  @apply p-0;
+  @reference p-0;
 }
 
 td > * {
-  @apply p-4;
+  @reference p-4;
 }
 </style>

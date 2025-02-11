@@ -101,14 +101,14 @@ const deleteSubEntity = async () => {
 
 <style scoped>
 th {
-  @apply w-[100px];
+  @reference w-[100px];
 }
 
 h2 {
-  @apply mb-4 text-lg font-semibold w-fit;
+  @reference mb-4 text-lg font-semibold w-fit;
 }
 
 .table-container {
-  @apply overflow-hidden overflow-y-auto rounded-md h-80;
+  @reference overflow-hidden overflow-y-auto rounded-md h-80;
 }
 </style>
