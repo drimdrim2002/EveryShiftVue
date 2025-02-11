@@ -7,9 +7,10 @@ on:
 
 jobs:
   release:
+    name: Release
     runs-on: ubuntu-latest
     environment:
-      name: Release
+      name: CI
     steps:
       - name: Checkout
         uses: actions/checkout@v4
