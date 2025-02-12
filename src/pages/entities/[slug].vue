@@ -138,14 +138,14 @@ const openModal = ref(false)
 
 <style scoped>
 th {
-  @reference w-[100px];
+  @apply w-[100px];
 }
 
 h2 {
-  @reference mb-4 text-lg font-semibold w-fit;
+  @apply mb-4 text-lg font-semibold w-fit;
 }
 
 .table-container {
-  @reference overflow-hidden overflow-y-auto rounded-md h-80;
+  @apply overflow-hidden overflow-y-auto rounded-md h-80;
 }
 </style>
