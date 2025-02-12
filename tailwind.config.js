@@ -1,11 +1,9 @@
 import animate from 'tailwindcss-animate'
-
 /** @type {import('tailwindcss').Config} */
 export default {
   darkMode: ['class'],
   safelist: ['dark'],
   prefix: '',
-
   content: [
     './pages/**/*.{ts,tsx,vue}',
     './components/**/*.{ts,tsx,vue}',
@@ -13,7 +11,6 @@ export default {
     './src/**/*.{ts,tsx,vue}',
     //'./formktit.theme.ts',  // enable if using form kit
   ],
-
   theme: {
     container: {
       center: true,

@@ -60,30 +60,30 @@ router.afterEach(() => {
 
 <style scoped>
 .error {
-  @reference mx-auto flex justify-center items-center flex-1 p-10 text-center -mt-20 min-h-[90vh];
+  @apply mx-auto flex justify-center items-center flex-1 p-10 text-center -mt-20 min-h-[90vh];
 }
 
 :deep(.error__icon) {
-  @reference text-7xl text-destructive;
+  @apply text-7xl text-destructive;
 }
 
 :deep(.error__code) {
-  @reference font-extrabold text-7xl text-secondary;
+  @apply font-extrabold text-7xl text-secondary;
 }
 
 :deep(.error__msg) {
-  @reference text-3xl font-extrabold text-primary;
+  @apply text-3xl font-extrabold text-primary;
 }
 
 :deep(.error-footer) {
-  @reference flex flex-col items-center justify-center gap-5 mt-6 font-light;
+  @apply flex flex-col items-center justify-center gap-5 mt-6 font-light;
 }
 
 :deep(.error-footer__text) {
-  @reference text-lg text-muted-foreground;
+  @apply text-lg text-muted-foreground;
 }
 
 :deep(p) {
-  @reference my-2;
+  @apply my-2;
 }
 </style>
