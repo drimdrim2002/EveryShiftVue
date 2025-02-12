@@ -10,12 +10,10 @@ on:
 
 jobs:
   release:
-    # Only run if the PR is merged (not just closed)
-    if: github.event.pull_request.merged == true
     name: Release
     runs-on: ubuntu-latest
     environment:
-      name: CI
+      name: CI # This is the name of your env created under https://github.com/{user}/{repo_name}/settings/environments/
     steps:
       - name: 'Generate token'
         id: generate_token
