@@ -1,10 +1,11 @@
 # release.yml
-name: Release
+name: Automatic Release
+run-name: ${{ github.actor }} is automatically releasing 🚀
+
 on:
-  pull_request:
-    types: [closed]
+  # Run automatically on main pushes
+  push:
     branches:
-      - master
       - main
 
 jobs:
