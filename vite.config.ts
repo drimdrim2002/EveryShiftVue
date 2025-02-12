@@ -7,7 +7,7 @@ import vueDevTools from 'vite-plugin-vue-devtools'
 import VueRouter from 'unplugin-vue-router/vite'
 import { VueRouterAutoImports } from 'unplugin-vue-router'
 
-import tailwindcss from '@tailwindcss/vite'
+import tailwind from 'tailwindcss'
 import autoprefixer from 'autoprefixer'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
@@ -18,7 +18,9 @@ export default defineConfig({
     VueRouter(),
     vue({
       template: {
-        compilerOptions: { isCustomElement: (element) => element.startsWith('iconify-icon') },
+        compilerOptions: {
+          isCustomElement: (element) => element.startsWith('iconify-icon'),
+        },
       },
     }),
     AutoImport({
@@ -33,7 +35,9 @@ export default defineConfig({
         // presets
         'vue',
         VueRouterAutoImports,
-        { pinia: ['defineStore', 'storeToRefs', 'acceptHMRUpdate'] },
+        {
+          pinia: ['defineStore', 'storeToRefs', 'acceptHMRUpdate'],
+        },
       ],
       // Filepath to generate corresponding .d.ts file.
       // Defaults to './auto-imports.d.ts' when `typescript` is installed locally.
@@ -46,8 +50,15 @@ export default defineConfig({
     }),
     Components({}),
     vueDevTools(),
-    tailwindcss(),
   ],
-  css: { postcss: { plugins: [autoprefixer()] } },
-  resolve: { alias: { '@': fileURLToPath(new URL('./src', import.meta.url)) } },
+  css: {
+    postcss: {
+      plugins: [tailwind(), autoprefixer()],
+    },
+  },
+  resolve: {
+    alias: {
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
+    },
+  },
 })

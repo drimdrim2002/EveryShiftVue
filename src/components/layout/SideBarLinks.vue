@@ -39,13 +39,15 @@ const emits = defineEmits<{
 const actionClicked = (action: SideBarActionsEnum | undefined) =>
   emits('@actionClicked', { action })
 
-const { links } = defineProps<{ links: LinkProp[] }>()
+const { links } = defineProps<{
+  links: LinkProp[]
+}>()
 
 const { menuOpen } = useMenu()
 </script>
 <style lang="css" scoped>
 .side-bar-link {
-  @reference flex items-center gap-3 px-4 py-2 transition-colors rounded-lg hover:text-primary text-muted-foreground;
+  @apply flex items-center gap-3 px-4 py-2 transition-colors rounded-lg hover:text-primary text-muted-foreground;
 }
 
 .router-link-active[aria-current='page'] {
