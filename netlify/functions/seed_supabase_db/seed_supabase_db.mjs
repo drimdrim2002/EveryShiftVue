@@ -4,7 +4,7 @@
  */
 import { schedule } from '@netlify/functions'
 // import { log } from "console";
-// import { seedDatabase } from "../../../database/sedding.module";
+import { seedDatabase } from '../../../database/sedding.module'
 console.log('RECCURING_SUPABASE_SEEDING>Starting registering recurring-publish function...')
 /**
  *
@@ -68,6 +68,6 @@ console.log(
 )
 //module.exports.handler = schedule(RECCURING_SUPABASE_SEEDING_CRON, handler);
 //module.exports.handler = schedule("*/5 * * * *", handler);//every 5 min
-module.exports.handler = schedule('20 9 * * *', job) //every day at 9am GMT
+module.exports.handler = schedule('25 9 * * *', job) //every day at 9am GMT
 // export const handler = schedule("*/1 * * * *", job); //every 2 minutes
 console.log('RECCURING_SUPABASE_SEEDING>Done registering')
