@@ -1,3 +1,9 @@
+## [2.0.6](https://github.com/JeremieLitzler/VueSupabaseBoilerplate/compare/v2.0.5...v2.0.6) (2025-02-18)
+
+### Dependencies
+
+* **deps:** bump pinia from 2.3.1 to 3.0.1 ([3805860](https://github.com/JeremieLitzler/VueSupabaseBoilerplate/commit/3805860d886611f4947996fd569107d57180ead3))
+
 ## [2.0.5](https://github.com/JeremieLitzler/VueSupabaseBoilerplate/compare/v2.0.4...v2.0.5) (2025-02-18)
 
 ## [2.0.4](https://github.com/JeremieLitzler/VueSupabaseBoilerplate/compare/v2.0.3...v2.0.4) (2025-02-18)
