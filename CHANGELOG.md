@@ -1,3 +1,10 @@
+## [2.1.3](https://github.com/JeremieLitzler/VueSupabaseBoilerplate/compare/v2.1.2...v2.1.3) (2025-02-18)
+
+### Bug Fixes
+
+* add trace function catch ([#56](https://github.com/JeremieLitzler/VueSupabaseBoilerplate/issues/56)) ([e2e499a](https://github.com/JeremieLitzler/VueSupabaseBoilerplate/commit/e2e499ab1a99f3abb658a4a84ea72dc15efbc673))
+* update function schedule ([#56](https://github.com/JeremieLitzler/VueSupabaseBoilerplate/issues/56)) ([0e9984c](https://github.com/JeremieLitzler/VueSupabaseBoilerplate/commit/0e9984cdbf52943c2efaf20f78456beca1368e25))
+
 ## [2.1.2](https://github.com/JeremieLitzler/VueSupabaseBoilerplate/compare/v2.1.1...v2.1.2) (2025-02-18)
 
 ### Bug Fixes
