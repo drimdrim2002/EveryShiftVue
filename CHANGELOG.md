@@ -1,3 +1,9 @@
+## [2.1.1](https://github.com/JeremieLitzler/VueSupabaseBoilerplate/compare/v2.1.0...v2.1.1) (2025-02-18)
+
+### Bug Fixes
+
+* adjust netlify function script ([#56](https://github.com/JeremieLitzler/VueSupabaseBoilerplate/issues/56)) ([9420dc7](https://github.com/JeremieLitzler/VueSupabaseBoilerplate/commit/9420dc7c69bfaef37e1dcbc7ec53d0f4c2043a4c))
+
 ## [2.1.0](https://github.com/JeremieLitzler/VueSupabaseBoilerplate/compare/v2.0.6...v2.1.0) (2025-02-18)
 
 ### Features
