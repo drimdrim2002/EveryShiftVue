@@ -21,6 +21,11 @@
           {
             "type": "refactor",
             "release": "patch"
+          },
+          {
+            "type": "chore",
+            "scope": "deps*",
+            "release": "patch"
           }
         ],
         "parserOpts": {
@@ -56,6 +61,11 @@
             {
               "type": "test",
               "section": "Others"
+            },
+            {
+              "type": "chore",
+              "scope": "deps*",
+              "section": "Dependencies"
             },
             {
               "type": "chore",
