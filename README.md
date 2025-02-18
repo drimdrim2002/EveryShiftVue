@@ -95,3 +95,9 @@ nb
 ```sh
 npm run lint
 ```
+
+## Semantic Release setup
+
+To use Semantic Release, you need to follow [this complete guide](https://gonzalohirsch.com/blog/semantic-release-and-branch-protection-rules/) to create your GitHub App installed on your account only to give it force-push rights when `semantic-release` workflow runs.
+
+Or you can simply use the `tag-release.sh` script in the repository root, for a simplier but manual step.
