@@ -1,3 +1,9 @@
+## [2.1.4](https://github.com/JeremieLitzler/VueSupabaseBoilerplate/compare/v2.1.3...v2.1.4) (2025-02-18)
+
+### Bug Fixes
+
+* add missing import... ([#56](https://github.com/JeremieLitzler/VueSupabaseBoilerplate/issues/56)) ([68603f1](https://github.com/JeremieLitzler/VueSupabaseBoilerplate/commit/68603f1b273f2ba7da44d646ccc933c47535f026))
+
 ## [2.1.3](https://github.com/JeremieLitzler/VueSupabaseBoilerplate/compare/v2.1.2...v2.1.3) (2025-02-18)
 
 ### Bug Fixes
