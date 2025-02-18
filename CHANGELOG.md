@@ -1,3 +1,9 @@
+## [2.0.2](https://github.com/JeremieLitzler/VueSupabaseBoilerplate/compare/v2.0.1...v2.0.2) (2025-02-18)
+
+### Others
+
+* update README ([#24](https://github.com/JeremieLitzler/VueSupabaseBoilerplate/issues/24)) ([5053985](https://github.com/JeremieLitzler/VueSupabaseBoilerplate/commit/505398546dbe97aae80aa1752fbe3c41b716b348))
+
 ## [2.0.1](https://github.com/JeremieLitzler/VueSupabaseBoilerplate/compare/v2.0.0...v2.0.1) (2025-02-12)
 
 
