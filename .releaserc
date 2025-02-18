@@ -1,5 +1,5 @@
 {
-  "repositoryUrl": "https://github.com/JeremieLitzler/semantic-release-tests.git",
+  "repositoryUrl": "https://github.com/JeremieLitzler/VueSupabaseBoilerplate.git",
   "branches": [
     "master",
     "main"
@@ -20,6 +20,11 @@
           },
           {
             "type": "refactor",
+            "release": "patch"
+          },
+          {
+            "type": "chore",
+            "scope": "deps*",
             "release": "patch"
           }
         ],
@@ -59,7 +64,8 @@
             },
             {
               "type": "chore",
-              "hidden": true
+              "scope": "deps*",
+              "section": "Dependencies"
             },
             {
               "type": "style",
