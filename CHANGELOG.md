@@ -1,3 +1,9 @@
+## [2.1.2](https://github.com/JeremieLitzler/VueSupabaseBoilerplate/compare/v2.1.1...v2.1.2) (2025-02-18)
+
+### Bug Fixes
+
+* adjust function schedule ([#56](https://github.com/JeremieLitzler/VueSupabaseBoilerplate/issues/56)) ([93e8d07](https://github.com/JeremieLitzler/VueSupabaseBoilerplate/commit/93e8d07fbfc7b4b72ced70660e6d7f68b719fe5e))
+
 ## [2.1.1](https://github.com/JeremieLitzler/VueSupabaseBoilerplate/compare/v2.1.0...v2.1.1) (2025-02-18)
 
 ### Bug Fixes
