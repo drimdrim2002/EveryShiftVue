@@ -51,6 +51,7 @@ const job = async (event) => {
     }
   } catch (error) {
     console.log('RECCURING_SUPABASE_SEEDING>Build hook fetch error!')
+    console.log('RECCURING_SUPABASE_SEEDING>Error: ', error)
     return { statusCode: 500, body: error.toString() }
   }
 }
