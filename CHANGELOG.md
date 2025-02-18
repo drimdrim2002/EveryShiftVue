@@ -1,3 +1,9 @@
+## [2.1.0](https://github.com/JeremieLitzler/VueSupabaseBoilerplate/compare/v2.0.6...v2.1.0) (2025-02-18)
+
+### Features
+
+* enable call to seeding method and run function at 9AM UTC ([#56](https://github.com/JeremieLitzler/VueSupabaseBoilerplate/issues/56)) ([744d5e8](https://github.com/JeremieLitzler/VueSupabaseBoilerplate/commit/744d5e854bc25ba4769de42cb9f1895623b62b18))
+
 ## [2.0.6](https://github.com/JeremieLitzler/VueSupabaseBoilerplate/compare/v2.0.5...v2.0.6) (2025-02-18)
 
 ### Dependencies
