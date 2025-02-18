@@ -51,6 +51,7 @@ const job = async (event) => {
     }
   } catch (error) {
     console.log('RECCURING_SUPABASE_SEEDING>Build hook fetch error!')
+    console.log('RECCURING_SUPABASE_SEEDING>Error: ', error)
     return { statusCode: 500, body: error.toString() }
   }
 }
@@ -67,6 +68,6 @@ console.log(
 )
 //module.exports.handler = schedule(RECCURING_SUPABASE_SEEDING_CRON, handler);
 //module.exports.handler = schedule("*/5 * * * *", handler);//every 5 min
-module.exports.handler = schedule('10 9 * * *', job) //every day at 9am GMT
+module.exports.handler = schedule('20 9 * * *', job) //every day at 9am GMT
 // export const handler = schedule("*/1 * * * *", job); //every 2 minutes
 console.log('RECCURING_SUPABASE_SEEDING>Done registering')
