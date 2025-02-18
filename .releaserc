@@ -64,7 +64,7 @@
             },
             {
               "type": "chore",
-              "scope": "deps*",
+              "scope": "deps",
               "section": "Dependencies"
             },
             {
