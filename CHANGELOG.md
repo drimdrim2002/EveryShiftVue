@@ -1,3 +1,9 @@
+## [2.2.0](https://github.com/JeremieLitzler/VueSupabaseBoilerplate/compare/v2.1.5...v2.2.0) (2025-03-03)
+
+### Features
+
+* updat CRON to run Netlify supabase seeding function ([f67d73a](https://github.com/JeremieLitzler/VueSupabaseBoilerplate/commit/f67d73a4eda00a8877baabc0469c4aaa2e00d91a))
+
 ## [2.1.5](https://github.com/JeremieLitzler/VueSupabaseBoilerplate/compare/v2.1.4...v2.1.5) (2025-02-18)
 
 ### Bug Fixes
