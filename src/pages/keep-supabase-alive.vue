@@ -3,7 +3,7 @@
     <p class="mb-10">
       Check Supabase project: keep_alive table must have a row where 'is_set' = TRUE
     </p>
-    <RouterLink class="bg-black p-4 rounded-lg text-white" to="/login">Back login page</RouterLink>
+    <RouterLink class="bg-black p-4 rounded-md text-white" to="/login">Back login page</RouterLink>
   </section>
 </template>
 

@@ -75,7 +75,7 @@ const stopEditing = () => {
               requires an explicit cast of $event.target -->
 
   <template v-if="type === 'textarea'">
-    <div class="flex flex-row">
+    <div class="flex">
       <p
         v-show="!isEditing"
         ref="readonlyEl"
@@ -98,7 +98,7 @@ const stopEditing = () => {
     </div>
   </template>
   <template v-else-if="type === 'date'">
-    <div class="flex flex-row">
+    <div class="flex">
       <p
         v-show="!isEditing"
         class="flex-1"
@@ -118,7 +118,7 @@ const stopEditing = () => {
       /><PencilLine v-if="!isEditing" @click="startEditing" class="pencil" />
     </div>
   </template>
-  <div v-else class="flex flex-row">
+  <div v-else class="flex">
     <input
       :type
       v-model="userInput"
@@ -135,16 +135,6 @@ const stopEditing = () => {
 <style scoped>
 .readonly-input {
   white-space: pre-line;
-}
-.pencil {
-  @apply text-slate-500 cursor-pointer;
-}
-.live-input {
-  @apply w-full resize-none p-1 bg-transparent focus:outline-double focus:border-separate focus:bg-slate-100 focus:text-black focus:rounded-sm;
-}
-
-.live-textarea {
-  @apply w-full text-slate-600 bg-slate-100 border border-transparent hover:border-slate-200 appearance-none rounded px-3.5 py-2.5 outline-none focus:bg-white;
 }
 .live-textarea:focus {
   border: 1px solid black;
