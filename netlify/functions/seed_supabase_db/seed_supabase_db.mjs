@@ -4,7 +4,7 @@
  */
 import { schedule } from '@netlify/functions'
 // import { log } from "console";
-// import { seedDatabase } from "../../../database/sedding.module";
+import { seedDatabase } from '../../../database/sedding.module'
 console.log('RECCURING_SUPABASE_SEEDING>Starting registering recurring-publish function...')
 /**
  *
@@ -42,7 +42,7 @@ const job = async (event) => {
    * @see https://docs.netlify.com/functions/get-started/?fn-language=ts#runtime
    */
   try {
-    // await seedDatabase(15);
+    await seedDatabase(15)
     await fetch(RECURRING_BUILD_HOOK, { method: 'POST' })
     console.log('RECCURING_SUPABASE_SEEDING>Build hook fetch success!')
     return {
@@ -51,6 +51,7 @@ const job = async (event) => {
     }
   } catch (error) {
     console.log('RECCURING_SUPABASE_SEEDING>Build hook fetch error!')
+    console.log('RECCURING_SUPABASE_SEEDING>Error: ', error)
     return { statusCode: 500, body: error.toString() }
   }
 }
@@ -67,6 +68,6 @@ console.log(
 )
 //module.exports.handler = schedule(RECCURING_SUPABASE_SEEDING_CRON, handler);
 //module.exports.handler = schedule("*/5 * * * *", handler);//every 5 min
-module.exports.handler = schedule('0 4 * * *', handler) //every day at 4am GMT
+module.exports.handler = schedule('0 0 * * 0', job) //once a week on sunday at midnight GMT
 // export const handler = schedule("*/1 * * * *", job); //every 2 minutes
 console.log('RECCURING_SUPABASE_SEEDING>Done registering')
