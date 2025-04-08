@@ -1,3 +1,11 @@
+## [2.3.0](https://github.com/JeremieLitzler/VueSupabaseBoilerplate/compare/v2.2.0...v2.3.0) (2025-04-08)
+
+### Features
+
+* finish awesome tooltip! ([ff67c24](https://github.com/JeremieLitzler/VueSupabaseBoilerplate/commit/ff67c24e0c6818f012c3f79e2f342df76e910ad9))
+* improve the tooltip ([aba73f7](https://github.com/JeremieLitzler/VueSupabaseBoilerplate/commit/aba73f724ea82dba0894ced18ab41fd4923572e1))
+* upgrade to tailwindcss 4 ([f1f2164](https://github.com/JeremieLitzler/VueSupabaseBoilerplate/commit/f1f216446901de21144b10520798a6cdf7a79337))
+
 ## [2.2.0](https://github.com/JeremieLitzler/VueSupabaseBoilerplate/compare/v2.1.5...v2.2.0) (2025-03-03)
 
 ### Features
