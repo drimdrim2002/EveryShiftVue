@@ -50,7 +50,7 @@ const deleteSubEntity = async () => {
       </span>
       Delete</Button
     >
-    <section class="mt-4 border rounded-lg w-full">
+    <section class="mt-4 border rounded-md w-full">
       <Table v-if="subEntity">
         <TableRow>
           <TableHead> Name </TableHead>
@@ -100,15 +100,15 @@ const deleteSubEntity = async () => {
 </template>
 
 <style scoped>
-th {
+/* th {
   @apply w-[100px];
-}
+} */
 
-h2 {
+/* h2 {
   @apply mb-4 text-lg font-semibold w-fit;
-}
+} */
 
-.table-container {
+/* .table-container {
   @apply overflow-hidden overflow-y-auto rounded-md h-80;
-}
+} */
 </style>

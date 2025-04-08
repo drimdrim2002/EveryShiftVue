@@ -7,13 +7,15 @@ import vueDevTools from 'vite-plugin-vue-devtools'
 import VueRouter from 'unplugin-vue-router/vite'
 import { VueRouterAutoImports } from 'unplugin-vue-router'
 
-import tailwind from 'tailwindcss'
-import autoprefixer from 'autoprefixer'
+import tailwindcss from '@tailwindcss/vite'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 
 // https://vite.dev/config/
 export default defineConfig({
+  build: {
+    cssMinify: 'lightningcss', // New CSS minifier
+  },
   plugins: [
     VueRouter(),
     vue({
@@ -23,6 +25,7 @@ export default defineConfig({
         },
       },
     }),
+    tailwindcss(),
     AutoImport({
       // targets to transform
       include: [
@@ -51,11 +54,6 @@ export default defineConfig({
     Components({}),
     vueDevTools(),
   ],
-  css: {
-    postcss: {
-      plugins: [tailwind(), autoprefixer()],
-    },
-  },
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),

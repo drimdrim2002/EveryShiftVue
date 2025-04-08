@@ -43,7 +43,7 @@ const toggleValue = () => {
         <span v-else class="text-orange-500" :title="status"><CircleDashed /></span>
       </Transition>
     </div>
-    <Info v-if="showToolTip" class="text-slate-500"></Info>
+    <AppToolTip :showToolTip />
   </div>
 </template>
 

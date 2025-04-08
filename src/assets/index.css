@@ -1,8 +1,6 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
 
-@layer base {
+@layer utilities {
   :root {
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
@@ -68,12 +66,43 @@
   }
 }
 
-@layer base {
+@layer utilities {
   * {
-    @apply border-border;
+    border-color: hsl(var(--border));
   }
+
   body {
-    @apply bg-background text-foreground;
+    .bg-background {
+      background: hsl(var(--background));
+      color: hsl(var(--foreground));
+    }
+  }
+
+  .text-muted-foreground {
+    color: hsl(var(--muted-foreground));
+  }
+
+  .bg-primary {
+    background-color: hsl(var(--primary));
+  }
+  .text-primary-foreground {
+    color: hsl(var(--primary-foreground));
+  }
+  .bg-destructive {
+    background-color: hsl(var(--destructive));
+  }
+  .text-destructive-foreground {
+    color: hsl(var(--destructive-foreground));
+  }
+  .pencil {
+    @apply text-slate-500 cursor-pointer;
+  }
+  .live-input {
+    @apply w-full resize-none p-1 bg-transparent focus:outline-double focus:border-separate focus:bg-slate-100 focus:text-black focus:rounded-sm;
+  }
+
+  .live-textarea {
+    @apply w-full text-slate-600 bg-slate-100 border border-transparent hover:border-slate-200 appearance-none rounded px-3.5 py-2.5 outline-none focus:bg-white;
   }
 }
 
@@ -96,26 +125,31 @@
 .fade-leave-to {
   opacity: 0;
 }
+@layer components {
+  .theme-bg-color {
+    @apply bg-blue-600;
+  }
+  .theme-text-color {
+    @apply text-blue-600;
+  }
 
-.theme-bg-color {
-  @apply bg-blue-600;
-}
-.theme-text-color {
-  @apply text-blue-600;
-}
+  .btn {
+    @apply w-full p-3 rounded-md text-sm font-medium;
+  }
 
-.btn {
-  @apply w-full p-3 rounded-md text-sm font-medium;
-}
+  .btn-primary {
+    @apply bg-blue-700 text-white my-4;
+  }
 
-.btn-primary {
-  @apply bg-blue-700 text-white my-4;
-}
+  .btn-secondary {
+    @apply bg-gray-300;
+  }
 
-.btn-secondary {
-  @apply bg-gray-300;
-}
+  .field {
+    @apply border p-2 rounded-md;
+  }
 
-.field {
-  @apply border p-2 rounded-md;
+  .error {
+    @apply mx-auto flex justify-center items-center flex-1 p-10 text-center -mt-20 min-h-[90vh];
+  }
 }

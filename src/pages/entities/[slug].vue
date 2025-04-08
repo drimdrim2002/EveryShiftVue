@@ -88,7 +88,7 @@ const openModal = ref(false)
       <TableRow>
         <TableHead> Status </TableHead>
         <!-- TODO > need to pull the valid list from the Supabase type -->
-        <TableCell>
+        <TableCell class="items-center" title="Click the status icon to toggle the value">
           <AppInputLiveEditStatus v-model="entity.status" @@commit="updateEntity" />
         </TableCell>
       </TableRow>
@@ -137,15 +137,15 @@ const openModal = ref(false)
 </template>
 
 <style scoped>
-th {
+/* th {
   @apply w-[100px];
-}
+} */
 
-h2 {
+/* h2 {
   @apply mb-4 text-lg font-semibold w-fit;
 }
 
 .table-container {
   @apply overflow-hidden overflow-y-auto rounded-md h-80;
-}
+} */
 </style>
