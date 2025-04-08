@@ -20,6 +20,7 @@ declare module 'vue' {
     AppLoader: typeof import('./src/components/AppLoader.vue')['default']
     AppLoginForm: typeof import('./src/components/AppLoginForm.vue')['default']
     AppRegisterForm: typeof import('./src/components/AppRegisterForm.vue')['default']
+    AppToolTip: typeof import('./src/components/AppToolTip.vue')['default']
     AuthLayout: typeof import('./src/components/layout/AuthLayout.vue')['default']
     Avatar: typeof import('./src/components/ui/avatar/Avatar.vue')['default']
     AvatarFallback: typeof import('./src/components/ui/avatar/AvatarFallback.vue')['default']
