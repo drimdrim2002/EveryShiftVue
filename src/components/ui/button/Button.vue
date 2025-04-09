@@ -14,7 +14,7 @@ const props = withDefaults(defineProps<Props>(), {})
 </script>
 
 <template>
-  <button :class="cn('sfc-button btn btn-primary', props.class)">
+  <button :class="cn('sfc-button btn', props.class)">
     <slot></slot>
   </button>
 </template>

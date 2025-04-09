@@ -118,42 +118,35 @@
 @utility brand-color-darker {
   color: var(--brand-darker);
 }
-@layer typography {
-  h1,
-  h2,
-  h3,
-  h4 {
-    @apply brand-color-darker;
-  }
-  h1 {
-    @apply text-4xl font-extrabold w-fit;
-  }
-  h2 {
-    @apply text-3xl font-semibold w-fit;
-  }
-  h3 {
-    @apply text-2xl font-semibold w-fit;
-  }
-  h4 {
-    @apply text-lg font-semibold w-fit;
-  }
-  p {
-    @apply mb-2 text-sm w-fit;
-  }
-  input,
-  button,
-  a {
-    @apply focus:outline-none focus:ring-2 focus:brand-color-darker;
-  }
+/* 
+  Layer "components" comes before layer "typography" because 
+  the importance follows the order of declaration. So if you 
+  put "typography" before "components", the override styles
+  of the latter over the former will not happen.
+*/
 
-  button,
-  a {
-    @apply hover:bg-brand-darker hover:text-white hover:border-muted;
-  }
-  button {
-    @apply focus:text-muted;
-  }
+h1,
+h2,
+h3,
+h4 {
+  @apply brand-color-darker;
 }
+h1 {
+  @apply text-4xl font-extrabold w-fit;
+}
+h2 {
+  @apply text-3xl font-semibold w-fit;
+}
+h3 {
+  @apply text-2xl font-semibold w-fit;
+}
+h4 {
+  @apply text-lg font-semibold w-fit;
+}
+p {
+  @apply mb-2 text-sm w-fit;
+}
+
 @layer components {
   .container {
     width: 100%;
@@ -167,17 +160,30 @@
   .table-container {
     @apply overflow-hidden overflow-y-auto rounded-md h-80;
   }
+  .field,
+  .btn,
+  .link {
+    @apply focus:outline-none focus:ring-2;
+  }
+
+  .link {
+    @apply hover:bg-brand-darker hover:text-white hover:border-muted;
+  }
 
   .btn {
-    @apply bg-primary text-brand-darker text-sm font-medium cursor-pointer  w-full p-3 rounded-md;
+    @apply bg-primary text-brand-darker text-sm font-medium cursor-pointer w-full p-3 rounded-md;
   }
 
   .btn-primary {
-    @apply bg-brand text-white focus:outline-brand-darker      hover:text-white my-4;
+    @apply bg-brand text-white focus:outline-brand-darker hover:text-white my-4;
   }
 
   .btn-secondary {
-    @apply bg-secondary;
+    @apply bg-secondary brand-color-darker focus:text-brand-darker;
+  }
+
+  .btn-transparent {
+    @apply bg-transparent border-0 brand-color-darker focus:outline-none focus:ring-0 hover:bg-white hover:text-brand-darker;
   }
 
   .field {
@@ -191,7 +197,6 @@
     @apply flex items-center gap-3 px-4 py-2 transition-colors rounded-md hover:text-primary text-muted-foreground;
   }
 }
-
 @layer animate {
   .animate-accordion-down {
     animation: accordion-down 0.2s ease-out;
