@@ -9,10 +9,10 @@ const props = defineProps<{
 </script>
 
 <template>
-  <h1 v-if="props.isPageTitle" :class="cn('sfc-card-title', props.class)">
+  <AppHeading heading-type="h1" v-if="props.isPageTitle" :class="cn('sfc-card-title', props.class)">
     <slot />
-  </h1>
-  <h3 v-else :class="cn('sfc-card-title', props.class)">
+  </AppHeading heading-type="h1">
+  <AppHeading heading-type="h3" v-else :class="cn('sfc-card-title', props.class)">
     <slot />
-  </h3>
+  </AppHeading heading-type="h3">
 </template>

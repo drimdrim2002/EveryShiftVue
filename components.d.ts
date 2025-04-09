@@ -15,6 +15,7 @@ declare module 'vue' {
     AppErrorDev: typeof import('./src/components/AppErrorDev.vue')['default']
     AppErrorProd: typeof import('./src/components/AppErrorProd.vue')['default']
     AppFormField: typeof import('./src/components/AppFormField.vue')['default']
+    AppHeading: typeof import('./src/components/AppHeading.vue')['default']
     AppInputLiveEditStatus: typeof import('./src/components/AppInputLiveEditStatus.vue')['default']
     AppInputLiveEditText: typeof import('./src/components/AppInputLiveEditText.vue')['default']
     AppLink: typeof import('./src/components/AppLink.vue')['default']

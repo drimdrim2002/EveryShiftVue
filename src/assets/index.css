@@ -118,38 +118,12 @@
 @utility brand-color-darker {
   color: var(--brand-darker);
 }
-/* 
-  TODO: WARNING !!!
 
-  With the style applied on tags below, the importance is higher
-  than any existing layer.
-
-  So maybe, it should be better to create utility classes for h1,
-  h2, h3, h4 and p and define a component for native element.
-
-  I battled with the style of a, button and input elemets before
-  I realized this.
-*/
-h1,
-h2,
-h3,
-h4 {
-  @apply brand-color-darker;
-}
-h1 {
-  @apply text-4xl font-extrabold w-fit;
-}
-h2 {
-  @apply text-3xl font-semibold w-fit;
-}
-h3 {
-  @apply text-2xl font-semibold w-fit;
-}
-h4 {
-  @apply text-lg font-semibold w-fit;
-}
 p {
-  @apply mb-2 text-sm w-fit;
+  margin-bottom: calc(var(--spacing) * 2);
+  width: fit-content;
+  font-size: var(--text-sm);
+  line-height: var(--tw-leading, var(--text-sm--line-height));
 }
 
 @layer components {
@@ -176,7 +150,7 @@ p {
   }
 
   .btn {
-    @apply bg-primary text-brand-darker text-sm font-medium cursor-pointer w-full p-3 rounded-md;
+    @apply bg-brand-darker text-white text-sm font-medium cursor-pointer w-full p-3 rounded-md;
   }
 
   .btn-primary {
