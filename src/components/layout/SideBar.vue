@@ -46,11 +46,11 @@
       `flex` and related allow the child divs to be at each end of the nav
       -->
     <nav class="h-full flex flex-col justify-between">
-      <div>
+      <div class="px-2">
         <SideBarLinks :links="topLinks" />
       </div>
 
-      <div class="border-y bg-background">
+      <div class="border-y bg-background text-white px-2">
         <SideBarLinks :links="settingsLinks" @@action-clicked="executeAction" />
       </div>
     </nav>
@@ -121,6 +121,7 @@ const settingsLinks: LinkProp[] = [
   },
   { to: RouterPathEnum.Settings, icon: Settings2, label: 'Settings' },
   {
+    to: '#logout',
     icon: LogOut,
     action: SideBarActionsEnum.Logout,
     label: 'Sign out',

@@ -119,12 +119,17 @@
   color: var(--brand-darker);
 }
 /* 
-  Layer "components" comes before layer "typography" because 
-  the importance follows the order of declaration. So if you 
-  put "typography" before "components", the override styles
-  of the latter over the former will not happen.
-*/
+  TODO: WARNING !!!
 
+  With the style applied on tags below, the importance is higher
+  than any existing layer.
+
+  So maybe, it should be better to create utility classes for h1,
+  h2, h3, h4 and p and define a component for native element.
+
+  I battled with the style of a, button and input elemets before
+  I realized this.
+*/
 h1,
 h2,
 h3,
@@ -167,7 +172,7 @@ p {
   }
 
   .link {
-    @apply hover:bg-brand-darker hover:text-white hover:border-muted;
+    @apply hover:bg-muted hover:text-white hover:border-white;
   }
 
   .btn {
@@ -194,7 +199,7 @@ p {
     @apply mx-auto flex justify-center items-center flex-1 p-10 text-center -mt-20 min-h-[90vh];
   }
   .side-bar-link {
-    @apply flex items-center gap-3 px-4 py-2 transition-colors rounded-md hover:text-primary text-muted-foreground;
+    @apply hover:text-brand-darker transition-colors rounded-md flex items-center gap-4 my-1 px-4 py-2;
   }
 }
 @layer animate {

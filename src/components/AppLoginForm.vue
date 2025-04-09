@@ -33,9 +33,9 @@
     </div>
     <div v-if="enableRegister" class="flex flex-row items-center">
       <span class="flex-auto gap-4">Create an account?</span>
-      <router-link to="/register" class="btn btn-secondary text-center underline flex-1">
+      <AppLink to="/register" class="btn btn-secondary text-center underline flex-1">
         Register
-      </router-link>
+      </AppLink>
     </div>
   </vee-form>
 </template>
