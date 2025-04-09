@@ -4,15 +4,15 @@ import { cn } from '@/lib/utils'
 
 const props = defineProps<{
   class?: HTMLAttributes['class']
+  isPageTitle?: boolean
 }>()
 </script>
 
 <template>
-  <h3
-    :class="
-      cn('text-2xl font-semibold leading-none tracking-tight', props.class)
-    "
-  >
+  <h1 v-if="props.isPageTitle" :class="cn('sfc-card-title', props.class)">
+    <slot />
+  </h1>
+  <h3 v-else :class="cn('sfc-card-title', props.class)">
     <slot />
   </h3>
 </template>
