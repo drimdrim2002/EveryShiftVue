@@ -1,6 +1,8 @@
 <template>
-  <div class="flex flex-col">
-    <Button @click="openModal = !openModal" class="mb-4 self-end">+ Add</Button>
+  <div>
+    <Button @click="openModal = !openModal" class="btn-primary absolute mb-4 w-16 top-28 right-6"
+      >+ Add</Button
+    >
     <FormCreateEntity v-model="openModal" />
     <DataTable v-if="entities" :columns :data="entities" />
   </div>

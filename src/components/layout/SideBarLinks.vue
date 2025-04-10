@@ -14,7 +14,7 @@
     </AppLink>
     <Button
       v-else
-      class="side-bar-link text-white hover:bg-muted hover:text-brand-darker"
+      class="side-bar-link text-white hover:bg-muted hover:text-brand focus:outline-brand-darker focus:ring-2"
       :class="{ 'justify-normal': menuOpen, 'justify-center': !menuOpen }"
       @click="actionClicked(link.action)"
       :title="link.label"

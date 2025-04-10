@@ -50,7 +50,7 @@
         <SideBarLinks :links="topLinks" />
       </div>
 
-      <div class="border-y bg-background text-white px-2">
+      <div class="border-y bg-brand text-white px-2">
         <SideBarLinks :links="settingsLinks" @@action-clicked="executeAction" />
       </div>
     </nav>
