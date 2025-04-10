@@ -29,8 +29,8 @@
     --accent: #e0f2fe; /* sky-100 */
     --accent-foreground: var(--brand-darker);
 
-    --destructive: #ef4444;
-    --destructive-foreground: #f8fafc;
+    --destructive: var(--color-red-500);
+    --destructive-foreground: var(--color-red-900);
 
     --ring: #fbeed0;
 
@@ -121,10 +121,7 @@
 }
 
 p {
-  margin-bottom: calc(var(--spacing) * 2);
   width: fit-content;
-  font-size: var(--text-sm);
-  line-height: var(--tw-leading, var(--text-sm--line-height));
 }
 @utility hover-dark-to-light {
   @apply hover:text-brand-darker hover:bg-muted;
@@ -137,6 +134,9 @@ p {
 }
 @utility focus-ring-dark {
   @apply focus:outline-muted focus:ring-2;
+}
+@utility focus-ring-destructive {
+  @apply focus:ring-2 focus:outline-destructive-foreground;
 }
 
 @layer components {
@@ -166,11 +166,15 @@ p {
   }
 
   .btn-primary {
-    @apply bg-brand text-white focus:outline-2 focus:outline-brand-darker hover:bg-brand-darker my-4;
+    @apply bg-brand text-white  my-4;
   }
 
   .btn-secondary {
-    @apply bg-secondary brand-color-darker focus:text-brand-darker hover:text-brand-darker;
+    @apply bg-secondary brand-color-darker;
+  }
+
+  .btn-destructive {
+    @apply bg-destructive text-white focus-ring-destructive;
   }
 
   .btn-transparent {
