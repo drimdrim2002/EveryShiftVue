@@ -112,6 +112,7 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-sm: calc(var(--radius) - 4px);
 }
+
 @utility brand-color {
   color: var(--brand);
 }
@@ -140,9 +141,8 @@ p {
     @apply overflow-hidden overflow-y-auto rounded-md h-80;
   }
   .field,
-  .btn,
   .link {
-    @apply focus:outline-none focus:ring-2;
+    @apply focus:outline-2;
   }
 
   .link {
@@ -150,15 +150,15 @@ p {
   }
 
   .btn {
-    @apply bg-brand-darker text-white text-sm font-medium cursor-pointer w-full p-3 rounded-md;
+    @apply text-white text-sm font-medium cursor-pointer w-full p-3 rounded-md;
   }
 
   .btn-primary {
-    @apply bg-brand text-white focus:outline-brand-darker hover:text-white my-4;
+    @apply bg-brand text-white focus:outline-2 focus:outline-brand-darker hover:bg-brand-darker my-4;
   }
 
   .btn-secondary {
-    @apply bg-secondary brand-color-darker focus:text-brand-darker;
+    @apply bg-secondary brand-color-darker focus:text-brand-darker hover:text-brand-darker;
   }
 
   .btn-transparent {
