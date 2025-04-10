@@ -3,7 +3,7 @@
     <AppLink
       v-if="!link.action"
       :to="link.to"
-      class="side-bar-link"
+      class="side-bar-link hover-dark-to-light focus-ring-light"
       :class="{ 'justify-normal': menuOpen, 'justify-center': !menuOpen }"
       :title="link.label"
     >
@@ -14,7 +14,7 @@
     </AppLink>
     <Button
       v-else
-      class="side-bar-link text-white hover:bg-muted hover:text-brand focus:outline-brand-darker focus:ring-2"
+      class="side-bar-link hover-dark-to-light focus-ring-dark"
       :class="{ 'justify-normal': menuOpen, 'justify-center': !menuOpen }"
       @click="actionClicked(link.action)"
       :title="link.label"
