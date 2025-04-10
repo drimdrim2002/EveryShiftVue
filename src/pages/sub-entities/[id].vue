@@ -20,10 +20,11 @@ watch(
 await store.getSubEntity(id)
 const formattedDueDate = computed(() => formatDateStrToUserFriendly(subEntity.value?.due_date))
 // Update logic
-const updateSubEntity = () => {
+const updateSubEntity = async () => {
   console.log('updateSubEntity triggered', subEntity.value)
 
   store.updateSubEntity()
+  await entityStore.refreshEntity(subEntity.value?.entities?.slug ?? '')
 }
 
 // Delete Logic
