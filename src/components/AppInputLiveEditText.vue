@@ -91,7 +91,7 @@ const stopEditing = () => {
         v-show="isEditing"
         @blur="stopEditing"
         ref="textareaEl"
-        class="live-textarea"
+        class="live-textarea hover-dark-to-light focus-ring-dark"
         required
       ></textarea>
       <PencilLine v-if="!isEditing" @click="startEditing" class="pencil" />
@@ -113,7 +113,7 @@ const stopEditing = () => {
         v-show="isEditing"
         ref="dateEl"
         @blur="stopEditing"
-        class="live-input"
+        class="live-input hover-dark-to-light focus-ring-dark"
         type="date"
       /><PencilLine v-if="!isEditing" @click="startEditing" class="pencil" />
     </div>
