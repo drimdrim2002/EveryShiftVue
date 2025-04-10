@@ -63,8 +63,8 @@
     --accent: #1e293b;
     --accent-foreground: #f8fafc;
 
-    --destructive: #7f1d1d;
-    --destructive-foreground: #f8fafc;
+    --destructive: var(--color-red-900);
+    --destructive-foreground: var(--color-red-500);
 
     --ring: #cbd5e1;
   }
@@ -129,6 +129,9 @@ p {
 @utility hover-light-to-dark {
   @apply hover:text-white hover:bg-brand-darker;
 }
+@utility hover-destructive {
+  @apply hover:text-white hover:bg-destructive-foreground;
+}
 @utility focus-ring-light {
   @apply focus:outline-brand-darker focus:ring-2;
 }
@@ -174,7 +177,7 @@ p {
   }
 
   .btn-destructive {
-    @apply bg-destructive text-white focus-ring-destructive;
+    @apply bg-destructive text-white hover-destructive focus-ring-destructive;
   }
 
   .btn-transparent {
