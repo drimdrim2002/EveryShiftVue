@@ -103,14 +103,14 @@ const openModal = ref(false)
       <Button
         v-if="!noSubEntities"
         @click="openModal = !openModal"
-        class="btn-primary hover-light-to-dark focus-ring-dark mb-4 w-20 self-end"
+        class="btn-primary hover-light-to-dark focus-ring-light mb-4 w-20 self-end"
         >+ Add</Button
       >
       <div class="border table-container rounded-md">
         <article v-if="noSubEntities" class="flex flex-col items-end">
           <Button
             @click="openModal = !openModal"
-            class="btn-primary hover-light-to-dark focus-ring-dark mx-4 w-20 self-end"
+            class="btn-primary hover-light-to-dark focus-ring-light mx-4 w-20 self-end"
             >+ Add</Button
           >
           <p class="text-2xl self-center mb-4">No sub entity found.</p>

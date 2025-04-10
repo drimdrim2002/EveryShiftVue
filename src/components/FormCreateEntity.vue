@@ -73,7 +73,7 @@ const submitNewEntity = async () => {
           label="Description"
           :rules="{ regex: /^[\s\S]{0,500}$/ }"
         />
-        <Button type="submit" class="btn btn-primary hover-light-to-dark focus-ring-light"
+        <Button type="submit" class="btn btn-primary hover-light-to-dark focus-ring-dark"
           >Create</Button
         >
       </vee-form>

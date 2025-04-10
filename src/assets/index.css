@@ -138,10 +138,10 @@ p {
 @utility hover-destructive {
   @apply hover:text-white hover:bg-destructive-foreground;
 }
-@utility focus-ring-light {
+@utility focus-ring-dark {
   @apply focus:outline-brand-darker focus:ring-2;
 }
-@utility focus-ring-dark {
+@utility focus-ring-light {
   @apply focus:outline-muted focus:ring-2;
 }
 @utility focus-ring-destructive {
@@ -191,7 +191,7 @@ p {
   }
 
   .field {
-    @apply border p-2 rounded-md hover-dark-to-light focus-ring-light;
+    @apply border p-2 rounded-md hover-dark-to-light focus-ring-dark;
   }
 
   .error {
