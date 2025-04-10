@@ -7,7 +7,7 @@
     >
       <NavBarTop />
 
-      <main class="w-full lg:max-w-4xl mx-auto flex flex-col flex-1 gap-4 p-4 lg:gap-6 lg:p-6">
+      <main class="custom-container flex flex-col flex-1 gap-4 p-4 lg:gap-6 lg:p-6">
         <div class="flex items-center">
           <AppHeading heading-type="h1" class="my-2">{{ pageData.title }}</AppHeading>
         </div>

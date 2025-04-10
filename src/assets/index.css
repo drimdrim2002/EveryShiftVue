@@ -123,6 +123,9 @@
 p {
   width: fit-content;
 }
+@utility custom-container {
+  @apply w-full lg:max-w-4xl mx-auto;
+}
 @utility hover-dark-to-light {
   @apply hover:text-brand-darker hover:bg-muted;
 }
