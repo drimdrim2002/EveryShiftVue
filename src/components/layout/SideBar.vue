@@ -11,7 +11,7 @@
     <div class="h-20 w-full flex justify-center items-center gap-1">
       <Button
         tabindex="0"
-        class="btn-transparent focus-ring-dark p-0 flex justify-center items-center"
+        class="btn-transparent focus-ring-light p-0 flex justify-center items-center"
         @click="toggleMenu"
       >
         <div v-if="menuOpen" class="p-2 rounded-md hover-light-to-dark flex items-center gap-4">
