@@ -44,7 +44,7 @@ const openModal = ref(false)
 </script>
 
 <template>
-  <div class="mx-auto max-w-5xl flex flex-col justify-center items-center">
+  <div class="flex flex-col justify-center items-center">
     <FormCreateSubEntity v-model="openModal" />
     <Button
       class="btn-destructive self-end mt-4 flex justify-center items-center gap-4 w-28"
