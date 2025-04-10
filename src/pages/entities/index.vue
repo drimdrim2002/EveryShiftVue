@@ -1,6 +1,6 @@
 <template>
   <div class="mx-auto max-w-5xl flex flex-col">
-    <div class="flex">
+    <div class="flex flex-col w-20">
       <Button @click="openModal = !openModal" class="btn-primary self-end">+ Add</Button>
     </div>
     <DataTable v-if="entities" :columns :data="entities" />
