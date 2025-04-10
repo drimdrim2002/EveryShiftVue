@@ -47,7 +47,7 @@ const openModal = ref(false)
   <div class="flex flex-col justify-center items-center">
     <FormCreateSubEntity v-model="openModal" />
     <Button
-      class="btn-destructive self-end mt-4 flex justify-center items-center gap-4 w-28"
+      class="btn-destructive self-end mt-4 flex justify-center items-center gap-4 w-24"
       @click="deleteEntity"
     >
       <span v-if="deleting" class="animate-spin">
