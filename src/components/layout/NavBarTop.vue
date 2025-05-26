@@ -3,10 +3,10 @@ console.log('NavbarTop>script:setup...')
 const authStore = useAuthStore()
 const { profile } = storeToRefs(authStore)
 
-// import { useDark, useToggle } from '@vueuse/core'
+import { useDark, useToggle } from '@vueuse/core'
 
-// const isDark = useDark()
-// const toggleDark = useToggle(isDark)
+const isDark = useDark()
+const toggleDark = useToggle(isDark)
 </script>
 <template>
   <nav class="bg-muted/10 border-b flex justify-between items-center px-4 h-16 gap-4">
@@ -14,13 +14,17 @@ const { profile } = storeToRefs(authStore)
       <Search class="text-brand absolute top-[25%] left-2" icon="lucide:search"></Search>
       <Input class="bg-muted rounded-md pl-10" type="text" placeholder="Search ..." />
     </form>
-    <div class="">
-      <!-- <Button @click="toggleDark()" class="w-8 h-8">
+    <div class="flex items-center gap-2">
+      <Button
+        @click="toggleDark()"
+        class="btn btn-primary p-0 w-8 h-8 flex items-center justify-center"
+      >
         <Transition name="scale" mode="out-in">
-          <iconify-icon v-if="isDark" class="" icon="lucide:sun"></iconify-icon>
-          <iconify-icon v-else class="" icon="lucide:moon"></iconify-icon>
+          <SunMedium v-if="isDark" class=""></SunMedium>
+
+          <Moon v-else class="" icon="lucide:moon"></Moon>
         </Transition>
-      </Button> -->
+      </Button>
       <div class="w-8">
         <AppAvatar :profile="profile" />
         <!-- <DropdownMenu>
