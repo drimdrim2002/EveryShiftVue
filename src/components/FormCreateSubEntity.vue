@@ -66,7 +66,11 @@ const submitNewSubEntity = async () => {
   <Sheet v-model:open="sheetOpen">
     <SheetContent>
       <SheetHeader>
-        <SheetTitle>Let's create a new Sub Entity</SheetTitle>
+        <SheetTitle>
+          <AppHeading heading-type="h2" class="text-brand"
+            >Let's create a new Sub Entity</AppHeading
+          >
+        </SheetTitle>
       </SheetHeader>
       <vee-form @submit="submitNewSubEntity">
         <app-form-field
