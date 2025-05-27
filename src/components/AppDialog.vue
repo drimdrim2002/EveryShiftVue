@@ -97,7 +97,7 @@ onBeforeUnmount(() => {
     <form method="dialog" class="self-end p-4">
       <Button variant="ghost" autofocus type="submit" aria-label="Close dialog"> <X></X> </Button>
     </form>
-    <div class="self-center p-4">
+    <div class="self-center p-4 w-lg">
       <slot></slot>
     </div>
   </dialog>
