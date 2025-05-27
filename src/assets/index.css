@@ -18,13 +18,16 @@
     --muted: var(--brand-light);
     --muted-foreground: var(--brand-darker);
 
-    --form: var(--color-brand-darker);
-
     --border: var(--brand-light);
 
     --destructive: var(--color-red-500);
     --destructive-foreground: var(--color-red-100);
     --destructive-darker: var(--color-red-800);
+
+    /* Forms and co */
+    --input-background: var(--color-brand-lighter);
+    --input-foreground: var(--color-brand-darker);
+    --input-mouse: var(--color-brand-light);
 
     /* Table and co */
     --table-header-background: var(--color-green-900);
@@ -68,6 +71,12 @@
 
     --color-white: var(--color-black);
     --color-black: var(--color-white);
+
+    /* Forms and co */
+    --input-background: var(--color-brand-darker);
+    --input-foreground: var(--color-brand-lighter);
+    --input-mouse: var(--color-brand);
+
     /* Table and co */
     --table-header-background: var(--color-green-900);
     --table-header-foreground: var(--color-green-100);
@@ -111,7 +120,10 @@
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
 
-  --color-form: var(--form);
+  /* Forms and co */
+  --color-input-background: var(--input-background);
+  --color-input-foreground: var(--input-foreground);
+  --color-input-mouse: var(--input-mouse);
 
   /* Table and co */
   --color-table-header-background: var(--table-header-background);
@@ -179,14 +191,21 @@ p {
   }
   .field,
   .link {
-    @apply focus:outline-2 hover:bg-muted;
+    @apply focus:outline-2;
   }
 
   .label {
-    @apply text-black;
+    @apply text-foreground;
+  }
+
+  .modal {
+    @apply bg-background w-full h-full max-w-full max-h-full fixed inset-0 z-50 flex flex-col;
+  }
+  .modal:not([open]) {
+    @apply hidden;
   }
   .field {
-    @apply text-form border p-2 rounded-md;
+    @apply bg-input-background hover:bg-input-mouse focus:bg-input-background focus:text-input-foreground border p-2 rounded-md;
   }
 
   .error {

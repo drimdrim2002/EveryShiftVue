@@ -43,42 +43,36 @@ const submitNewEntity = async () => {
 }
 </script>
 <template>
-  <Sheet v-model:open="sheetOpen">
-    <SheetContent>
-      <SheetHeader>
-        <SheetTitle>
-          <AppHeading heading-type="h2" class="text-brand">Let's create a new Entity</AppHeading>
-        </SheetTitle>
-      </SheetHeader>
-      <vee-form @submit="submitNewEntity">
-        <app-form-field
-          type="text"
-          name="entity_name"
-          v-model="form.name"
-          label="Name"
-          :rules="{ required: true, regex: /^(.){3,60}$/ }"
-          @input="updateSlug"
-        />
-        <app-form-field
-          type="text"
-          name="entity_slug"
-          v-model="form.slug"
-          label="Slug"
-          :rules="{ required: true, regex: /^([a-z0-9-]){3,60}$/ }"
-          @focusin="enterSlugEditing"
-          @blur="exitSlugEditing"
-        />
-        <app-form-field
-          as="textarea"
-          name="entity_description"
-          v-model="form.description"
-          label="Description"
-          :rules="{ regex: /^[\s\S]{0,500}$/ }"
-        />
-        <Button type="submit" class="mt-4">Create</Button>
-      </vee-form>
-    </SheetContent>
-  </Sheet>
+  <AppDialog v-model="sheetOpen" @@close-modal="sheetOpen = false">
+    <AppHeading heading-type="h2" class="text-brand">Let's create a new Entity</AppHeading>
+    <vee-form @submit="submitNewEntity">
+      <app-form-field
+        type="text"
+        name="entity_name"
+        v-model="form.name"
+        label="Name"
+        :rules="{ required: true, regex: /^(.){3,60}$/ }"
+        @input="updateSlug"
+      />
+      <app-form-field
+        type="text"
+        name="entity_slug"
+        v-model="form.slug"
+        label="Slug"
+        :rules="{ required: true, regex: /^([a-z0-9-]){3,60}$/ }"
+        @focusin="enterSlugEditing"
+        @blur="exitSlugEditing"
+      />
+      <app-form-field
+        as="textarea"
+        name="entity_description"
+        v-model="form.description"
+        label="Description"
+        :rules="{ regex: /^[\s\S]{0,500}$/ }"
+      />
+      <Button type="submit" class="mt-4">Create</Button>
+    </vee-form>
+  </AppDialog>
 </template>
 
 <style scoped></style>
