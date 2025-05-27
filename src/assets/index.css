@@ -75,7 +75,7 @@
     /* Forms and co */
     --input-background: var(--color-brand-darker);
     --input-foreground: var(--color-brand-lighter);
-    --input-mouse: var(--color-brand);
+    --input-mouse: var(--color-green-100);
 
     /* Table and co */
     --table-header-background: var(--color-green-900);
@@ -205,7 +205,7 @@ p {
     @apply hidden;
   }
   .field {
-    @apply bg-input-background hover:bg-input-mouse focus:bg-input-background focus:text-input-foreground border p-2 rounded-md;
+    @apply bg-input-background text-input-foreground hover:bg-input-mouse focus:bg-input-background focus:text-input-foreground border p-2 rounded-md;
   }
 
   .error {
