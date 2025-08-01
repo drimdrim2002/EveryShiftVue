@@ -29,3 +29,6 @@ coverage
 
 *.tsbuildinfo
 .env
+
+/CLAUDE.md
+CHANGELOG.md
