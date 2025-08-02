@@ -20,14 +20,19 @@ declare module 'vue-router/auto-routes' {
   export interface RouteNamedMap {
     '/': RouteRecordInfo<'/', '/', Record<never, never>, Record<never, never>>,
     '/[...catchAll]': RouteRecordInfo<'/[...catchAll]', '/:catchAll(.*)', { catchAll: ParamValue<true> }, { catchAll: ParamValue<false> }>,
+    '/admin/': RouteRecordInfo<'/admin/', '/admin', Record<never, never>, Record<never, never>>,
+    '/dashboard/': RouteRecordInfo<'/dashboard/', '/dashboard', Record<never, never>, Record<never, never>>,
     '/entities/': RouteRecordInfo<'/entities/', '/entities', Record<never, never>, Record<never, never>>,
     '/entities/[slug]': RouteRecordInfo<'/entities/[slug]', '/entities/:slug', { slug: ParamValue<true> }, { slug: ParamValue<false> }>,
     '/keep-supabase-alive': RouteRecordInfo<'/keep-supabase-alive', '/keep-supabase-alive', Record<never, never>, Record<never, never>>,
     '/login': RouteRecordInfo<'/login', '/login', Record<never, never>, Record<never, never>>,
+    '/pending-approval': RouteRecordInfo<'/pending-approval', '/pending-approval', Record<never, never>, Record<never, never>>,
     '/profiles/[username]': RouteRecordInfo<'/profiles/[username]', '/profiles/:username', { username: ParamValue<true> }, { username: ParamValue<false> }>,
     '/register': RouteRecordInfo<'/register', '/register', Record<never, never>, Record<never, never>>,
+    '/scheduling/': RouteRecordInfo<'/scheduling/', '/scheduling', Record<never, never>, Record<never, never>>,
     '/settings/': RouteRecordInfo<'/settings/', '/settings', Record<never, never>, Record<never, never>>,
     '/style-guide': RouteRecordInfo<'/style-guide', '/style-guide', Record<never, never>, Record<never, never>>,
     '/sub-entities/[id]': RouteRecordInfo<'/sub-entities/[id]', '/sub-entities/:id', { id: ParamValue<true> }, { id: ParamValue<false> }>,
+    '/unauthorized': RouteRecordInfo<'/unauthorized', '/unauthorized', Record<never, never>, Record<never, never>>,
   }
 }

@@ -17,6 +17,7 @@ declare global {
   const CardFooter: typeof import('./src/components/ui/card/index')['CardFooter']
   const CardHeader: typeof import('./src/components/ui/card/index')['CardHeader']
   const CardTitle: typeof import('./src/components/ui/card/index')['CardTitle']
+  const DEFAULT_SKILLS: typeof import('./src/types/EveryShiftRegistration')['DEFAULT_SKILLS']
   const EffectScope: typeof import('vue')['EffectScope']
   const Input: typeof import('./src/components/ui/input/index')['Input']
   const Label: typeof import('./src/components/ui/label/index')['Label']
@@ -24,6 +25,7 @@ declare global {
   const NotificationAddRequest: typeof import('./src/types/NotificationAddRequest')['default']
   const PropsAppLoginForm: typeof import('./src/types/PropsAppLoginForm')['default']
   const RouterPathEnum: typeof import('./src/types/RouterPathEnum')['RouterPathEnum']
+  const SHIFT_PATTERNS: typeof import('./src/types/EveryShiftRegistration')['SHIFT_PATTERNS']
   const Separator: typeof import('./src/components/ui/separator/index')['Separator']
   const Sheet: typeof import('./src/components/ui/sheet/index')['Sheet']
   const SheetClose: typeof import('./src/components/ui/sheet/index')['SheetClose']
@@ -110,6 +112,7 @@ declare global {
   const useNotification: typeof import('./src/composables/useNotification')['default']
   const usePageStore: typeof import('./src/stores/page')['usePageStore']
   const useProfileStore: typeof import('./src/stores/profile')['useProfileStore']
+  const useRoleAuth: typeof import('./src/composables/useRoleAuth')['useRoleAuth']
   const useRoute: typeof import('vue-router')['useRoute']
   const useRouter: typeof import('vue-router')['useRouter']
   const useSlots: typeof import('vue')['useSlots']
@@ -131,6 +134,9 @@ declare global {
   // @ts-ignore
   export type { ButtonVariants } from './src/components/ui/button/index'
   import('./src/components/ui/button/index')
+  // @ts-ignore
+  export type { EmployeeInfo } from './src/composables/useRoleAuth'
+  import('./src/composables/useRoleAuth')
   // @ts-ignore
   export type { AvatarProfile } from './src/types/AvatarProfile'
   import('./src/types/AvatarProfile')
@@ -161,6 +167,9 @@ declare global {
   // @ts-ignore
   export type { ErrorNextPage } from './src/types/ErrorNextPage'
   import('./src/types/ErrorNextPage')
+  // @ts-ignore
+  export type { UserRole, EveryShiftRegistrationData, OrganizationSetup, SkillOption } from './src/types/EveryShiftRegistration'
+  import('./src/types/EveryShiftRegistration')
   // @ts-ignore
   export type { FormDataCreateEntity } from './src/types/FormDataCreateEntity'
   import('./src/types/FormDataCreateEntity')

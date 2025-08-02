@@ -41,6 +41,7 @@ declare module 'vue' {
     CircleDashed: typeof import('./src/components/ui/icon/CircleDashed.vue')['default']
     CircleDotDashed: typeof import('./src/components/ui/icon/CircleDotDashed.vue')['default']
     DataTable: typeof import('./src/components/ui/data-table/DataTable.vue')['default']
+    EveryShiftRegisterForm: typeof import('./src/components/EveryShiftRegisterForm.vue')['default']
     Files: typeof import('./src/components/ui/icon/Files.vue')['default']
     FormCreateEntity: typeof import('./src/components/FormCreateEntity.vue')['default']
     FormCreateSubEntity: typeof import('./src/components/FormCreateSubEntity.vue')['default']

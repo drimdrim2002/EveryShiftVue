@@ -1,13 +1,79 @@
 <script setup lang="ts">
-import type { RegistrationData } from '@/types/RegistrationData'
+import type { EveryShiftRegistrationData } from '@/types/EveryShiftRegistration'
 import { signupWithEmail } from '@/services/supabase-auth'
+import { createOrganizationQuery } from '@/services/organization-queries'
+import { createEmployeeQuery } from '@/services/employee-queries'
+import { supabase } from '@/lib/supabaseClient'
 
 const router = useRouter()
 
-const signup = async (formData: RegistrationData) => {
-  // Authenticate
-  const { error } = await signupWithEmail({ formData })
-  if (!error) return router.push('/')
+const signup = async (formData: EveryShiftRegistrationData) => {
+  try {
+    // 1. 기본 사용자 계정 생성
+    const { error: authError } = await signupWithEmail({ 
+      formData: {
+        username: formData.username,
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        email: formData.email,
+        password: formData.password,
+        confirmPassword: formData.confirmPassword
+      }
+    })
+    
+    if (authError) {
+      console.error('사용자 계정 생성 실패:', authError)
+      return
+    }
+
+    // 2. 현재 사용자 정보 가져오기
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) {
+      console.error('사용자 정보를 찾을 수 없습니다.')
+      return
+    }
+
+    let organizationId = formData.organizationId
+
+    // 3. Manager인 경우 조직 먼저 생성
+    if (formData.role === 'manager') {
+      const { data: orgData, error: orgError } = await createOrganizationQuery({
+        name: formData.organizationName!,
+        workplace_type: formData.workplaceType!,
+        shift_pattern: { type: formData.shiftPattern },
+        skill_categories: formData.skillCategories || [],
+        credit_settings: formData.creditSettings || {}
+      })
+
+      if (orgError || !orgData) {
+        console.error('조직 생성 실패:', orgError)
+        return
+      }
+
+      organizationId = orgData.id
+    }
+
+    // 4. Employee 정보 생성
+    const { error: employeeError } = await createEmployeeQuery({
+      profile_id: user.id,
+      organization_id: organizationId!,
+      role: formData.role,
+      position: formData.position,
+      skills: formData.skills || [],
+      status: 'pending_approval'
+    })
+
+    if (employeeError) {
+      console.error('직원 정보 생성 실패:', employeeError)
+      return
+    }
+
+    // 5. 승인 대기 페이지로 이동
+    router.push('/pending-approval')
+    
+  } catch (error) {
+    console.error('회원가입 처리 중 오류:', error)
+  }
 }
 </script>
 
@@ -15,16 +81,12 @@ const signup = async (formData: RegistrationData) => {
   <div class="page-register m-4">
     <Card class="p-6 border rounded-md">
       <CardHeader>
-        <CardTitle class="my-0" :is-page-title="true">Register</CardTitle>
-        <CardDescription> Create a new account </CardDescription>
+        <CardTitle class="my-0" :is-page-title="true">EveryShift 회원가입</CardTitle>
+        <CardDescription>교대 근무 스케줄링 시스템에 가입하세요</CardDescription>
       </CardHeader>
       <hr class="my-8 w-full" />
       <CardContent>
-        <!-- <div class="flex flex-col gap-4 mb-4 justify-center items-center">
-          <Button variant="outline" class="w-full"> Register with Google </Button>
-          <Separator label="Or" />
-        </div> -->
-        <AppRegisterForm @@register="signup" />
+        <EveryShiftRegisterForm @register="signup" />
       </CardContent>
     </Card>
   </div>
