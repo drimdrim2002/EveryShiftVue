@@ -1,0 +1,428 @@
+{
+  "tasks": [
+    {
+      "id": "3d029611-1ac2-45ca-abb2-a00835e4c1be",
+      "name": "데이터베이스 스키마 설계 및 마이그레이션 구현",
+      "description": "EveryShift 도메인에 필요한 새 테이블들을 생성하고 Supabase RLS 정책을 적용합니다. 기존 profiles 테이블과 연결하여 organizations, employees, sites, shifts, preferences, schedules 테이블을 생성하며, 각 테이블에 필수 RLS 정책을 설정합니다.",
+      "notes": "기존 profiles, entities, sub_entities 테이블은 절대 수정하지 않고 FK로만 연결. workplace_type은 'hospital', 'factory', 'police_fire'로 제한",
+      "status": "pending",
+      "dependencies": [],
+      "createdAt": "2025-08-02T02:41:02.002Z",
+      "updatedAt": "2025-08-02T02:41:02.002Z",
+      "relatedFiles": [
+        {
+          "path": "supabase/migrations",
+          "type": "CREATE",
+          "description": "새 마이그레이션 파일 생성"
+        },
+        {
+          "path": "src/types/DatabaseTypes.ts",
+          "type": "TO_MODIFY",
+          "description": "새 테이블 타입 정의 추가"
+        }
+      ],
+      "implementationGuide": "1. 새 마이그레이션 파일 생성: supabase/migrations/add-everyshift-tables.sql\\n2. 테이블 생성 SQL 작성:\\n   - organizations (id, name, workplace_type, shift_pattern)\\n   - employees (id, profile_id FK, organization_id FK, role, skills[])\\n   - sites (id, organization_id FK, name, required_skills)\\n   - shifts, preferences, schedules 테이블\\n3. RLS 정책 설정:\\n   ALTER TABLE [table] ENABLE ROW LEVEL SECURITY\\n   CREATE POLICY 역할별 접근 정책\\n4. DatabaseTypes.ts 업데이트하여 새 테이블 타입 정의",
+      "verificationCriteria": "1. 모든 새 테이블이 정상 생성되고 RLS가 활성화됨 2. 기존 profiles 테이블과 FK 관계 정상 작동 3. 각 역할별 데이터 접근 권한이 RLS 정책으로 제한됨 4. DatabaseTypes.ts에 새 테이블 타입이 정확히 반영됨",
+      "analysisResult": "EveryShift 교대 근무 스케줄링 시스템은 Vue3 + Supabase + AI Solver 아키텍처로 구성된 24시간 운영 조직의 교대 근무 최적화 관리 솔루션입니다. 기존 Vue/Supabase 보일러플레이트의 캐시 우선 스토어 패턴, RLS 기반 보안, 파일 기반 라우팅을 완전히 준수하면서 확장합니다. Superuser/Manager/Employee 역할 기반 접근 제어, 조직 관리, AI 기반 스케줄링, 실시간 업데이트 등 모든 핵심 기능을 체계적으로 구현하여 병원/경찰/소방/공장 등의 복잡한 근무 제약 조건을 효과적으로 해결합니다."
+    },
+    {
+      "id": "8231ff5d-659a-4b2f-b220-5c031952931b",
+      "name": "사용자 역할 시스템 및 인증 확장",
+      "description": "기존 auth 시스템을 확장하여 Superuser/Manager/Employee 역할을 지원합니다. 회원가입 시 역할 선택, 승인 프로세스, 역할 기반 접근 제어를 구현합니다.",
+      "notes": "Superuser는 데이터베이스에서 직접 등록. Manager 가입은 Superuser 승인 필요, Employee 가입은 Manager/Superuser 승인 필요",
+      "status": "pending",
+      "dependencies": [
+        {
+          "taskId": "3d029611-1ac2-45ca-abb2-a00835e4c1be"
+        }
+      ],
+      "createdAt": "2025-08-02T02:41:02.002Z",
+      "updatedAt": "2025-08-02T02:41:02.002Z",
+      "relatedFiles": [
+        {
+          "path": "src/composables/useRoleAuth.ts",
+          "type": "CREATE",
+          "description": "역할 기반 권한 확인 로직"
+        },
+        {
+          "path": "src/stores/auth.ts",
+          "type": "TO_MODIFY",
+          "description": "기존 인증 스토어에 역할 정보 추가"
+        },
+        {
+          "path": "src/pages/register.vue",
+          "type": "TO_MODIFY",
+          "description": "회원가입 폼에 역할 선택 추가"
+        }
+      ],
+      "implementationGuide": "1. composables/useRoleAuth.ts 생성:\\n   - checkRole(requiredRoles) 함수\\n   - canAccessOrganization(orgId) 함수\\n2. stores/auth.ts 확장:\\n   - 현재 사용자 역할 정보 추가\\n   - 역할별 권한 확인 로직\\n3. 회원가입 폼 확장:\\n   - 역할 선택 UI (Manager/Employee)\\n   - Manager: 조직 정보 입력\\n   - Employee: 조직 선택 + 스킬 입력\\n4. 승인 대기 상태 관리",
+      "verificationCriteria": "1. 회원가입 시 역할별 다른 폼이 정상 표시됨 2. 역할별 승인 프로세스가 정상 작동함 3. 로그인 후 사용자 역할이 정확히 식별됨 4. 권한 없는 페이지 접근 시 적절한 차단이 작동함",
+      "analysisResult": "EveryShift 교대 근무 스케줄링 시스템은 Vue3 + Supabase + AI Solver 아키텍처로 구성된 24시간 운영 조직의 교대 근무 최적화 관리 솔루션입니다. 기존 Vue/Supabase 보일러플레이트의 캐시 우선 스토어 패턴, RLS 기반 보안, 파일 기반 라우팅을 완전히 준수하면서 확장합니다. Superuser/Manager/Employee 역할 기반 접근 제어, 조직 관리, AI 기반 스케줄링, 실시간 업데이트 등 모든 핵심 기능을 체계적으로 구현하여 병원/경찰/소방/공장 등의 복잡한 근무 제약 조건을 효과적으로 해결합니다."
+    },
+    {
+      "id": "3a541cba-0fc4-4c70-bf31-2e2fe33ce014",
+      "name": "라우터 가드 및 페이지 접근 제어 구현",
+      "description": "기존 라우터 가드를 확장하여 역할 기반 페이지 접근 제어를 구현합니다. Superuser/Manager/Employee별로 접근 가능한 페이지를 제한하고 적절한 리다이렉션을 처리합니다.",
+      "notes": "기존 인증 가드 로직은 유지하면서 역할 확인 로직만 추가. 각 역할별 기본 리다이렉션 경로 설정 필요",
+      "status": "pending",
+      "dependencies": [
+        {
+          "taskId": "8231ff5d-659a-4b2f-b220-5c031952931b"
+        }
+      ],
+      "createdAt": "2025-08-02T02:41:02.002Z",
+      "updatedAt": "2025-08-02T02:41:02.002Z",
+      "relatedFiles": [
+        {
+          "path": "src/router/index.ts",
+          "type": "TO_MODIFY",
+          "description": "기존 라우터 가드에 역할 기반 접근 제어 추가"
+        },
+        {
+          "path": "src/pages/unauthorized.vue",
+          "type": "CREATE",
+          "description": "권한 없음 안내 페이지"
+        },
+        {
+          "path": "src/pages/pending-approval.vue",
+          "type": "CREATE",
+          "description": "승인 대기 안내 페이지"
+        }
+      ],
+      "implementationGuide": "1. router/index.ts 확장:\\n   - requireRole 미들웨어 함수 생성\\n   - 기존 beforeEach에 역할 확인 로직 추가\\n2. 보호된 라우트 정의:\\n   - /admin/* : Superuser, Manager만 접근\\n   - /organization/* : Manager, Employee만 접근\\n   - /scheduling/* : Manager만 접근\\n3. 미인증/미승인 상태 처리:\\n   - pending_approval 상태 사용자 전용 페이지\\n   - 권한 없음 페이지 생성",
+      "verificationCriteria": "1. 각 역할별로 접근 권한이 없는 페이지 진입 시 적절한 차단이 작동함 2. 미승인 사용자가 승인 대기 페이지로 리다이렉션됨 3. 권한 없는 접근 시 명확한 안내 메시지가 표시됨 4. 기존 인증 플로우가 정상 작동함",
+      "analysisResult": "EveryShift 교대 근무 스케줄링 시스템은 Vue3 + Supabase + AI Solver 아키텍처로 구성된 24시간 운영 조직의 교대 근무 최적화 관리 솔루션입니다. 기존 Vue/Supabase 보일러플레이트의 캐시 우선 스토어 패턴, RLS 기반 보안, 파일 기반 라우팅을 완전히 준수하면서 확장합니다. Superuser/Manager/Employee 역할 기반 접근 제어, 조직 관리, AI 기반 스케줄링, 실시간 업데이트 등 모든 핵심 기능을 체계적으로 구현하여 병원/경찰/소방/공장 등의 복잡한 근무 제약 조건을 효과적으로 해결합니다."
+    },
+    {
+      "id": "515c36d1-2b4b-409f-a34c-b45348371873",
+      "name": "조직 및 직원 관리 스토어 구현",
+      "description": "기존 entity 스토어 패턴을 따라 조직과 직원을 관리하는 Pinia 스토어를 구현합니다. 캐시 우선 패턴(15분 만료)과 Supabase 쿼리 연동을 포함합니다.",
+      "notes": "useMemoize, validateCache, timeStampExpired 등 기존 캐시 로직 완전 재사용. 에러 처리는 useErrorStore 패턴 사용",
+      "status": "pending",
+      "dependencies": [
+        {
+          "taskId": "3d029611-1ac2-45ca-abb2-a00835e4c1be"
+        }
+      ],
+      "createdAt": "2025-08-02T02:41:02.002Z",
+      "updatedAt": "2025-08-02T02:41:02.002Z",
+      "relatedFiles": [
+        {
+          "path": "src/stores/organization.ts",
+          "type": "CREATE",
+          "description": "조직 관리 Pinia 스토어"
+        },
+        {
+          "path": "src/stores/employee.ts",
+          "type": "CREATE",
+          "description": "직원 관리 Pinia 스토어"
+        },
+        {
+          "path": "src/services/organization-queries.ts",
+          "type": "CREATE",
+          "description": "조직 관련 Supabase 쿼리 함수들"
+        },
+        {
+          "path": "src/services/employee-queries.ts",
+          "type": "CREATE",
+          "description": "직원 관련 Supabase 쿼리 함수들"
+        }
+      ],
+      "implementationGuide": "1. stores/organization.ts 생성:\\n   - useEntityStore 패턴 재사용\\n   - organizations CRUD 작업\\n   - 캐시 검증 로직 (validateCache)\\n2. stores/employee.ts 생성:\\n   - 직원 목록 조회 (조직별 필터링)\\n   - 승인 대기 직원 관리\\n   - 스킬 및 크레딧 관리\\n3. services/organization-queries.ts 생성:\\n   - 기존 supabase-queries 패턴 따름\\n   - 조직 CRUD 쿼리 함수들\\n4. services/employee-queries.ts 생성:\\n   - 직원 관련 모든 쿼리 함수들",
+      "verificationCriteria": "1. 조직과 직원 데이터가 캐시 우선 패턴으로 정상 로드됨 2. 15분 캐시 만료 로직이 정상 작동함 3. CRUD 작업 후 캐시가 적절히 갱신됨 4. 에러 발생 시 useErrorStore를 통해 적절한 에러 표시됨",
+      "analysisResult": "EveryShift 교대 근무 스케줄링 시스템은 Vue3 + Supabase + AI Solver 아키텍처로 구성된 24시간 운영 조직의 교대 근무 최적화 관리 솔루션입니다. 기존 Vue/Supabase 보일러플레이트의 캐시 우선 스토어 패턴, RLS 기반 보안, 파일 기반 라우팅을 완전히 준수하면서 확장합니다. Superuser/Manager/Employee 역할 기반 접근 제어, 조직 관리, AI 기반 스케줄링, 실시간 업데이트 등 모든 핵심 기능을 체계적으로 구현하여 병원/경찰/소방/공장 등의 복잡한 근무 제약 조건을 효과적으로 해결합니다."
+    },
+    {
+      "id": "a2a806ec-12a6-43cc-9b79-d1a60f138d84",
+      "name": "조직 관리 페이지 및 컴포넌트 구현",
+      "description": "Superuser와 Manager가 사용할 조직 관리 페이지들을 구현합니다. 사용자 관리, 근무지 정보, 보유 기술, 사이트 관리 기능을 포함합니다.",
+      "notes": "기존 entities 페이지 스타일 일치. Superuser는 모든 조직 접근, Manager는 자신의 조직만 접근 가능",
+      "status": "pending",
+      "dependencies": [
+        {
+          "taskId": "515c36d1-2b4b-409f-a34c-b45348371873"
+        },
+        {
+          "taskId": "3a541cba-0fc4-4c70-bf31-2e2fe33ce014"
+        }
+      ],
+      "createdAt": "2025-08-02T02:41:02.002Z",
+      "updatedAt": "2025-08-02T02:41:02.002Z",
+      "relatedFiles": [
+        {
+          "path": "src/pages/admin",
+          "type": "CREATE",
+          "description": "관리자 페이지 디렉토리"
+        },
+        {
+          "path": "src/components/admin",
+          "type": "CREATE",
+          "description": "관리 전용 컴포넌트들"
+        },
+        {
+          "path": "src/components/UserApprovalCard.vue",
+          "type": "CREATE",
+          "description": "사용자 승인 처리 컴포넌트"
+        }
+      ],
+      "implementationGuide": "1. pages/admin/ 디렉토리 생성:\\n   - index.vue: 관리 대시보드\\n   - users.vue: 사용자 관리 (승인 포함)\\n   - organization.vue: 근무지 정보 관리\\n   - skills.vue: 보유 기술 관리\\n   - sites.vue: 사이트 관리\\n2. 컴포넌트 구조:\\n   - 기존 AppHeading, AppFormField 패턴 재사용\\n   - PrimeVue DataTable 활용\\n   - 승인/거부 버튼 컴포넌트\\n3. 사용자 승인 플로우:\\n   - 대기 중인 사용자 목록\\n   - 승인/거부 처리\\n   - 상태 업데이트",
+      "verificationCriteria": "1. Superuser가 모든 조직과 사용자를 조회할 수 있음 2. Manager가 자신의 조직 정보만 관리할 수 있음 3. 사용자 승인/거부가 정상 작동하고 상태가 업데이트됨 4. 각 관리 페이지에서 CRUD 작업이 정상 수행됨",
+      "analysisResult": "EveryShift 교대 근무 스케줄링 시스템은 Vue3 + Supabase + AI Solver 아키텍처로 구성된 24시간 운영 조직의 교대 근무 최적화 관리 솔루션입니다. 기존 Vue/Supabase 보일러플레이트의 캐시 우선 스토어 패턴, RLS 기반 보안, 파일 기반 라우팅을 완전히 준수하면서 확장합니다. Superuser/Manager/Employee 역할 기반 접근 제어, 조직 관리, AI 기반 스케줄링, 실시간 업데이트 등 모든 핵심 기능을 체계적으로 구현하여 병원/경찰/소방/공장 등의 복잡한 근무 제약 조건을 효과적으로 해결합니다."
+    },
+    {
+      "id": "13397d44-ab35-4069-b033-2980073666ac",
+      "name": "스케줄링을 위한 타입 정의 및 인터페이스 설계",
+      "description": "스케줄링 시스템에 필요한 모든 TypeScript 인터페이스와 타입을 정의합니다. AI Solver와의 통신, 캘린더 데이터, 선호도 관리 등에 필요한 타입들을 포함합니다.",
+      "notes": "기존 DatabaseTypes.ts 스타일 일치. AI Solver의 Java 형식과 호환되도록 설계. 모든 날짜는 ISO 8601 형식 사용",
+      "status": "pending",
+      "dependencies": [
+        {
+          "taskId": "3d029611-1ac2-45ca-abb2-a00835e4c1be"
+        }
+      ],
+      "createdAt": "2025-08-02T02:41:02.002Z",
+      "updatedAt": "2025-08-02T02:41:02.002Z",
+      "relatedFiles": [
+        {
+          "path": "src/types/scheduling",
+          "type": "CREATE",
+          "description": "스케줄링 관련 모든 타입 정의"
+        },
+        {
+          "path": "src/enums/SchedulingEnums.ts",
+          "type": "CREATE",
+          "description": "스케줄링 관련 Enum 정의"
+        }
+      ],
+      "implementationGuide": "1. types/ 디렉토리에 스케줄링 관련 타입 파일들 생성:\\n   - ScheduleRequest.ts: AI Solver 요청 타입\\n   - ScheduleResponse.ts: AI Solver 응답 타입\\n   - CalendarEvent.ts: 캘린더 이벤트 타입\\n   - PreferenceData.ts: 직원 선호도 타입\\n   - ShiftAssignment.ts: 근무 배정 타입\\n2. 각 인터페이스에 필요한 필드들:\\n   - 날짜, 시간, 사이트, 필요 인력\\n   - 직원 스킬, 가용성, 제약 조건\\n   - AI 솔버 입출력 형식\\n3. Enum 타입들:\\n   - WorkplaceType, ShiftType, PreferenceType",
+      "verificationCriteria": "1. 모든 스케줄링 관련 데이터 구조가 명확히 타입 정의됨 2. AI Solver 통신에 필요한 인터페이스가 완전히 정의됨 3. 캘린더 컴포넌트에 필요한 이벤트 타입이 정의됨 4. TypeScript 컴파일 에러가 없음",
+      "analysisResult": "EveryShift 교대 근무 스케줄링 시스템은 Vue3 + Supabase + AI Solver 아키텍처로 구성된 24시간 운영 조직의 교대 근무 최적화 관리 솔루션입니다. 기존 Vue/Supabase 보일러플레이트의 캐시 우선 스토어 패턴, RLS 기반 보안, 파일 기반 라우팅을 완전히 준수하면서 확장합니다. Superuser/Manager/Employee 역할 기반 접근 제어, 조직 관리, AI 기반 스케줄링, 실시간 업데이트 등 모든 핵심 기능을 체계적으로 구현하여 병원/경찰/소방/공장 등의 복잡한 근무 제약 조건을 효과적으로 해결합니다."
+    },
+    {
+      "id": "976328c0-f1db-4364-b3cd-d0053d796779",
+      "name": "AI Solver 통신 서비스 구현",
+      "description": "Google Cloud Run에 배포된 AI Solver와 통신하는 서비스를 구현합니다. 스케줄링 요청/응답 처리, 에러 핸들링, 타임아웃 관리를 포함합니다.",
+      "notes": "60초 타임아웃 설정. JWT 토큰 기반 인증. 기존 supabase-auth 패턴 따라 토큰 획득",
+      "status": "pending",
+      "dependencies": [
+        {
+          "taskId": "13397d44-ab35-4069-b033-2980073666ac"
+        }
+      ],
+      "createdAt": "2025-08-02T02:41:02.002Z",
+      "updatedAt": "2025-08-02T02:41:02.002Z",
+      "relatedFiles": [
+        {
+          "path": "src/services/ai-solver.ts",
+          "type": "CREATE",
+          "description": "AI Solver 통신 클라이언트"
+        },
+        {
+          "path": "src/utils/data-transform.ts",
+          "type": "CREATE",
+          "description": "Java ↔ TypeScript 데이터 변환 유틸리티"
+        }
+      ],
+      "implementationGuide": "1. services/ai-solver.ts 생성:\\n   - AISolverClient 클래스 구현\\n   - solve() 메소드: 스케줄링 요청 처리\\n   - transformToJavaFormat(): Vue 데이터를 Java 형식으로 변환\\n   - transformFromJavaFormat(): Java 응답을 Vue 형식으로 변환\\n2. 에러 처리:\\n   - 네트워크 에러, 타임아웃, 서버 에러 구분\\n   - 사용자 친화적 에러 메시지 제공\\n3. 환경 변수 설정:\\n   - VITE_CLOUD_RUN_URL 등 필요한 설정\\n4. 로딩 상태 관리:\\n   - 솔버 호출 중 진행률 표시",
+      "verificationCriteria": "1. AI Solver에 정상적인 요청을 보내고 응답을 받을 수 있음 2. 네트워크 에러 시 적절한 에러 메시지가 표시됨 3. 타임아웃 시 사용자에게 명확한 안내가 제공됨 4. 데이터 변환이 정확히 수행됨",
+      "analysisResult": "EveryShift 교대 근무 스케줄링 시스템은 Vue3 + Supabase + AI Solver 아키텍처로 구성된 24시간 운영 조직의 교대 근무 최적화 관리 솔루션입니다. 기존 Vue/Supabase 보일러플레이트의 캐시 우선 스토어 패턴, RLS 기반 보안, 파일 기반 라우팅을 완전히 준수하면서 확장합니다. Superuser/Manager/Employee 역할 기반 접근 제어, 조직 관리, AI 기반 스케줄링, 실시간 업데이트 등 모든 핵심 기능을 체계적으로 구현하여 병원/경찰/소방/공장 등의 복잡한 근무 제약 조건을 효과적으로 해결합니다."
+    },
+    {
+      "id": "c322f37f-2034-4bae-bb2d-eea03fde25f0",
+      "name": "스케줄링 관련 스토어 및 서비스 구현",
+      "description": "스케줄링 기능을 위한 Pinia 스토어와 관련 서비스들을 구현합니다. 선호도 관리, 스케줄 생성/저장, 수동 조정 기능을 포함합니다.",
+      "notes": "기존 캐시 패턴 완전 준수. AI 솔버 호출은 백그라운드 작업으로 처리. 모든 변경사항은 즉시 데이터베이스에 저장",
+      "status": "pending",
+      "dependencies": [
+        {
+          "taskId": "976328c0-f1db-4364-b3cd-d0053d796779"
+        },
+        {
+          "taskId": "515c36d1-2b4b-409f-a34c-b45348371873"
+        }
+      ],
+      "createdAt": "2025-08-02T02:41:02.002Z",
+      "updatedAt": "2025-08-02T02:41:02.002Z",
+      "relatedFiles": [
+        {
+          "path": "src/stores/scheduling.ts",
+          "type": "CREATE",
+          "description": "스케줄링 상태 관리 스토어"
+        },
+        {
+          "path": "src/stores/preferences.ts",
+          "type": "CREATE",
+          "description": "직원 선호도 관리 스토어"
+        },
+        {
+          "path": "src/services/scheduling-queries.ts",
+          "type": "CREATE",
+          "description": "스케줄링 관련 데이터베이스 쿼리"
+        },
+        {
+          "path": "src/composables/useScheduling.ts",
+          "type": "CREATE",
+          "description": "스케줄링 워크플로 관리 컴포저블"
+        }
+      ],
+      "implementationGuide": "1. stores/scheduling.ts 생성:\\n   - 현재 스케줄 상태 관리\\n   - AI 솔버 호출 상태\\n   - 선호도 데이터 캐싱\\n2. stores/preferences.ts 생성:\\n   - 직원별 선호도 관리\\n   - 크레딧 사용 로직\\n   - 연차/비연차 구분\\n3. services/scheduling-queries.ts 생성:\\n   - 스케줄 CRUD 작업\\n   - 선호도 저장/조회\\n   - 충돌 감지 쿼리\\n4. composables/useScheduling.ts 생성:\\n   - 스케줄링 워크플로 관리\\n   - 수동 조정 로직\\n   - 충돌 검증",
+      "verificationCriteria": "1. 직원 선호도 등록 시 크레딧이 정확히 차감됨 2. AI 솔버 호출 후 결과가 정상적으로 저장됨 3. 수동 조정 시 충돌이 올바르게 감지됨 4. 모든 스케줄링 작업이 캐시 패턴을 따름",
+      "analysisResult": "EveryShift 교대 근무 스케줄링 시스템은 Vue3 + Supabase + AI Solver 아키텍처로 구성된 24시간 운영 조직의 교대 근무 최적화 관리 솔루션입니다. 기존 Vue/Supabase 보일러플레이트의 캐시 우선 스토어 패턴, RLS 기반 보안, 파일 기반 라우팅을 완전히 준수하면서 확장합니다. Superuser/Manager/Employee 역할 기반 접근 제어, 조직 관리, AI 기반 스케줄링, 실시간 업데이트 등 모든 핵심 기능을 체계적으로 구현하여 병원/경찰/소방/공장 등의 복잡한 근무 제약 조건을 효과적으로 해결합니다."
+    },
+    {
+      "id": "699dd76a-8fcf-4c54-954a-36298ab0e6a7",
+      "name": "캘린더 컴포넌트 및 스케줄링 UI 구현",
+      "description": "스케줄링을 위한 캘린더 컴포넌트와 관련 UI를 구현합니다. By Employee/By Site 뷰, 선호도 표시, 드래그 앤 드롭 수정 기능을 포함합니다.",
+      "notes": "기존 UI 컴포넌트 스타일 일치. 실시간 업데이트 지원. 모바일 반응형 고려",
+      "status": "pending",
+      "dependencies": [
+        {
+          "taskId": "c322f37f-2034-4bae-bb2d-eea03fde25f0"
+        }
+      ],
+      "createdAt": "2025-08-02T02:41:02.002Z",
+      "updatedAt": "2025-08-02T02:41:02.002Z",
+      "relatedFiles": [
+        {
+          "path": "src/components/scheduling",
+          "type": "CREATE",
+          "description": "스케줄링 관련 모든 컴포넌트"
+        },
+        {
+          "path": "src/pages/scheduling",
+          "type": "CREATE",
+          "description": "스케줄링 페이지들"
+        }
+      ],
+      "implementationGuide": "1. components/scheduling/ 디렉토리 생성:\\n   - ScheduleCalendar.vue: 메인 캘린더 컴포넌트\\n   - EmployeeView.vue: 직원별 뷰\\n   - SiteView.vue: 사이트별 뷰\\n   - PreferenceMarker.vue: 선호도 표시\\n2. PrimeVue Calendar 확장:\\n   - 커스텀 이벤트 렌더링\\n   - 색상 코딩 (선호도: 초록/빨강, 배정: 파랑, 충돌: 주황)\\n   - 클릭/드래그 이벤트 처리\\n3. 상단 탭 네비게이션:\\n   - By Employee ↔ By Site 전환\\n   - 월별 네비게이션\\n4. 인터랙션 기능:\\n   - 클릭으로 배정 수정\\n   - 드래그 앤 드롭으로 근무 교환",
+      "verificationCriteria": "1. By Employee와 By Site 뷰가 정상적으로 전환됨 2. 선호도와 배정 상태가 색상으로 명확히 구분됨 3. 드래그 앤 드롭으로 근무 교환이 가능함 4. 충돌 발생 시 시각적으로 명확히 표시됨",
+      "analysisResult": "EveryShift 교대 근무 스케줄링 시스템은 Vue3 + Supabase + AI Solver 아키텍처로 구성된 24시간 운영 조직의 교대 근무 최적화 관리 솔루션입니다. 기존 Vue/Supabase 보일러플레이트의 캐시 우선 스토어 패턴, RLS 기반 보안, 파일 기반 라우팅을 완전히 준수하면서 확장합니다. Superuser/Manager/Employee 역할 기반 접근 제어, 조직 관리, AI 기반 스케줄링, 실시간 업데이트 등 모든 핵심 기능을 체계적으로 구현하여 병원/경찰/소방/공장 등의 복잡한 근무 제약 조건을 효과적으로 해결합니다."
+    },
+    {
+      "id": "81c8c163-cde2-4eba-8b0a-80a432b3d37e",
+      "name": "실시간 업데이트 및 WebSocket 연동",
+      "description": "Supabase Realtime을 활용하여 스케줄 변경사항을 실시간으로 동기화하는 기능을 구현합니다. 다중 사용자 환경에서의 동시 편집을 지원합니다.",
+      "notes": "기존 supabase 클라이언트 재사용. 채널 이름은 조직별로 분리. 메모리 누수 방지를 위한 정리 로직 필수",
+      "status": "pending",
+      "dependencies": [
+        {
+          "taskId": "c322f37f-2034-4bae-bb2d-eea03fde25f0"
+        }
+      ],
+      "createdAt": "2025-08-02T02:41:02.002Z",
+      "updatedAt": "2025-08-02T02:41:02.002Z",
+      "relatedFiles": [
+        {
+          "path": "src/composables/useRealtime.ts",
+          "type": "CREATE",
+          "description": "Supabase Realtime 연동 컴포저블"
+        },
+        {
+          "path": "src/components/RealtimeIndicator.vue",
+          "type": "CREATE",
+          "description": "실시간 연결 상태 표시 컴포넌트"
+        }
+      ],
+      "implementationGuide": "1. composables/useRealtime.ts 생성:\\n   - Supabase Realtime 채널 관리\\n   - 스케줄 변경 이벤트 구독\\n   - 연결 상태 관리\\n2. 실시간 이벤트 처리:\\n   - postgres_changes 이벤트 구독\\n   - schedules, shifts, preferences 테이블 변경 감지\\n   - 충돌 해결 로직\\n3. UI 업데이트:\\n   - 변경사항 즉시 반영\\n   - 다른 사용자의 편집 중 상태 표시\\n   - 변경 알림 토스트\\n4. 연결 관리:\\n   - 자동 재연결\\n   - 오프라인 상태 처리",
+      "verificationCriteria": "1. 여러 사용자가 동시에 편집할 때 변경사항이 실시간으로 동기화됨 2. 네트워크 연결이 끊겼다가 복구될 때 자동으로 재연결됨 3. 다른 사용자의 변경사항이 토스트로 알림됨 4. 메모리 누수 없이 정상적으로 정리됨",
+      "analysisResult": "EveryShift 교대 근무 스케줄링 시스템은 Vue3 + Supabase + AI Solver 아키텍처로 구성된 24시간 운영 조직의 교대 근무 최적화 관리 솔루션입니다. 기존 Vue/Supabase 보일러플레이트의 캐시 우선 스토어 패턴, RLS 기반 보안, 파일 기반 라우팅을 완전히 준수하면서 확장합니다. Superuser/Manager/Employee 역할 기반 접근 제어, 조직 관리, AI 기반 스케줄링, 실시간 업데이트 등 모든 핵심 기능을 체계적으로 구현하여 병원/경찰/소방/공장 등의 복잡한 근무 제약 조건을 효과적으로 해결합니다."
+    },
+    {
+      "id": "3755536d-b197-49b5-9827-0a8cb121a26f",
+      "name": "대시보드 및 통계 기능 구현",
+      "description": "직원별 근무 통계, 조직 전체 현황, 스케줄링 결과 분석을 위한 대시보드를 구현합니다. 차트와 리포트 기능을 포함합니다.",
+      "notes": "기존 페이지 레이아웃 패턴 따름. 차트 데이터는 캐싱하여 성능 최적화. 역할별로 표시되는 통계 다르게 설정",
+      "status": "pending",
+      "dependencies": [
+        {
+          "taskId": "699dd76a-8fcf-4c54-954a-36298ab0e6a7"
+        }
+      ],
+      "createdAt": "2025-08-02T02:41:02.002Z",
+      "updatedAt": "2025-08-02T02:41:02.002Z",
+      "relatedFiles": [
+        {
+          "path": "src/pages/dashboard",
+          "type": "CREATE",
+          "description": "대시보드 페이지들"
+        },
+        {
+          "path": "src/components/charts",
+          "type": "CREATE",
+          "description": "차트 컴포넌트들"
+        },
+        {
+          "path": "src/services/statistics.ts",
+          "type": "CREATE",
+          "description": "통계 데이터 처리 서비스"
+        }
+      ],
+      "implementationGuide": "1. pages/dashboard/ 디렉토리 생성:\\n   - index.vue: 메인 대시보드\\n   - employee.vue: 직원 개인 대시보드\\n   - reports.vue: 상세 리포트\\n2. 통계 데이터 수집:\\n   - 야간 근무, 주말 근무 횟수\\n   - 공정성 지표 (근무 배분 균등도)\\n   - 선호도 만족률\\n3. 차트 컴포넌트:\\n   - PrimeVue Chart 활용\\n   - 막대 차트, 파이 차트, 라인 차트\\n4. Google Calendar 연동:\\n   - 개인 일정 내보내기\\n   - .ics 파일 생성",
+      "verificationCriteria": "1. 역할별로 적절한 통계 정보가 표시됨 2. 차트가 데이터 변경에 따라 정확히 업데이트됨 3. Google Calendar 연동이 정상 작동함 4. 대용량 데이터도 빠르게 로드됨",
+      "analysisResult": "EveryShift 교대 근무 스케줄링 시스템은 Vue3 + Supabase + AI Solver 아키텍처로 구성된 24시간 운영 조직의 교대 근무 최적화 관리 솔루션입니다. 기존 Vue/Supabase 보일러플레이트의 캐시 우선 스토어 패턴, RLS 기반 보안, 파일 기반 라우팅을 완전히 준수하면서 확장합니다. Superuser/Manager/Employee 역할 기반 접근 제어, 조직 관리, AI 기반 스케줄링, 실시간 업데이트 등 모든 핵심 기능을 체계적으로 구현하여 병원/경찰/소방/공장 등의 복잡한 근무 제약 조건을 효과적으로 해결합니다."
+    },
+    {
+      "id": "18881b6d-e0f7-4818-bddf-1c47b2d35a00",
+      "name": "데이터 내보내기 및 통합 기능 구현",
+      "description": "Excel/CSV 내보내기, 템플릿 다운로드, Google Spreadsheet 연동 등 데이터 통합 기능을 구현합니다.",
+      "notes": "대용량 데이터 처리를 위한 스트리밍 방식 사용. 브라우저 다운로드 API 활용. 에러 발생 시 부분 다운로드도 지원",
+      "status": "pending",
+      "dependencies": [
+        {
+          "taskId": "3755536d-b197-49b5-9827-0a8cb121a26f"
+        }
+      ],
+      "createdAt": "2025-08-02T02:41:02.002Z",
+      "updatedAt": "2025-08-02T02:41:02.002Z",
+      "relatedFiles": [
+        {
+          "path": "src/services/export.ts",
+          "type": "CREATE",
+          "description": "데이터 내보내기 서비스"
+        },
+        {
+          "path": "src/components/ExportDialog.vue",
+          "type": "CREATE",
+          "description": "내보내기 옵션 선택 다이알로그"
+        }
+      ],
+      "implementationGuide": "1. services/export.ts 생성:\\n   - Excel 내보내기 (xlsx 라이브러리)\\n   - CSV 내보내기\\n   - 템플릿 생성 로직\\n2. Google Sheets 연동:\\n   - Google Sheets API 연동\\n   - 템플릿 스프레드시트 생성\\n   - 데이터 양방향 동기화\\n3. 내보내기 UI:\\n   - 형식 선택 (Excel/CSV)\\n   - 기간 선택\\n   - 맞춤형 필터\\n4. 템플릿 기능:\\n   - 조직별 맞춤 템플릿\\n   - 스케줄링 입력 양식\\n   - 데이터 검증 규칙",
+      "verificationCriteria": "1. Excel/CSV 파일이 정확한 데이터로 생성됨 2. Google Sheets 연동이 정상 작동함 3. 대용량 데이터도 빠르게 내보내짐 4. 내보낸 파일이 다른 시스템에서 정상 읽힘",
+      "analysisResult": "EveryShift 교대 근무 스케줄링 시스템은 Vue3 + Supabase + AI Solver 아키텍처로 구성된 24시간 운영 조직의 교대 근무 최적화 관리 솔루션입니다. 기존 Vue/Supabase 보일러플레이트의 캐시 우선 스토어 패턴, RLS 기반 보안, 파일 기반 라우팅을 완전히 준수하면서 확장합니다. Superuser/Manager/Employee 역할 기반 접근 제어, 조직 관리, AI 기반 스케줄링, 실시간 업데이트 등 모든 핵심 기능을 체계적으로 구현하여 병원/경찰/소방/공장 등의 복잡한 근무 제약 조건을 효과적으로 해결합니다."
+    },
+    {
+      "id": "1e8d60df-182b-4703-8d45-e9a8031ad49e",
+      "name": "랜딩페이지 및 전체 UI/UX 통합",
+      "description": "EveryShift 소개를 위한 랜딩페이지를 구현하고 전체 애플리케이션의 UI/UX를 통합합니다. 네비게이션, 레이아웃, 반응형 디자인을 포함합니다.",
+      "notes": "기존 TailwindCSS v4 스타일 완전 준수. 다크 모드 지원. 기존 컴포넌트 스타일과 일관성 유지",
+      "status": "pending",
+      "dependencies": [
+        {
+          "taskId": "18881b6d-e0f7-4818-bddf-1c47b2d35a00"
+        }
+      ],
+      "createdAt": "2025-08-02T02:41:02.002Z",
+      "updatedAt": "2025-08-02T02:41:02.002Z",
+      "relatedFiles": [
+        {
+          "path": "src/pages/index.vue",
+          "type": "TO_MODIFY",
+          "description": "기존 인덱스를 랜딩페이지로 확장"
+        },
+        {
+          "path": "src/components/layout/SideBar.vue",
+          "type": "TO_MODIFY",
+          "description": "사이드바에 새 메뉴 추가"
+        },
+        {
+          "path": "src/components/layout/SchedulingLayout.vue",
+          "type": "CREATE",
+          "description": "스케줄링 전용 레이아웃"
+        }
+      ],
+      "implementationGuide": "1. 기존 index.vue를 랜딩페이지로 확장:\\n   - EveryShift 소개 섹션\\n   - 주요 기능 안내\\n   - 회원가입/로그인 CTA\\n2. 네비게이션 확장:\\n   - 사이드바에 새 메뉴 추가\\n   - 역할별 메뉴 표시/숨김\\n   - 브레드크럼 네비게이션\\n3. 레이아웃 통합:\\n   - 기존 AuthLayout, GuestLayout 활용\\n   - 스케줄링용 전용 레이아웃\\n4. 반응형 디자인:\\n   - 모바일 최적화\\n   - 태블릿 지원\\n   - 접근성 개선",
+      "verificationCriteria": "1. 랜딩페이지가 EveryShift를 명확히 소개함 2. 역할별로 적절한 메뉴가 표시됨 3. 모든 디바이스에서 정상적으로 작동함 4. 전체 애플리케이션이 일관된 디자인을 유지함",
+      "analysisResult": "EveryShift 교대 근무 스케줄링 시스템은 Vue3 + Supabase + AI Solver 아키텍처로 구성된 24시간 운영 조직의 교대 근무 최적화 관리 솔루션입니다. 기존 Vue/Supabase 보일러플레이트의 캐시 우선 스토어 패턴, RLS 기반 보안, 파일 기반 라우팅을 완전히 준수하면서 확장합니다. Superuser/Manager/Employee 역할 기반 접근 제어, 조직 관리, AI 기반 스케줄링, 실시간 업데이트 등 모든 핵심 기능을 체계적으로 구현하여 병원/경찰/소방/공장 등의 복잡한 근무 제약 조건을 효과적으로 해결합니다."
+    }
+  ]
+}
