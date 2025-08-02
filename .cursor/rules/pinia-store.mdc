@@ -1,0 +1,26 @@
+---
+globs: *.ts,stores/*.ts
+description: Pinia 3.0.1 스토어 패턴 가이드
+---
+
+# Pinia 스토어 패턴
+
+- Pinia 3.0.1 composition API 방식 사용
+- 스토어 파일명: `useXxxStore.ts` 형태
+- 스토어는 `stores/` 디렉토리에 배치
+- ref는 state, computed는 getters, function은 actions
+- 타입 안전성을 위해 TypeScript 엄격 모드
+
+```ts
+// stores/useUserStore.ts
+export const useUserStore = defineStore('user', () => {
+  const user = ref<User | null>(null)
+  const isLoggedIn = computed(() => !!user.value)
+  
+  async function login(credentials: LoginData) {
+    // 로그인 로직
+  }
+  
+  return { user, isLoggedIn, login }
+})
+```

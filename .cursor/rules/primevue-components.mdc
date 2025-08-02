@@ -1,0 +1,26 @@
+---
+globs: *.vue
+description: PrimeVue 4.3.7 컴포넌트 적극 활용 가이드
+---
+
+# PrimeVue 컴포넌트 활용
+
+- PrimeVue 4.3.7 컴포넌트 우선 사용
+- 커스텀 UI 컴포넌트 제작 전 PrimeVue 확인 필수
+- Button, InputText, DataTable, Dialog 등 적극 활용
+- Unstyled 모드로 Tailwind와 조합 사용
+- 아이콘은 PrimeIcons 사용
+
+```vue
+<template>
+  <Button 
+    label="저장" 
+    icon="pi pi-check" 
+    severity="success"
+    @click="handleSave"
+  />
+  <DataTable :value="items" paginator :rows="10">
+    <Column field="name" header="이름" />
+  </DataTable>
+</template>
+```

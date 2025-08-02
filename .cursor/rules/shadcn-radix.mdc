@@ -1,0 +1,21 @@
+---
+globs: *.vue,components/*.vue
+description: shadcn/ui + radix-vue 컴포넌트 사용 가이드
+---
+
+# shadcn/ui + radix-vue 컴포넌트
+
+- radix-vue 1.9.9 기반 shadcn/ui 스타일 컴포넌트 활용
+- 접근성과 키보드 네비게이션 기본 제공
+- Avatar, Button, Dialog 등 headless UI 우선 사용
+- PrimeVue와 병행 사용시 shadcn이 우선
+- 한글 이름 처리 로직 고려한 컴포넌트 설계
+
+```vue
+<template>
+  <Avatar>
+    <AvatarImage :src="profile?.avatar_url" :alt="`Avatar of ${profile?.full_name}`" />
+    <AvatarFallback>{{ getInitials(profile?.full_name || 'User') }}</AvatarFallback>
+  </Avatar>
+</template>
+```

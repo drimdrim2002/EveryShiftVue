@@ -1,0 +1,25 @@
+---
+globs: *.vue,*.ts
+description: Vue 3 + TypeScript 코딩 스타일 가이드
+---
+
+# Vue 3 + TypeScript 코딩 스타일
+
+- Vue 3.5.13 + TypeScript 5.7.3 사용
+- `<script setup lang="ts">` 구문 필수 사용
+- Composition API 우선, ref/reactive 명시적 타입 지정
+- 컴포넌트명은 PascalCase, 파일명은 PascalCase
+- defineProps/defineEmits TypeScript 제네릭 사용
+
+```vue
+<script setup lang="ts">
+interface Props {
+  title: string
+  count?: number
+}
+const props = defineProps<Props>()
+const emit = defineEmits<{
+  update: [value: string]
+}>()
+</script>
+```
