@@ -1,11 +1,11 @@
 <template>
-  <vee-form @submit="login">
+  <vee-form @submit="login" class="space-y-4">
     <app-form-field
       name="email"
       label="Email"
       v-model="form.email"
       rules="required|email"
-      type="text"
+      type="email"
     />
     <app-form-field
       name="password"
@@ -14,26 +14,30 @@
       rules="required|min:8"
       type="password"
     />
-    <app-captcha
-      class="mt-4 w-full overflow-hidden"
-      ref="captchaRef"
-      v-if="enableHcaptcha"
-      @@hcaptcha-notification="notifyUserWithCaptchaResponse"
-    />
+    <div v-if="enableHcaptcha" class="mt-4 w-full">
+      <app-captcha
+        ref="captchaRef"
+        @@hcaptcha-notification="notifyUserWithCaptchaResponse"
+      />
+    </div>
     <!-- 
           The button below calls the runCaptcha of the app-captcha.
           In test mode, it verifies the captcha.
           See comment of BenW301 to this reply: https://stackoverflow.com/a/55317353/3910066
          -->
-    <Button @click="captchaRef.runCaptcha(enableHcaptcha)" type="submit" class="my-4">
+    <Button 
+      @click="captchaRef.runCaptcha(enableHcaptcha)" 
+      type="submit" 
+      class="w-full mt-6"
+    >
       Log in
     </Button>
-    <div v-if="errorMessage != ''" class="text-xs text-red-500">
+    <div v-if="errorMessage != ''" class="text-sm text-red-600 mt-2">
       {{ errorMessage }}
     </div>
-    <div v-if="enableRegister" class="flex flex-row items-center">
-      <span class="flex-auto gap-4">Create an account?</span>
-      <AppLink to="/register" class="p-2 rounded-md text-center underline flex-1">
+    <div v-if="enableRegister" class="flex flex-row items-center justify-between mt-4 pt-4 border-t">
+      <span class="text-sm text-muted-foreground">Create an account?</span>
+      <AppLink to="/register" class="text-sm font-medium text-brand hover:underline">
         Register
       </AppLink>
     </div>
@@ -50,7 +54,7 @@ import { NotificationType } from '@/enums/NotificationType'
 import AppCaptcha from '@/components/AppCaptcha.vue'
 
 const {
-  enableHcaptcha = true,
+  enableHcaptcha = import.meta.env.DEV ? false : true, // 개발 환경에서는 hCaptcha 비활성화
   enableRegister = true,
   errorMessage,
 } = defineProps<PropsAppLoginForm>()

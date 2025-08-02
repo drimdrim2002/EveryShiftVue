@@ -1,13 +1,18 @@
 <template>
-  <vue-hcaptcha
-    ref="asyncExecuteHCaptcha"
-    :sitekey="siteKey"
-    language="en-US"
-    @verify="onVerify"
-    @expired="onExpire"
-    @challenge-expired="onChallengeExpire"
-    @error="onError"
-  />
+  <div class="captcha-container">
+    <vue-hcaptcha
+      ref="asyncExecuteHCaptcha"
+      :sitekey="siteKey"
+      language="en-US"
+      @verify="onVerify"
+      @expired="onExpire"
+      @challenge-expired="onChallengeExpire"
+      @error="onError"
+    />
+    <div v-if="isTestMode" class="text-xs text-orange-600 mt-2 text-center">
+      ⚠️ Development mode - hCaptcha verification is bypassed
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -17,6 +22,7 @@ import type CaptchaEmitNotification from '@/types/CaptchaEmitNotification'
 
 const siteKey = import.meta.env.VITE_HCAPTCHA_SITEKEY
 const isVerified = ref(false)
+const isTestMode = computed(() => siteKey === '10000000-ffff-ffff-ffff-000000000001')
 
 const emits = defineEmits<{
   (event: '@hcaptcha-notification', entry: CaptchaEmitNotification): void
