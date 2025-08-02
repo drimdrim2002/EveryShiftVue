@@ -1,14 +1,10 @@
 import { type App } from 'vue'
 import { Form, Field, ErrorMessage, defineRule, configure } from 'vee-validate'
-import { required, email, url, min, between, length, max, regex } from '@vee-validate/rules'
+import { required, email, url, min, between, length, max, regex, confirmed } from '@vee-validate/rules'
 import { localize } from '@vee-validate/i18n'
 import { en } from '@/i18n/vee-validate-en'
 import { fr } from '@/i18n/vee-validate-fr'
 
-interface UniqueRuleArgs {
-  prop: string
-  excluding: string
-}
 
 const veeValidatePlugin = {
   install(app: App) {
@@ -20,7 +16,8 @@ const veeValidatePlugin = {
     defineRule('min', min)
     defineRule('max', max)
     defineRule('regex', regex)
-    defineRule('unique', async <T, A>(value: T, args: A) => {
+    defineRule('confirmed', confirmed)
+    defineRule('unique', async () => {
       throw new Error('Not implemented')
     })
 

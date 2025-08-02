@@ -5,9 +5,6 @@ import type {
 } from '@/types/EveryShiftRegistration'
 import { DEFAULT_SKILLS, SHIFT_PATTERNS } from '@/types/EveryShiftRegistration'
 import { getAllOrganizationsQuery } from '@/services/organization-queries'
-import AppCaptcha from '@/components/AppCaptcha.vue'
-import { NotificationType } from '@/enums/NotificationType'
-import type CaptchaEmitNotification from '@/types/CaptchaEmitNotification'
 
 const formData = ref<EveryShiftRegistrationData>({
   username: '',
@@ -31,9 +28,6 @@ const formData = ref<EveryShiftRegistrationData>({
 const currentStep = ref(1)
 const totalSteps = computed(() => formData.value.role === 'manager' ? 3 : 2)
 
-const captchaPassed = ref(false)
-const captchaRef = ref(AppCaptcha)
-const captchaErrorMessage = ref('')
 
 const availableOrganizations = ref<Array<{id: string, name: string, workplace_type: string}>>([])
 const availableSkills = ref<SkillOption[]>([])
@@ -41,7 +35,7 @@ const customSkillInput = ref('')
 const newSiteInput = ref('')
 
 const emits = defineEmits<{
-  (event: '@register', request: EveryShiftRegistrationData): void
+  (event: 'register', request: EveryShiftRegistrationData): void
 }>()
 
 // 조직 목록 로드 (Employee 역할 선택 시)
@@ -159,28 +153,24 @@ const validateCurrentStep = (): boolean => {
   return true
 }
 
-// 캡차 관련
-const notifyUserWithCaptchaResponse = (response: CaptchaEmitNotification) => {
-  if (response.success) {
-    captchaPassed.value = true
-  } else {
-    captchaPassed.value = false
-    captchaErrorMessage.value = '🚧 Please resolve the captcha challenge to register.'
-  }
-}
-
-const verifyCaptchaBeforeRegister = async () => {
-  if (!captchaPassed.value) {
-    useNotification().addNotification({
-      message: captchaErrorMessage.value,
-      type: NotificationType.Error,
-    })
-  } else {
+const submitRegistration = () => {
+  console.log('가입 신청 버튼 클릭됨')
+  console.log('현재 단계 유효성:', validateCurrentStep())
+  console.log('폼 데이터:', formData.value)
+  
+  if (validateCurrentStep()) {
+    console.log('등록 진행')
     register()
+  } else {
+    console.log('유효성 검사 실패')
   }
 }
 
-const register = () => emits('@register', formData.value)
+const register = () => {
+  console.log('register 함수 호출됨')
+  console.log('이벤트 전달할 데이터:', formData.value)
+  emits('register', formData.value)
+}
 
 // 초기화
 onMounted(() => {
@@ -203,7 +193,7 @@ onMounted(() => {
       </div>
     </div>
 
-    <vee-form @submit.prevent="nextStep">
+    <vee-form @submit="nextStep">
       <!-- 단계 1: 기본 정보 -->
       <div v-if="currentStep === 1" class="space-y-4">
         <h3 class="text-lg font-semibold mb-4">기본 정보</h3>
@@ -466,10 +456,6 @@ onMounted(() => {
         </div>
       </div>
 
-      <!-- 캡차 (마지막 단계) -->
-      <div v-if="currentStep === totalSteps" class="mt-6">
-        <AppCaptcha ref="captchaRef" @notify="notifyUserWithCaptchaResponse" />
-      </div>
 
       <!-- 버튼 영역 -->
       <div class="flex justify-between mt-8">
@@ -493,7 +479,7 @@ onMounted(() => {
         <Button 
           v-else
           type="button"
-          @click="verifyCaptchaBeforeRegister"
+          @click="submitRegistration"
           :disabled="!validateCurrentStep()"
         >
           가입 신청

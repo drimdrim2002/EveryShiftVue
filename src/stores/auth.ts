@@ -45,6 +45,15 @@ export const useAuthStore = defineStore('auth-store', () => {
       const { profile: authProfile } = storeToRefs(profileStore)
       await profileStore.getProfile({ column: 'id', value: user.value.id })
       profile.value = authProfile.value || null
+      
+      // 디버깅: 프로필 데이터 로그
+      if (import.meta.env.DEV) {
+        console.log('Auth Store - 프로필 데이터 로드:', {
+          userId: user.value.id,
+          profileData: profile.value,
+          username: profile.value?.username
+        })
+      }
     }
   }
 
@@ -59,15 +68,20 @@ export const useAuthStore = defineStore('auth-store', () => {
         .from('employees')
         .select('*')
         .eq('profile_id', user.value.id)
-        .single()
+        .maybeSingle() // single() 대신 maybeSingle() 사용
 
       if (error) {
-        // 직원 정보가 없는 경우 (일반 사용자)
+        console.error('직원 정보 조회 에러:', error)
         employee.value = null
         return
       }
 
-      employee.value = data
+      // data가 null이면 직원 정보가 없는 경우
+      employee.value = data || null
+      
+      if (!data) {
+        console.log('직원 정보가 없습니다. 일반 사용자이거나 아직 승인되지 않은 상태입니다.')
+      }
     } catch (error) {
       console.error('직원 정보 로드 중 오류:', error)
       employee.value = null

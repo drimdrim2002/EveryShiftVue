@@ -44,7 +44,7 @@ export const getEmployeeByProfileIdQuery = async (profileId: string) => {
       profile:profiles(id, username, full_name, avatar_url)
     `)
     .eq('profile_id', profileId)
-    .single()
+    .maybeSingle()
 }
 
 export type EmployeeWithDetails = QueryData<ReturnType<typeof getEmployeeByProfileIdQuery>>

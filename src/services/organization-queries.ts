@@ -25,7 +25,7 @@ export const getOrganizationByIdQuery = async (id: string) => {
     .from('organizations')
     .select('*')
     .eq('id', id)
-    .single()
+    .maybeSingle()
 }
 
 /**
@@ -75,7 +75,7 @@ export const getOrganizationByNameQuery = async (name: string) => {
     .from('organizations')
     .select('*')
     .eq('name', name)
-    .single()
+    .maybeSingle()
 }
 
 /**

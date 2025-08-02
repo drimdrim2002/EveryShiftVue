@@ -28,7 +28,7 @@ export const useSubEntityStore = defineStore('SubEntitys-store', () => {
       PostgrestError
     >({
       key: getSubEntityKey(id as string),
-      filter: id,
+      filter: id as string,
       reference: subEntity,
       query: subEntityWithParentQuery,
       loaderFn: loadSubEntity,

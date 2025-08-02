@@ -108,6 +108,18 @@ await authStore.getSession()
 //     token_type: '',
 //   },
 const { profile } = storeToRefs(authStore)
+
+// 디버깅: 프로필 데이터 확인
+if (import.meta.env.DEV) {
+  watchEffect(() => {
+    console.log('SideBar - 프로필 상태:', {
+      profile: profile.value,
+      username: profile.value?.username,
+      profileLink: `${RouterPathEnum.Profile}s/${profile?.value?.username || 'me'}`
+    })
+  })
+}
+
 // })
 const topLinks: LinkProp[] = [
   {
@@ -120,8 +132,9 @@ const topLinks: LinkProp[] = [
 ]
 const settingsLinks: LinkProp[] = [
   {
-    //TODO > username is undefined
-    to: `${RouterPathEnum.Profile}s/${profile?.value?.username}`,
+    // profile?.value?.username이 undefined인 경우 fallback 사용
+    // superuser의 경우 임시로 하드코딩된 username 사용
+    to: `${RouterPathEnum.Profile}s/${profile?.value?.username || (authStore.user?.email === 'sindeaf@gmail.com' ? 'Superuser' : 'me')}`,
     icon: UserRoundCog,
     label: 'Profile',
   },

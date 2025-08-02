@@ -42,7 +42,7 @@ export const useEntityStore = defineStore('entity-store', () => {
       PostgrestError
     >({
       key: slug as string,
-      filter: slug,
+      filter: slug as string,
       loaderFn: loadEntity,
       query: entityWithSubEntitiesBySlugQuery,
       reference: entity,

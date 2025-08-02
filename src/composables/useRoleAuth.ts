@@ -147,7 +147,7 @@ export const useRoleAuth = () => {
         .from('employees')
         .select('*')
         .eq('profile_id', user.value.id)
-        .single()
+        .maybeSingle()
 
       if (error) {
         console.error('직원 정보 로드 실패:', error)
