@@ -1,22 +1,7 @@
 -- ============================================================================
--- EveryShift Domain Tables Migration
--- 교대 근무 스케줄링 시스템을 위한 새 테이블들을 생성합니다.
--- 기존 profiles 테이블과 연결하되 절대 수정하지 않습니다.
+-- EveryShift 나머지 테이블들 (organizations 제외)
+-- employees, sites, shifts, preferences, schedules, credit_transactions 생성
 -- ============================================================================
-
--- 1. ORGANIZATIONS 테이블
--- 병원, 공장, 경찰서 등 24시간 운영 조직 정보
-CREATE TABLE organizations (
-  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-  name text NOT NULL,                    -- 서울삼성병원, 서울경찰서 등
-  workplace_type text NOT NULL           -- 'hospital', 'factory', 'police_fire'
-    CHECK (workplace_type IN ('hospital', 'factory', 'police_fire')),
-  shift_pattern jsonb NOT NULL,          -- 교대 근무 패턴 (3교대 또는 커스텀)
-  credit_settings jsonb,                 -- 직급별 크레딧 설정
-  skill_categories text[] DEFAULT '{}',  -- 조직별 기술/전문분야 목록
-  created_at timestamptz DEFAULT now(),
-  updated_at timestamptz
-);
 
 -- 2. EMPLOYEES 테이블
 -- 직원 정보 (기존 profiles 테이블과 연결)
@@ -139,33 +124,7 @@ CREATE TABLE credit_transactions (
 -- 역할별 데이터 접근 제어
 -- ============================================================================
 
--- 1. ORGANIZATIONS 테이블 RLS
-ALTER TABLE organizations ENABLE ROW LEVEL SECURITY;
-
--- Superuser: 모든 조직 접근
-CREATE POLICY "superuser_full_access_organizations" ON organizations
-FOR ALL TO authenticated
-USING (
-  EXISTS (
-    SELECT 1 FROM employees 
-    WHERE profile_id = auth.uid() 
-    AND role = 'superuser' 
-    AND status = 'approved'
-  )
-);
-
--- Manager/Employee: 본인 조직만 접근
-CREATE POLICY "org_members_access_organizations" ON organizations
-FOR SELECT TO authenticated
-USING (
-  id IN (
-    SELECT organization_id FROM employees 
-    WHERE profile_id = auth.uid() 
-    AND status = 'approved'
-  )
-);
-
--- 2. EMPLOYEES 테이블 RLS
+-- 1. EMPLOYEES 테이블 RLS
 ALTER TABLE employees ENABLE ROW LEVEL SECURITY;
 
 -- Superuser: 모든 직원 접근
@@ -197,7 +156,7 @@ CREATE POLICY "employee_own_record" ON employees
 FOR SELECT TO authenticated
 USING (profile_id = auth.uid());
 
--- 3. SITES 테이블 RLS
+-- 2. SITES 테이블 RLS
 ALTER TABLE sites ENABLE ROW LEVEL SECURITY;
 
 -- 조직 멤버만 접근
@@ -211,7 +170,7 @@ USING (
   )
 );
 
--- 4. SHIFTS 테이블 RLS
+-- 3. SHIFTS 테이블 RLS
 ALTER TABLE shifts ENABLE ROW LEVEL SECURITY;
 
 -- 조직 멤버만 접근
@@ -225,7 +184,7 @@ USING (
   )
 );
 
--- 5. PREFERENCES 테이블 RLS
+-- 4. PREFERENCES 테이블 RLS
 ALTER TABLE preferences ENABLE ROW LEVEL SECURITY;
 
 -- 본인 선호도만 수정, 조직내 모든 선호도 조회 (매니저용)
@@ -252,7 +211,7 @@ USING (
   )
 );
 
--- 6. SCHEDULES 테이블 RLS
+-- 5. SCHEDULES 테이블 RLS
 ALTER TABLE schedules ENABLE ROW LEVEL SECURITY;
 
 -- 조직 멤버만 접근
@@ -266,7 +225,7 @@ USING (
   )
 );
 
--- 7. CREDIT_TRANSACTIONS 테이블 RLS
+-- 6. CREDIT_TRANSACTIONS 테이블 RLS
 ALTER TABLE credit_transactions ENABLE ROW LEVEL SECURITY;
 
 -- 본인 크레딧 내역 조회, 매니저는 조직내 모든 내역 조회
@@ -310,7 +269,8 @@ CREATE INDEX idx_credit_transactions_employee_id ON credit_transactions(employee
 -- ============================================================================
 -- 완료 메시지
 -- ============================================================================
--- EveryShift 도메인 테이블 생성 완료
--- 총 7개 테이블: organizations, employees, sites, shifts, preferences, schedules, credit_transactions
+-- EveryShift 나머지 테이블 생성 완료
+-- 총 6개 테이블: employees, sites, shifts, preferences, schedules, credit_transactions
 -- 모든 테이블에 RLS 정책 적용 완료
 -- 성능 최적화를 위한 인덱스 생성 완료
+
