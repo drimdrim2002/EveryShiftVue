@@ -1,10 +1,4 @@
 <script setup lang="ts">
-import { useAuthStore } from '@/stores/auth'
-import { storeToRefs } from 'pinia'
-
-const authStore = useAuthStore()
-const { employee, profile } = storeToRefs(authStore)
-
 // This page should only be accessible to Manager and Superuser roles
 </script>
 

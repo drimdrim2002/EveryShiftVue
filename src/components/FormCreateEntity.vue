@@ -12,7 +12,7 @@ const { profile: currentUser } = storeToRefs(authStore)
 const { createEntity } = useEntityStore()
 
 // Fill in the slug as the name is typed
-let userEditedSlug = ref(false)
+const userEditedSlug = ref(false)
 const updateSlug = () => {
   if (!form.value?.name) return
   if (!userEditedSlug.value) {

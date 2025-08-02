@@ -5,7 +5,7 @@ export interface CacheValidation<Reference, Query, Loader> {
   reference: Reference
   query: Query
   key: string | StoreCacheKey
-  filter?: string | Object
+  filter?: string | object
   loaderFn: Loader
   lastFetchInfo: CacheValidationInfo
   invalidateAfterSeconds?: number

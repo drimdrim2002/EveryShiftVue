@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import type { 
   EveryShiftRegistrationData, 
-  RegistrationUserRole, 
-  OrganizationSetup,
   SkillOption 
 } from '@/types/EveryShiftRegistration'
 import { DEFAULT_SKILLS, SHIFT_PATTERNS } from '@/types/EveryShiftRegistration'

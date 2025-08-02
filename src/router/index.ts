@@ -89,7 +89,7 @@ const getDefaultRedirectByRole = (role: UserRole): string => {
   }
 }
 
-router.beforeEach(async (to, _from) => {
+router.beforeEach(async (to) => {
   // TODO > disable code below if not using dummy auth
   //const { user, setAuth } = useAuthStore()
   // setAuth({ session: { user } })

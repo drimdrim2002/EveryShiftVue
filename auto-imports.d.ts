@@ -135,7 +135,7 @@ declare global {
   export type { ButtonVariants } from './src/components/ui/button/index'
   import('./src/components/ui/button/index')
   // @ts-ignore
-  export type { EmployeeInfo } from './src/composables/useRoleAuth'
+  export type { UserRole, EmployeeInfo } from './src/composables/useRoleAuth'
   import('./src/composables/useRoleAuth')
   // @ts-ignore
   export type { AvatarProfile } from './src/types/AvatarProfile'
@@ -168,7 +168,7 @@ declare global {
   export type { ErrorNextPage } from './src/types/ErrorNextPage'
   import('./src/types/ErrorNextPage')
   // @ts-ignore
-  export type { UserRole, EveryShiftRegistrationData, OrganizationSetup, SkillOption } from './src/types/EveryShiftRegistration'
+  export type { RegistrationUserRole, EveryShiftRegistrationData, OrganizationSetup, SkillOption } from './src/types/EveryShiftRegistration'
   import('./src/types/EveryShiftRegistration')
   // @ts-ignore
   export type { FormDataCreateEntity } from './src/types/FormDataCreateEntity'

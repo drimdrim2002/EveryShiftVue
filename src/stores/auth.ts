@@ -4,8 +4,7 @@ import { type UserProfile } from '@/services/supabase-profile-queries'
 import { logoutFromSupabase, retrieveCurrentSession } from '@/services/supabase-auth'
 import { RouterPathEnum } from '@/types/RouterPathEnum'
 import { supabase } from '@/lib/supabaseClient'
-import { toISOStringWithTimezone } from '@/utils/date-format'
-import type { UserRole, EmployeeInfo } from '@/composables/useRoleAuth'
+import type { UserRole } from '@/composables/useRoleAuth'
 
 export const useAuthStore = defineStore('auth-store', () => {
   // TODO > reenable this if querying supabase
