@@ -77,15 +77,10 @@ import LogOut from '../ui/icon/LogOut.vue'
 import Settings2 from '../ui/icon/Settings2.vue'
 import PaintBrush from '../ui/icon/PaintBrush.vue'
 
-console.log('SideBar>script:setup...')
-
 const executeAction = async (payload: SideBarLinkAction) => {
-  console.log('Clicked a side bar link', payload)
-
   if (payload.action === SideBarActionsEnum.Logout) {
     const { isLoggedOut } = await useAuthStore().logout()
     if (isLoggedOut) {
-      console.log('Logging out...')
       router.push('/login')
     }
   }
@@ -163,21 +158,6 @@ const getTopLinksByRole = (role: string): LinkProp[] => {
 
 const topLinks = computed(() => getTopLinksByRole(userRole.value))
 
-// 디버깅: 프로필 및 역할 데이터 확인
-if (import.meta.env.DEV) {
-  watchEffect(() => {
-    console.log('SideBar - 상태 정보:', {
-      userEmail: authStore.user?.email,
-      profile: profile.value,
-      employee: employee.value,
-      userRole: userRole.value,
-      topLinksCount: topLinks.value.length,
-      username: profile.value?.username,
-      fallbackUsername: getUsernameByEmail(authStore.user?.email),
-      finalProfileLink: `${RouterPathEnum.Profile}s/${profile?.value?.username || getUsernameByEmail(authStore.user?.email)}`
-    })
-  })
-}
 const settingsLinks: LinkProp[] = [
   {
     // profile에서 username을 가져오거나, 이메일 기반 매핑 사용

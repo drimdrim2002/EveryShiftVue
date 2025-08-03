@@ -9,10 +9,7 @@ const router = useRouter()
 
 const signup = async (formData: EveryShiftRegistrationData) => {
   try {
-    console.log('회원가입 시작:', formData)
-    
     // 1. 기본 사용자 계정 생성
-    console.log('1. 사용자 계정 생성 시작')
     const { error: authError, needsConfirmation } = await signupWithEmail({ 
       formData: {
         username: formData.username,
@@ -30,23 +27,17 @@ const signup = async (formData: EveryShiftRegistrationData) => {
     }
     
     if (needsConfirmation) {
-      console.log('이메일 확인이 필요합니다.')
-      // 이메일 확인 페이지로 이동하거나 알림 표시
       alert('회원가입이 완료되었습니다. 이메일을 확인해주세요.')
       router.push('/login')
       return
     }
-    
-    console.log('1. 사용자 계정 생성 완료')
 
     // 2. 현재 사용자 정보 가져오기
-    console.log('2. 사용자 정보 가져오기 시작')
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) {
       console.error('사용자 정보를 찾을 수 없습니다.')
       return
     }
-    console.log('2. 사용자 정보 가져오기 완료:', user.id)
 
     let organizationId = formData.organizationId
 

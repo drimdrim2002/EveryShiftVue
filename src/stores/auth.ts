@@ -47,13 +47,6 @@ export const useAuthStore = defineStore('auth-store', () => {
       profile.value = authProfile.value || null
       
       // 디버깅: 프로필 데이터 로그
-      if (import.meta.env.DEV) {
-        console.log('Auth Store - 프로필 데이터 로드:', {
-          userId: user.value.id,
-          profileData: profile.value,
-          username: profile.value?.username
-        })
-      }
     }
   }
 
@@ -80,7 +73,7 @@ export const useAuthStore = defineStore('auth-store', () => {
       employee.value = data || null
       
       if (!data) {
-        console.log('직원 정보가 없습니다. 일반 사용자이거나 아직 승인되지 않은 상태입니다.')
+        // 직원 정보가 없는 경우 (일반 사용자이거나 아직 승인되지 않은 상태)
       }
     } catch (error) {
       console.error('직원 정보 로드 중 오류:', error)

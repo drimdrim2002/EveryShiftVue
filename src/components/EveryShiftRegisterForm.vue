@@ -154,21 +154,12 @@ const validateCurrentStep = (): boolean => {
 }
 
 const submitRegistration = () => {
-  console.log('가입 신청 버튼 클릭됨')
-  console.log('현재 단계 유효성:', validateCurrentStep())
-  console.log('폼 데이터:', formData.value)
-  
   if (validateCurrentStep()) {
-    console.log('등록 진행')
     register()
-  } else {
-    console.log('유효성 검사 실패')
   }
 }
 
 const register = () => {
-  console.log('register 함수 호출됨')
-  console.log('이벤트 전달할 데이터:', formData.value)
   emits('register', formData.value)
 }
 
