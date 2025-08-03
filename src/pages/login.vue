@@ -10,43 +10,44 @@ const isLoading = ref(false)
 const sigin = async (request: UserLoginRequest) => {
   isLoading.value = true
   loginError.value = ''
-  
+
   try {
     const { error } = await loginWithSupabase({ formData: request })
-    
+
     if (error) {
       // 사용자 친화적인 에러 메시지로 변환
       loginError.value = getLoginErrorMessage(error)
     } else {
       router.push('/')
     }
-  } catch (err) {
+  } catch (err: unknown) {
+    console.error(err)
     loginError.value = '로그인 중 예상치 못한 오류가 발생했습니다. 잠시 후 다시 시도해주세요.'
   } finally {
     isLoading.value = false
   }
 }
 
-const getLoginErrorMessage = (error: any): string => {
+const getLoginErrorMessage = (error: { message?: string }): string => {
   // Supabase 에러 코드에 따른 사용자 친화적 메시지
   const errorMessage = error.message?.toLowerCase() || ''
-  
+
   if (errorMessage.includes('invalid login credentials') || errorMessage.includes('invalid_credentials')) {
     return '이메일 또는 비밀번호가 올바르지 않습니다. 브라우저에 저장된 비밀번호가 다를 수 있으니 직접 입력해보세요.'
   }
-  
+
   if (errorMessage.includes('email not confirmed')) {
     return '이메일 인증이 필요합니다. 이메일을 확인해주세요.'
   }
-  
+
   if (errorMessage.includes('too many requests')) {
     return '너무 많은 로그인 시도가 있었습니다. 잠시 후 다시 시도해주세요.'
   }
-  
+
   if (errorMessage.includes('network') || errorMessage.includes('connection')) {
     return '네트워크 연결을 확인하고 다시 시도해주세요.'
   }
-  
+
   // 기본 메시지
   return '로그인에 실패했습니다. 이메일과 비밀번호를 다시 확인해주세요.'
 }
@@ -70,9 +71,9 @@ const getLoginErrorMessage = (error: any): string => {
             <p class="text-sm text-red-800">{{ loginError }}</p>
           </div>
         </div>
-        
+
         <AppLoginForm @@login="sigin" :disabled="isLoading" />
-        
+
         <!-- 로딩 상태 표시 -->
         <div v-if="isLoading" class="mt-4 flex items-center justify-center">
           <div class="flex items-center space-x-2 text-brand">
