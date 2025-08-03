@@ -96,11 +96,32 @@ router.beforeEach(async (to) => {
   // TODO > Enable code below handle Guest vs Authenticated users
   // Must wait for the session to be available before processing the routing...
   const authStore = useAuthStore()
-  await authStore.getSession()
+  const { data } = await authStore.getSession()
+  
+  // Ensure auth state is properly initialized
+  if (data?.session) {
+    await authStore.setAuth({ session: data.session })
+  }
 
   const { user: authenticatedUser, employee, isPending, isRejected, isApproved } = storeToRefs(authStore)
   const isAuthPage = routesSkippingGetSession.includes(to.path)
   const isPendingRoute = routesForPendingApproval.includes(to.path)
+
+  // 디버깅: 라우터에서 사용자 상태 확인
+  if (import.meta.env.DEV && authenticatedUser.value) {
+    console.log('Router - 사용자 상태 확인:', {
+      path: to.path,
+      userEmail: authenticatedUser.value.email,
+      hasEmployee: !!employee.value,
+      employeeRole: employee.value?.role,
+      employeeStatus: employee.value?.status,
+      isPending: isPending.value,
+      isRejected: isRejected.value,
+      isApproved: isApproved.value,
+      isAuthPage,
+      isPendingRoute
+    })
+  }
 
   // 1. Handle unauthenticated users
   if (!authenticatedUser.value && !isAuthPage) {

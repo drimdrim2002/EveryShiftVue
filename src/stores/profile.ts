@@ -114,6 +114,17 @@ export const useProfileStore = defineStore('profile-store', () => {
   const getProfile = async (request: RequestProfile) => {
     profile.value = null
     profile.value = await loadProfile(request)
+    
+    // 디버깅: 프로필 로드 결과 로그
+    if (import.meta.env.DEV) {
+      console.log('Profile Store - getProfile 결과:', {
+        request,
+        loadedProfile: profile.value,
+        username: profile.value?.username,
+        fullName: profile.value?.full_name
+      })
+    }
+    
     const forceRefresh = timeStampExpired({
       timeStamp: profileLastFetchTime.value[getProfileKey(request)].timeStamp,
       invalidateAfterSeconds: GET_METHODS_EXPIRATION,

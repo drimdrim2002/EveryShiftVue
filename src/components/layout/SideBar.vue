@@ -107,34 +107,81 @@ await authStore.getSession()
 //     refresh_token: '',
 //     token_type: '',
 //   },
-const { profile } = storeToRefs(authStore)
+const { profile, employee } = storeToRefs(authStore)
 
-// 디버깅: 프로필 데이터 확인
+// 사용자 이메일에 따른 username 매핑
+const getUsernameByEmail = (email: string | undefined): string => {
+  const emailToUsername: Record<string, string> = {
+    'sindeaf@gmail.com': 'Superuser',
+    'test.manager@example.com': 'TestManager',
+    'test.employee@example.com': 'TestEmployee'
+  }
+  return emailToUsername[email || ''] || 'me'
+}
+
+const userRole = computed(() => employee.value?.role || 'guest')
+
+// 역할별 메뉴 정의
+const getTopLinksByRole = (role: string): LinkProp[] => {
+  const baseLinks = [
+    {
+      to: RouterPathEnum.Home,
+      icon: Home,
+      label: 'Dashboard',
+    }
+  ]
+  
+  switch (role) {
+    case 'superuser':
+      return [
+        ...baseLinks,
+        { to: RouterPathEnum.Entities, icon: Files, label: 'Organizations' },
+        { to: '/employees', icon: UserRoundCog, label: 'Employee Management' },
+        { to: '/scheduling', icon: Files, label: 'Schedule Management' },
+        { to: RouterPathEnum.StyleGuide, icon: PaintBrush, label: 'Style Guide' },
+      ]
+    
+    case 'manager':
+      return [
+        ...baseLinks,
+        { to: '/employees', icon: UserRoundCog, label: 'My Team' },
+        { to: '/scheduling', icon: Files, label: 'Scheduling' },
+        { to: '/reports', icon: Files, label: 'Reports' },
+      ]
+    
+    case 'employee':
+      return [
+        ...baseLinks,
+        { to: '/my-schedule', icon: Files, label: 'My Schedule' },
+        { to: '/preferences', icon: Settings2, label: 'Preferences' },
+      ]
+    
+    default:
+      return baseLinks
+  }
+}
+
+const topLinks = computed(() => getTopLinksByRole(userRole.value))
+
+// 디버깅: 프로필 및 역할 데이터 확인
 if (import.meta.env.DEV) {
   watchEffect(() => {
-    console.log('SideBar - 프로필 상태:', {
+    console.log('SideBar - 상태 정보:', {
+      userEmail: authStore.user?.email,
       profile: profile.value,
+      employee: employee.value,
+      userRole: userRole.value,
+      topLinksCount: topLinks.value.length,
       username: profile.value?.username,
-      profileLink: `${RouterPathEnum.Profile}s/${profile?.value?.username || 'me'}`
+      fallbackUsername: getUsernameByEmail(authStore.user?.email),
+      finalProfileLink: `${RouterPathEnum.Profile}s/${profile?.value?.username || getUsernameByEmail(authStore.user?.email)}`
     })
   })
 }
-
-// })
-const topLinks: LinkProp[] = [
-  {
-    to: RouterPathEnum.Home,
-    icon: Home,
-    label: 'Dashboard',
-  },
-  { to: RouterPathEnum.Entities, icon: Files, label: 'Entities' },
-  { to: RouterPathEnum.StyleGuide, icon: PaintBrush, label: 'Style Guide' },
-]
 const settingsLinks: LinkProp[] = [
   {
-    // profile?.value?.username이 undefined인 경우 fallback 사용
-    // superuser의 경우 임시로 하드코딩된 username 사용
-    to: `${RouterPathEnum.Profile}s/${profile?.value?.username || (authStore.user?.email === 'sindeaf@gmail.com' ? 'Superuser' : 'me')}`,
+    // profile에서 username을 가져오거나, 이메일 기반 매핑 사용
+    to: `${RouterPathEnum.Profile}s/${profile?.value?.username || getUsernameByEmail(authStore.user?.email)}`,
     icon: UserRoundCog,
     label: 'Profile',
   },

@@ -89,11 +89,14 @@ export const useAuthStore = defineStore('auth-store', () => {
   }
 
   const getSession = async () => {
-    const { error: authError } = await retrieveCurrentSession()
+    const { data, error: authError } = await retrieveCurrentSession()
 
     if (authError) {
       useErrorStore().setAuthError({ authError, nextPage: RouterPathEnum.Login })
+      return { error: authError }
     }
+
+    return { data, error: null }
   }
 
   const logout = async () => {
@@ -109,7 +112,7 @@ export const useAuthStore = defineStore('auth-store', () => {
     if (isTrackingAuthChanges.value) {
       return
     }
-    isTrackingAuthChanges.value = false
+    isTrackingAuthChanges.value = true
     supabase.auth.onAuthStateChange((event, session) => {
       // See https://supabase.com/docs/reference/javascript/auth-onauthstatechange
       setTimeout(async () => {
