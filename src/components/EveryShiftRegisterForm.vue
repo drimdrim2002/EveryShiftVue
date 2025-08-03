@@ -6,7 +6,7 @@ import type {
 import { DEFAULT_SKILLS, SHIFT_PATTERNS } from '@/types/EveryShiftRegistration'
 import { getAllOrganizationsQuery } from '@/services/organization-queries'
 
-const formData = ref<EveryShiftRegistrationData>({
+const formData = reactive<EveryShiftRegistrationData>({
   username: '',
   firstName: '',
   lastName: '',
@@ -26,7 +26,7 @@ const formData = ref<EveryShiftRegistrationData>({
 })
 
 const currentStep = ref(1)
-const totalSteps = computed(() => formData.value.role === 'manager' ? 3 : 2)
+const totalSteps = computed(() => formData.role === 'manager' ? 3 : 2)
 
 
 const availableOrganizations = ref<Array<{id: string, name: string, workplace_type: string}>>([])
@@ -52,27 +52,27 @@ const loadOrganizations = async () => {
   }
 }
 
-// 역할 변경 시 처리
-const handleRoleChange = () => {
-  if (formData.value.role === 'employee') {
+// 역할 변경 시 처리 - watch로 변경
+watch(() => formData.role, (newRole) => {
+  if (newRole === 'employee') {
     loadOrganizations()
   }
   currentStep.value = 1
-}
+})
 
-// 근무 유형 변경 시 기본 스킬 로드
-const handleWorkplaceTypeChange = () => {
-  if (formData.value.workplaceType) {
-    availableSkills.value = DEFAULT_SKILLS[formData.value.workplaceType] || []
-    formData.value.skillCategories = []
+// 근무 유형 변경 시 기본 스킬 로드 - watch로 변경
+watch(() => formData.workplaceType, (newWorkplaceType) => {
+  if (newWorkplaceType) {
+    availableSkills.value = DEFAULT_SKILLS[newWorkplaceType] || []
+    formData.skillCategories = []
   }
-}
+})
 
 // 스킬 추가/제거
 const toggleSkill = (skill: string) => {
-  const skills = formData.value.role === 'manager' 
-    ? formData.value.skillCategories || []
-    : formData.value.skills || []
+  const skills = formData.role === 'manager' 
+    ? formData.skillCategories || []
+    : formData.skills || []
   
   const index = skills.indexOf(skill)
   if (index > -1) {
@@ -81,10 +81,10 @@ const toggleSkill = (skill: string) => {
     skills.push(skill)
   }
   
-  if (formData.value.role === 'manager') {
-    formData.value.skillCategories = skills
+  if (formData.role === 'manager') {
+    formData.skillCategories = skills
   } else {
-    formData.value.skills = skills
+    formData.skills = skills
   }
 }
 
@@ -102,15 +102,15 @@ const addCustomSkill = () => {
 const addSite = () => {
   if (!newSiteInput.value.trim()) return
   
-  if (!formData.value.sites) formData.value.sites = []
-  formData.value.sites.push(newSiteInput.value.trim())
+  if (!formData.sites) formData.sites = []
+  formData.sites.push(newSiteInput.value.trim())
   newSiteInput.value = ''
 }
 
 // 사이트 제거
 const removeSite = (index: number) => {
-  if (formData.value.sites) {
-    formData.value.sites.splice(index, 1)
+  if (formData.sites) {
+    formData.sites.splice(index, 1)
   }
 }
 
@@ -131,22 +131,22 @@ const prevStep = () => {
 // 현재 단계 유효성 검사
 const validateCurrentStep = (): boolean => {
   if (currentStep.value === 1) {
-    return !!(formData.value.username && 
-              formData.value.firstName && 
-              formData.value.lastName && 
-              formData.value.email && 
-              formData.value.password && 
-              formData.value.confirmPassword &&
-              formData.value.password === formData.value.confirmPassword)
+    return !!(formData.username && 
+              formData.firstName && 
+              formData.lastName && 
+              formData.email && 
+              formData.password && 
+              formData.confirmPassword &&
+              formData.password === formData.confirmPassword)
   }
   
   if (currentStep.value === 2) {
-    if (formData.value.role === 'manager') {
-      return !!(formData.value.organizationName && 
-                formData.value.workplaceType && 
-                formData.value.shiftPattern)
+    if (formData.role === 'manager') {
+      return !!(formData.organizationName && 
+                formData.workplaceType && 
+                formData.shiftPattern)
     } else {
-      return !!(formData.value.organizationId && formData.value.position)
+      return !!(formData.organizationId && formData.position)
     }
   }
   
@@ -160,12 +160,19 @@ const submitRegistration = () => {
 }
 
 const register = () => {
-  emits('register', formData.value)
+  emits('register', formData)
 }
 
-// 초기화
+// 초기화 - watch가 자동으로 처리하므로 제거
 onMounted(() => {
-  handleWorkplaceTypeChange()
+  // 초기 로드 시 Employee 역할이면 조직 목록 로드
+  if (formData.role === 'employee') {
+    loadOrganizations()
+  }
+  // 초기 스킬 로드
+  if (formData.workplaceType) {
+    availableSkills.value = DEFAULT_SKILLS[formData.workplaceType] || []
+  }
 })
 </script>
 
@@ -198,7 +205,6 @@ onMounted(() => {
                 type="radio" 
                 value="manager" 
                 v-model="formData.role" 
-                @change="handleRoleChange"
                 class="text-brand focus:ring-brand"
               />
               <span>조직 관리자 (Manager)</span>
@@ -208,7 +214,6 @@ onMounted(() => {
                 type="radio" 
                 value="employee" 
                 v-model="formData.role" 
-                @change="handleRoleChange"
                 class="text-brand focus:ring-brand"
               />
               <span>직원 (Employee)</span>
@@ -297,7 +302,6 @@ onMounted(() => {
             <label class="text-sm font-medium text-foreground">근무 유형</label>
             <select 
               v-model="formData.workplaceType" 
-              @change="handleWorkplaceTypeChange"
               class="w-full p-2 border border-input bg-background rounded-md focus:outline-none focus:ring-2 focus:ring-brand"
             >
               <option value="hospital">병원 근무</option>

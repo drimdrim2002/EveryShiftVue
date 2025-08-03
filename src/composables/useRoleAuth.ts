@@ -162,6 +162,11 @@ export const useRoleAuth = () => {
     }
   }
 
+  // 사용자 정보 변경 감지를 위한 watch 추가
+  watch([user, profile], () => {
+    loadEmployeeInfo()
+  }, { immediate: true })
+
   /**
    * 권한 부족 시 보여줄 메시지 생성
    * @param requiredRoles 필요한 역할들
